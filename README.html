@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style type="text/css">
+@font-face {
+font-family: octicons-link;
+src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+body {
+-webkit-text-size-adjust: 100%;
+text-size-adjust: 100%;
+color: #333;
+font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+font-size: 16px;
+line-height: 1.6;
+word-wrap: break-word;
+}
+a {
+background-color: transparent;
+}
+a:active,
+a:hover {
+outline: 0;
+}
+strong {
+font-weight: bold;
+}
+h1 {
+font-size: 2em;
+margin: 0.67em 0;
+}
+img {
+border: 0;
+}
+hr {
+box-sizing: content-box;
+height: 0;
+}
+pre {
+overflow: auto;
+}
+code,
+kbd,
+pre {
+font-family: monospace, monospace;
+font-size: 1em;
+}
+input {
+color: inherit;
+font: inherit;
+margin: 0;
+}
+html input[disabled] {
+cursor: default;
+}
+input {
+line-height: normal;
+}
+input[type="checkbox"] {
+box-sizing: border-box;
+padding: 0;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+td,
+th {
+padding: 0;
+}
+* {
+box-sizing: border-box;
+}
+input {
+font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+a {
+color: #4078c0;
+text-decoration: none;
+}
+a:hover,
+a:active {
+text-decoration: underline;
+}
+hr {
+height: 0;
+margin: 15px 0;
+overflow: hidden;
+background: transparent;
+border: 0;
+border-bottom: 1px solid #ddd;
+}
+hr:before {
+display: table;
+content: "";
+}
+hr:after {
+display: table;
+clear: both;
+content: "";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 15px;
+margin-bottom: 15px;
+line-height: 1.1;
+}
+h1 {
+font-size: 30px;
+}
+h2 {
+font-size: 21px;
+}
+h3 {
+font-size: 16px;
+}
+h4 {
+font-size: 14px;
+}
+h5 {
+font-size: 12px;
+}
+h6 {
+font-size: 11px;
+}
+blockquote {
+margin: 0;
+}
+ul,
+ol {
+padding: 0;
+margin-top: 0;
+margin-bottom: 0;
+}
+ol ol,
+ul ol {
+list-style-type: lower-roman;
+}
+ul ul ol,
+ul ol ol,
+ol ul ol,
+ol ol ol {
+list-style-type: lower-alpha;
+}
+dd {
+margin-left: 0;
+}
+code {
+font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+font-size: 12px;
+}
+pre {
+margin-top: 0;
+margin-bottom: 0;
+font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+.select::-ms-expand {
+opacity: 0;
+}
+.octicon {
+font: normal normal normal 16px/1 octicons-link;
+display: inline-block;
+text-decoration: none;
+text-rendering: auto;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+.octicon-link:before {
+content: '\f05c';
+}
+.markdown-body:before {
+display: table;
+content: "";
+}
+.markdown-body:after {
+display: table;
+clear: both;
+content: "";
+}
+.markdown-body>*:first-child {
+margin-top: 0 !important;
+}
+.markdown-body>*:last-child {
+margin-bottom: 0 !important;
+}
+a:not([href]) {
+color: inherit;
+text-decoration: none;
+}
+.anchor {
+display: inline-block;
+padding-right: 2px;
+margin-left: -18px;
+}
+.anchor:focus {
+outline: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 1em;
+margin-bottom: 16px;
+font-weight: bold;
+line-height: 1.4;
+}
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+color: #000;
+vertical-align: middle;
+visibility: hidden;
+}
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+text-decoration: none;
+}
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+visibility: visible;
+}
+h1 {
+padding-bottom: 0.3em;
+font-size: 2.25em;
+line-height: 1.2;
+border-bottom: 1px solid #eee;
+}
+h1 .anchor {
+line-height: 1;
+}
+h2 {
+padding-bottom: 0.3em;
+font-size: 1.75em;
+line-height: 1.225;
+border-bottom: 1px solid #eee;
+}
+h2 .anchor {
+line-height: 1;
+}
+h3 {
+font-size: 1.5em;
+line-height: 1.43;
+}
+h3 .anchor {
+line-height: 1.2;
+}
+h4 {
+font-size: 1.25em;
+}
+h4 .anchor {
+line-height: 1.2;
+}
+h5 {
+font-size: 1em;
+}
+h5 .anchor {
+line-height: 1.1;
+}
+h6 {
+font-size: 1em;
+color: #777;
+}
+h6 .anchor {
+line-height: 1.1;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table,
+pre {
+margin-top: 0;
+margin-bottom: 16px;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 16px 0;
+background-color: #e7e7e7;
+border: 0 none;
+}
+ul,
+ol {
+padding-left: 2em;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+margin-top: 0;
+margin-bottom: 0;
+}
+li>p {
+margin-top: 16px;
+}
+dl {
+padding: 0;
+}
+dl dt {
+padding: 0;
+margin-top: 16px;
+font-size: 1em;
+font-style: italic;
+font-weight: bold;
+}
+dl dd {
+padding: 0 16px;
+margin-bottom: 16px;
+}
+blockquote {
+padding: 0 15px;
+color: #777;
+border-left: 4px solid #ddd;
+}
+blockquote>:first-child {
+margin-top: 0;
+}
+blockquote>:last-child {
+margin-bottom: 0;
+}
+table {
+display: block;
+width: 100%;
+overflow: auto;
+word-break: normal;
+word-break: keep-all;
+}
+table th {
+font-weight: bold;
+}
+table th,
+table td {
+padding: 6px 13px;
+border: 1px solid #ddd;
+}
+table tr {
+background-color: #fff;
+border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+background-color: #f8f8f8;
+}
+img {
+max-width: 100%;
+box-sizing: content-box;
+background-color: #fff;
+}
+code {
+padding: 0;
+padding-top: 0.2em;
+padding-bottom: 0.2em;
+margin: 0;
+font-size: 85%;
+background-color: rgba(0,0,0,0.04);
+border-radius: 3px;
+}
+code:before,
+code:after {
+letter-spacing: -0.2em;
+content: "\00a0";
+}
+pre>code {
+padding: 0;
+margin: 0;
+font-size: 100%;
+word-break: normal;
+white-space: pre;
+background: transparent;
+border: 0;
+}
+.highlight {
+margin-bottom: 16px;
+}
+.highlight pre,
+pre {
+padding: 16px;
+overflow: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f7f7f7;
+border-radius: 3px;
+}
+.highlight pre {
+margin-bottom: 0;
+word-break: normal;
+}
+pre {
+word-wrap: normal;
+}
+pre code {
+display: inline;
+max-width: initial;
+padding: 0;
+margin: 0;
+overflow: initial;
+line-height: inherit;
+word-wrap: normal;
+background-color: transparent;
+border: 0;
+}
+pre code:before,
+pre code:after {
+content: normal;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font-size: 11px;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.pl-c {
+color: #969896;
+}
+.pl-c1,
+.pl-s .pl-v {
+color: #0086b3;
+}
+.pl-e,
+.pl-en {
+color: #795da3;
+}
+.pl-s .pl-s1,
+.pl-smi {
+color: #333;
+}
+.pl-ent {
+color: #63a35c;
+}
+.pl-k {
+color: #a71d5d;
+}
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+color: #183691;
+}
+.pl-v {
+color: #ed6a43;
+}
+.pl-id {
+color: #b52a1d;
+}
+.pl-ii {
+background-color: #b52a1d;
+color: #f8f8f8;
+}
+.pl-sr .pl-cce {
+color: #63a35c;
+font-weight: bold;
+}
+.pl-ml {
+color: #693a17;
+}
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+color: #1d3e81;
+font-weight: bold;
+}
+.pl-mq {
+color: #008080;
+}
+.pl-mi {
+color: #333;
+font-style: italic;
+}
+.pl-mb {
+color: #333;
+font-weight: bold;
+}
+.pl-md {
+background-color: #ffecec;
+color: #bd2c00;
+}
+.pl-mi1 {
+background-color: #eaffea;
+color: #55a532;
+}
+.pl-mdr {
+color: #795da3;
+font-weight: bold;
+}
+.pl-mo {
+color: #1d3e81;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.task-list-item {
+list-style-type: none;
+}
+.task-list-item+.task-list-item {
+margin-top: 3px;
+}
+.task-list-item input {
+margin: 0 0.35em 0.25em -1.6em;
+vertical-align: middle;
+}
+:checked+.radio-label {
+z-index: 1;
+position: relative;
+border-color: #4078c0;
+}
+.sourceLine {
+display: inline-block;
+}
+code .kw { color: #000000; }
+code .dt { color: #ed6a43; }
+code .dv { color: #009999; }
+code .bn { color: #009999; }
+code .fl { color: #009999; }
+code .ch { color: #009999; }
+code .st { color: #183691; }
+code .co { color: #969896; }
+code .ot { color: #0086b3; }
+code .al { color: #a61717; }
+code .fu { color: #63a35c; }
+code .er { color: #a61717; background-color: #e3d2d2; }
+code .wa { color: #000000; }
+code .cn { color: #008080; }
+code .sc { color: #008080; }
+code .vs { color: #183691; }
+code .ss { color: #183691; }
+code .im { color: #000000; }
+code .va {color: #008080; }
+code .cf { color: #000000; }
+code .op { color: #000000; }
+code .bu { color: #000000; }
+code .ex { color: #000000; }
+code .pp { color: #999999; }
+code .at { color: #008080; }
+code .do { color: #969896; }
+code .an { color: #008080; }
+code .cv { color: #008080; }
+code .in { color: #008080; }
+</style>
+<style>
+body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 45px;
+  padding-top: 0px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<pre><code>## Loading ds.roc.glm
+
+## Loading ds.predict.base
+</code></pre>
+<h1 id="roc-glm-for-datashield">ROC-GLM for DataSHIELD</h1>
+<h2 id="overview">Overview</h2>
+<h2 id="installation">Installation</h2>
+<h4 id="developer-version">Developer version:</h4>
+<p>The package is currently hosted at a private GitLab repository. If access is granted, the installation can be done via <code>devtools</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>cred =<span class="st"> </span>git2r<span class="op">::</span><span class="kw">cred_user_pass</span>(<span class="dt">username =</span> <span class="st">&quot;username&quot;</span>, <span class="dt">password =</span> <span class="st">&quot;password&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a>devtools<span class="op">::</span><span class="kw">install_git</span>(<span class="st">&quot;https://gitlab.lrz.de/difuture_analysegruppe/ds.roc.glm.git&quot;</span>, <span class="dt">credentials =</span> cred)</span></code></pre></div>
+<p>Note that you have to supply your username and password from GitLab to install the package.</p>
+<h4 id="register-methods">Register methods</h4>
+<p>It is necessary to register the assign and aggregate methods in the OPAL administration to use them.</p>
+<p><strong>Assign methods:</strong></p>
+<ul>
+<li><code>ds.roc.glm::rocGLMFrame</code></li>
+</ul>
+<p><strong>Aggregate methods:</strong></p>
+<ul>
+<li><code>ds.roc.glm::getPositiveScores</code></li>
+<li><code>ds.roc.glm::getNegativeScores</code></li>
+<li><code>ds.roc.glm::calculateDistrGLMParts</code></li>
+</ul>
+<h2 id="usage">Usage</h2>
+<p>The following code shows how to use the ROC-GLM.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(DSI)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; Loading required package: progress</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; Loading required package: R6</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="kw">library</span>(DSOpal)</span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; Loading required package: opalr</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; Loading required package: httr</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="kw">library</span>(DSLite)</span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="kw">library</span>(dsBaseClient)</span>
+<span id="cb3-9"><a href="#cb3-9"></a></span>
+<span id="cb3-10"><a href="#cb3-10"></a></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">## DataSHIELD login:</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">## ========================================</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a></span>
+<span id="cb3-14"><a href="#cb3-14"></a>builder =<span class="st"> </span>DSI<span class="op">::</span><span class="kw">newDSLoginBuilder</span>()</span>
+<span id="cb3-15"><a href="#cb3-15"></a></span>
+<span id="cb3-16"><a href="#cb3-16"></a>builder<span class="op">$</span><span class="kw">append</span>(</span>
+<span id="cb3-17"><a href="#cb3-17"></a>  <span class="dt">server   =</span> <span class="st">&quot;ibe&quot;</span>,</span>
+<span id="cb3-18"><a href="#cb3-18"></a>  <span class="dt">url      =</span> <span class="st">&quot;https://dsibe.ibe.med.uni-muenchen.de&quot;</span>,</span>
+<span id="cb3-19"><a href="#cb3-19"></a>  <span class="dt">user     =</span> <span class="st">&quot;ibe&quot;</span>,</span>
+<span id="cb3-20"><a href="#cb3-20"></a>  <span class="dt">password =</span> <span class="st">&quot;123456&quot;</span>,</span>
+<span id="cb3-21"><a href="#cb3-21"></a>  <span class="dt">table    =</span> <span class="st">&quot;ProVal.KUM&quot;</span></span>
+<span id="cb3-22"><a href="#cb3-22"></a>)</span>
+<span id="cb3-23"><a href="#cb3-23"></a></span>
+<span id="cb3-24"><a href="#cb3-24"></a>logindata =<span class="st"> </span>builder<span class="op">$</span><span class="kw">build</span>()</span>
+<span id="cb3-25"><a href="#cb3-25"></a>connections =<span class="st"> </span>DSI<span class="op">::</span><span class="kw">datashield.login</span>(<span class="dt">logins =</span> logindata, <span class="dt">assign =</span> <span class="ot">TRUE</span>, <span class="dt">symbol =</span> <span class="st">&quot;D&quot;</span>, <span class="dt">opts =</span> <span class="kw">list</span>(<span class="dt">ssl_verifyhost =</span> <span class="dv">0</span>, <span class="dt">ssl_verifypeer=</span><span class="dv">0</span>))</span>
+<span id="cb3-26"><a href="#cb3-26"></a><span class="co">#&gt; </span></span>
+<span id="cb3-27"><a href="#cb3-27"></a><span class="co">#&gt; Logging into the collaborating servers</span></span>
+<span id="cb3-28"><a href="#cb3-28"></a><span class="co">#&gt;   Logged in all servers [================================================================] 100% / 1s</span></span>
+<span id="cb3-29"><a href="#cb3-29"></a><span class="co">#&gt; </span></span>
+<span id="cb3-30"><a href="#cb3-30"></a><span class="co">#&gt;   No variables have been specified. </span></span>
+<span id="cb3-31"><a href="#cb3-31"></a><span class="co">#&gt;   All the variables in the table </span></span>
+<span id="cb3-32"><a href="#cb3-32"></a><span class="co">#&gt;   (the whole dataset) will be assigned to R!</span></span>
+<span id="cb3-33"><a href="#cb3-33"></a><span class="co">#&gt; </span></span>
+<span id="cb3-34"><a href="#cb3-34"></a><span class="co">#&gt; Assigning table data...</span></span>
+<span id="cb3-35"><a href="#cb3-35"></a><span class="co">#&gt;   Assigned all tables [==================================================================] 100% / 2s</span></span>
+<span id="cb3-36"><a href="#cb3-36"></a></span>
+<span id="cb3-37"><a href="#cb3-37"></a><span class="co">### Get available tables:</span></span>
+<span id="cb3-38"><a href="#cb3-38"></a>DSI<span class="op">::</span><span class="kw">datashield.symbols</span>(connections)</span>
+<span id="cb3-39"><a href="#cb3-39"></a><span class="co">#&gt; $ibe</span></span>
+<span id="cb3-40"><a href="#cb3-40"></a><span class="co">#&gt; [1] &quot;D&quot;</span></span>
+<span id="cb3-41"><a href="#cb3-41"></a></span>
+<span id="cb3-42"><a href="#cb3-42"></a></span>
+<span id="cb3-43"><a href="#cb3-43"></a></span>
+<span id="cb3-44"><a href="#cb3-44"></a><span class="co">## Read test data (same as on server)</span></span>
+<span id="cb3-45"><a href="#cb3-45"></a><span class="co">## ========================================</span></span>
+<span id="cb3-46"><a href="#cb3-46"></a></span>
+<span id="cb3-47"><a href="#cb3-47"></a><span class="co"># We use this data to calculate a model which we want to evaluate. Here a simple logistic regression:</span></span>
+<span id="cb3-48"><a href="#cb3-48"></a>dat =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/test-kum.csv&quot;</span>)</span>
+<span id="cb3-49"><a href="#cb3-49"></a>mod =<span class="st"> </span><span class="kw">glm</span>(gender <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>height, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="dt">data =</span> dat)</span>
+<span id="cb3-50"><a href="#cb3-50"></a></span>
+<span id="cb3-51"><a href="#cb3-51"></a></span>
+<span id="cb3-52"><a href="#cb3-52"></a></span>
+<span id="cb3-53"><a href="#cb3-53"></a><span class="co">## Preperation for ROC-GLM</span></span>
+<span id="cb3-54"><a href="#cb3-54"></a><span class="co">## ========================================</span></span>
+<span id="cb3-55"><a href="#cb3-55"></a></span>
+<span id="cb3-56"><a href="#cb3-56"></a><span class="co">### The ROC-GLM requires scores and true values. The function `predictModel` calculates the</span></span>
+<span id="cb3-57"><a href="#cb3-57"></a><span class="co">### scores based on a model. In our case the logistic regression form above.</span></span>
+<span id="cb3-58"><a href="#cb3-58"></a></span>
+<span id="cb3-59"><a href="#cb3-59"></a><span class="co">### Upload model to DataSHIELD server:</span></span>
+<span id="cb3-60"><a href="#cb3-60"></a><span class="kw">pushModel</span>(connections, mod)</span>
+<span id="cb3-61"><a href="#cb3-61"></a><span class="co">#&gt;   Assigned expr. (mod &lt;- decodeModel(&quot;58-0a-00-00-00-03-00-04-00-00-00-03-05-00-00-00-00-05-55-54...</span></span>
+<span id="cb3-62"><a href="#cb3-62"></a></span>
+<span id="cb3-63"><a href="#cb3-63"></a><span class="co">### Predict uploaded model on server data. Scores are stored in an object called `pred`:</span></span>
+<span id="cb3-64"><a href="#cb3-64"></a><span class="kw">predictModel</span>(connections, mod, <span class="st">&quot;pred&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="dt">predict_fun =</span> <span class="st">&quot;predict(mod, newdata = D, type = &#39;response&#39;)&quot;</span>)</span>
+<span id="cb3-65"><a href="#cb3-65"></a><span class="co">#&gt;   Assigned expr. (pred &lt;- assignPredictModel(&quot;58-0a-00-00-00-03-00-04-00-00-00-03-05-00-00-00-00-...</span></span>
+<span id="cb3-66"><a href="#cb3-66"></a></span>
+<span id="cb3-67"><a href="#cb3-67"></a><span class="co">### The `pred` object is later used for the ROC-GLM.</span></span>
+<span id="cb3-68"><a href="#cb3-68"></a></span>
+<span id="cb3-69"><a href="#cb3-69"></a><span class="co">### Get object on server:</span></span>
+<span id="cb3-70"><a href="#cb3-70"></a>DSI<span class="op">::</span><span class="kw">datashield.symbols</span>(connections)</span>
+<span id="cb3-71"><a href="#cb3-71"></a><span class="co">#&gt; $ibe</span></span>
+<span id="cb3-72"><a href="#cb3-72"></a><span class="co">#&gt; [1] &quot;D&quot;    &quot;mod&quot;  &quot;pred&quot;</span></span>
+<span id="cb3-73"><a href="#cb3-73"></a></span>
+<span id="cb3-74"><a href="#cb3-74"></a></span>
+<span id="cb3-75"><a href="#cb3-75"></a></span>
+<span id="cb3-76"><a href="#cb3-76"></a><span class="co">## Calculate and visualize ROC-GLM</span></span>
+<span id="cb3-77"><a href="#cb3-77"></a><span class="co">## ========================================</span></span>
+<span id="cb3-78"><a href="#cb3-78"></a></span>
+<span id="cb3-79"><a href="#cb3-79"></a><span class="co">### Now, calculate ROC-GLM:</span></span>
+<span id="cb3-80"><a href="#cb3-80"></a>roc_glm =<span class="st"> </span><span class="kw">dsROCGLM</span>(connections, <span class="st">&quot;D$gender&quot;</span>, <span class="st">&quot;pred&quot;</span>)</span>
+<span id="cb3-81"><a href="#cb3-81"></a><span class="co">#&gt; </span></span>
+<span id="cb3-82"><a href="#cb3-82"></a><span class="co">#&gt; Initializing ROC-GLM</span></span>
+<span id="cb3-83"><a href="#cb3-83"></a><span class="co">#&gt; </span></span>
+<span id="cb3-84"><a href="#cb3-84"></a><span class="co">#&gt; &gt; Host: Received scores of negative response</span></span>
+<span id="cb3-85"><a href="#cb3-85"></a><span class="co">#&gt;   Aggregated (getNegativeScores(&quot;D$gender&quot;, &quot;pred&quot;)) [===================================] 100% / 0s</span></span>
+<span id="cb3-86"><a href="#cb3-86"></a><span class="co">#&gt; &gt; Host: Pushing pooled scores</span></span>
+<span id="cb3-87"><a href="#cb3-87"></a><span class="co">#&gt;   Assigned expr. (pooled_scores &lt;- decodeModel(&quot;58-0a-00-00-00-03-00-04-00-00-00-03-05-00-00-00-0...</span></span>
+<span id="cb3-88"><a href="#cb3-88"></a><span class="co">#&gt; &gt; Server: Calculating placement values and parts for ROC-GLM</span></span>
+<span id="cb3-89"><a href="#cb3-89"></a><span class="co">#&gt;   Assigned expr. (roc_data &lt;- rocGLMFrame(&quot;D$gender&quot;, &quot;pred&quot;, &quot;pooled_scores&quot;)) [========] 100% / 0s</span></span>
+<span id="cb3-90"><a href="#cb3-90"></a><span class="co">#&gt; &gt; Server: Calculating probit regression to obtain ROC-GLM</span></span>
+<span id="cb3-91"><a href="#cb3-91"></a><span class="co">#&gt;   Aggregated (calculateDistrGLMParts(formula = y ~ x, data = &quot;roc_data&quot;, w = &quot;w&quot;, ) [====] 100% / 0s</span></span>
+<span id="cb3-92"><a href="#cb3-92"></a><span class="co">#&gt; Deviance of iter 1 = 49.91</span></span>
+<span id="cb3-93"><a href="#cb3-93"></a><span class="co">#&gt;   Aggregated (calculateDistrGLMParts(formula = y ~ x, data = &quot;roc_data&quot;, w = &quot;w&quot;, ) [====] 100% / 0s</span></span>
+<span id="cb3-94"><a href="#cb3-94"></a><span class="co">#&gt; Deviance of iter 2 = 62.88</span></span>
+<span id="cb3-95"><a href="#cb3-95"></a><span class="co">#&gt;   Aggregated (calculateDistrGLMParts(formula = y ~ x, data = &quot;roc_data&quot;, w = &quot;w&quot;, ) [====] 100% / 0s</span></span>
+<span id="cb3-96"><a href="#cb3-96"></a><span class="co">#&gt; Deviance of iter 3 = 76.06</span></span>
+<span id="cb3-97"><a href="#cb3-97"></a><span class="co">#&gt;   Aggregated (calculateDistrGLMParts(formula = y ~ x, data = &quot;roc_data&quot;, w = &quot;w&quot;, ) [====] 100% / 0s</span></span>
+<span id="cb3-98"><a href="#cb3-98"></a><span class="co">#&gt; Deviance of iter 4 = 82.09</span></span>
+<span id="cb3-99"><a href="#cb3-99"></a><span class="co">#&gt;   Aggregated (calculateDistrGLMParts(formula = y ~ x, data = &quot;roc_data&quot;, w = &quot;w&quot;, ) [====] 100% / 0s</span></span>
+<span id="cb3-100"><a href="#cb3-100"></a><span class="co">#&gt; Deviance of iter 5 = 83.48</span></span>
+<span id="cb3-101"><a href="#cb3-101"></a><span class="co">#&gt;   Aggregated (calculateDistrGLMParts(formula = y ~ x, data = &quot;roc_data&quot;, w = &quot;w&quot;, ) [====] 100% / 0s</span></span>
+<span id="cb3-102"><a href="#cb3-102"></a><span class="co">#&gt; Deviance of iter 6 = 83.53</span></span>
+<span id="cb3-103"><a href="#cb3-103"></a><span class="co">#&gt;   Aggregated (calculateDistrGLMParts(formula = y ~ x, data = &quot;roc_data&quot;, w = &quot;w&quot;, ) [====] 100% / 0s</span></span>
+<span id="cb3-104"><a href="#cb3-104"></a><span class="co">#&gt; Deviance of iter 7 = 83.53</span></span>
+<span id="cb3-105"><a href="#cb3-105"></a><span class="co">#&gt;   Aggregated (calculateDistrGLMParts(formula = y ~ x, data = &quot;roc_data&quot;, w = &quot;w&quot;, ) [====] 100% / 0s</span></span>
+<span id="cb3-106"><a href="#cb3-106"></a><span class="co">#&gt; Deviance of iter 8 = 83.53 </span></span>
+<span id="cb3-107"><a href="#cb3-107"></a><span class="co">#&gt; </span></span>
+<span id="cb3-108"><a href="#cb3-108"></a><span class="co">#&gt; &gt; Host: Finished calculating ROC-GLM</span></span>
+<span id="cb3-109"><a href="#cb3-109"></a><span class="co">#&gt; &gt; Host: Cleaning data on server</span></span>
+<span id="cb3-110"><a href="#cb3-110"></a><span class="co">#&gt; &gt; Host: Calculating AUC and CI</span></span>
+<span id="cb3-111"><a href="#cb3-111"></a><span class="co">#&gt;   Aggregated (getNegativeScores(&quot;D$gender&quot;, &quot;pred&quot;)) [===================================] 100% / 0s</span></span>
+<span id="cb3-112"><a href="#cb3-112"></a><span class="co">#&gt;   Aggregated (getPositiveScores(&quot;D$gender&quot;, &quot;pred&quot;)) [===================================] 100% / 0s</span></span>
+<span id="cb3-113"><a href="#cb3-113"></a><span class="co">#&gt; Finished!</span></span>
+<span id="cb3-114"><a href="#cb3-114"></a>roc_glm</span>
+<span id="cb3-115"><a href="#cb3-115"></a><span class="co">#&gt; </span></span>
+<span id="cb3-116"><a href="#cb3-116"></a><span class="co">#&gt; ROC-GLM after Pepe:</span></span>
+<span id="cb3-117"><a href="#cb3-117"></a><span class="co">#&gt; </span></span>
+<span id="cb3-118"><a href="#cb3-118"></a><span class="co">#&gt;  Binormal form: pnorm(1.35 + 0.67*qnorm(t))</span></span>
+<span id="cb3-119"><a href="#cb3-119"></a><span class="co">#&gt; </span></span>
+<span id="cb3-120"><a href="#cb3-120"></a><span class="co">#&gt;  AUC and 0.95 CI: [0.64----0.87----0.96]</span></span>
+<span id="cb3-121"><a href="#cb3-121"></a></span>
+<span id="cb3-122"><a href="#cb3-122"></a><span class="co">### And plot it:</span></span>
+<span id="cb3-123"><a href="#cb3-123"></a><span class="kw">plot</span>(roc_glm)</span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAHgCAMAAABNUi8GAAADAFBMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYHBwcICAgJCQkKCgoLCwsMDAwNDQ0ODg4PDw8QEBARERESEhITExMUFBQVFRUWFhYXFxcYGBgZGRkaGhobGxscHBwdHR0eHh4fHx8gICAhISEiIiIjIyMkJCQlJSUmJiYnJycoKCgpKSkqKiorKyssLCwtLS0uLi4vLy8wMDAxMTEyMjIzMzM0NDQ1NTU2NjY3Nzc4ODg5OTk6Ojo7Ozs8PDw9PT0+Pj4/Pz9AQEBBQUFCQkJDQ0NERERFRUVGRkZHR0dISEhJSUlKSkpLS0tMTExNTU1OTk5PT09QUFBRUVFSUlJTU1NUVFRVVVVWVlZXV1dYWFhZWVlaWlpbW1tcXFxdXV1eXl5fX19gYGBhYWFiYmJjY2NkZGRlZWVmZmZnZ2doaGhpaWlqampra2tsbGxtbW1ubm5vb29wcHBxcXFycnJzc3N0dHR1dXV2dnZ3d3d4eHh5eXl6enp7e3t8fHx9fX1+fn5/f3+AgICBgYGCgoKDg4OEhISFhYWGhoaHh4eIiIiJiYmKioqLi4uMjIyNjY2Ojo6Pj4+QkJCRkZGSkpKTk5OUlJSVlZWWlpaXl5eYmJiZmZmampqbm5ucnJydnZ2enp6fn5+goKChoaGioqKjo6OkpKSlpaWmpqanp6eoqKipqamqqqqrq6usrKytra2urq6vr6+wsLCxsbGysrKzs7O0tLS1tbW2tra3t7e4uLi5ubm6urq7u7u8vLy9vb2+vr6/v7/AwMDBwcHCwsLDw8PExMTFxcXGxsbHx8fIyMjJycnKysrLy8vMzMzNzc3Ozs7Pz8/Q0NDR0dHS0tLT09PU1NTV1dXW1tbX19fY2NjZ2dna2trb29vc3Nzd3d3e3t7f39/g4ODh4eHi4uLj4+Pk5OTl5eXm5ubn5+fo6Ojp6enq6urr6+vs7Ozt7e3u7u7v7+/w8PDx8fHy8vLz8/P09PT19fX29vb39/f4+Pj5+fn6+vr7+/v8/Pz9/f3+/v7////isF19AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAgAElEQVR4nO3dCXzT5BsH8HCPSxFBEAVRRAEFEUSUQ0BUQAai3DhBZJwqDPkzkUOGHJucwrhEUVBEBBEFBOUQZN3G2A1jFxu7161B7mtj2/t/k7Zbu7xpc7VJ2+f3+dikSRqfwpdcTd6XQhCIhkOpXQAEYisAFKLpAFCIpgNAIZoOAIVoOgAUounIADqqN5O3/DPYd7lfTx00Z9dd07z0leO8px+1XJo7BQKxHxlAWz7g7e39ZpeqtSLxm+33U4+/0pB6Joadtblu9Y7dGlAjy8oX5k6BQAREDtAe7OB41TewP+qVTDz+18NeaXhwhBp0BaE7n1LLzctyp0AgQiIfKGrzMCp8oHMpO55W802Eip5qb3z3fCvTolZTjva+jMd+xKzDe9/Y1e9w7z3MnFlvI3RixpsfxkgvCOKGUQDo063Ql9RJ08SZVDL6m9ppfBPzq+mY1GrKDqoAjy3xQugg9fkDb+of8sZvb3pNQourdBzZstoP0iuCuF/kAz1QZRF6r8Y908QD1G9oDZVeaVGrKZZAn8ajE71uIbSHOhlfdQFCdwfWK5ReEsTtIgfo/fgk/pWnq3xWiro8bZ6YQi1Bk6oUV1rUaool0I147C/qD4RGNy+b0aAEv4ukfpJeEsTtIvcsfuBLVbtfQ/2amCdGUkvRbOpypUWtplgCZY4Mihv4oqL7/NGA+sxlq27Ul9JLgrhd5O/i91Er0SfUJdPEbdSv+L8zxjenhkWYp1pMMQJdzAKNZSaObVr2JxWP+rRaySZUekkQt4sCJ0m1fdF+6nPjeOkL9a6jBGqq8d00Ks84YjXFCHQ6CzSOmfgHdWbCMwh9wB4nFOfekV4SxO2iANDGwxF6o/ZxZrR0HrUdDz6o/g/zLqp+V/OyllN2UgkIlbSpAHqn3txGyxD6jmK2nXOoDOklQdwuCgB9pDdCF5+qOnFnyOZXqPeZKf89Wm36viMBDWolmJe1nBJLDcxMG0tVAEUj6lXJQOheqwd/uvB9jSHSK4K4XxQA2rNmDEK3ZzahKKrlNuNPmZfH1cTvesZWLGw55bNqFFXvIwugv1DsqrK740WGXZVeEcT9IgPoaZO/1JO57LDgzH8VM0tSYm5YL24xxXBqZ47hFN6unrzJvr9z0nSZlD5DS68H4o6B2+0gmg4AhWg6ABSi6QBQiKYDQCGaDgCFaDoAFKLpAFCIpgNAIZoOAIVoOgAUounIAvoiNVroonPINyklfsg7i/zBNOql/v1fa1n9R4Tod6q0erF204N4auGA6h0713rOYF7q+uAqT/RsfP82hH6ljM/tbaY6skM/apTQkiFaiByg6dQbdW8JXLaIfBvysXq8s8gfTKNO49fSgS1Qaed25/DsT6gTCHl3zEIop3255RFtYhEqXlxNVwH0/pqpzLBFYwDqUpEDdEnDJOoXPNxx5p8VPxoqhid/u7IhA939feXvd1Hpl+F4AxegP7YLnfo1euVWuuzAimP4Mzd2f7mVRqljawbk4lmmhfEiaRtWGW/BSwtg7nTacIyZa1zYOJkFijbUKN1UM42dMuTZsr+qJjJj+xpdMS60u/p5djh6aQXQR99chgdn6o8CoC4VOUCf8UXPvoOH/bvd169l07Plw4C3u3pn0B2bDW7WkUbLW95CowYze+olT7Uc3ajd0H7dqB0os0Vz78caZrNA8SzzwktefGLkc1WPMCu/7rUHIX3VE3iuaWH2/2kC+mE3NHCEsYoQ6uKs7taFfdi/fLQC6Hed8ODTMe8DUJeKDKBnqb/RPK/rGKhXIrrbt2/5MKDqKYRmtL2KrrbxQyUvzDr4QD4LtE4mCqdmINTtPbTiqSJ0u8m37C4ezzIvvITCn+w4iV39kDEIrW9RhueaF2aSRvkGBMwf1uI0ejzAWMZ/1J9vjrOu7OWZ+OWvgICAlRZA/6uBt7itfwOgrhUZQOc8eA9FUvhspT+zLfu7yl3zMKANHrZZg19WtUUovnaTH1mFS7ohdI85YpwxjPm44WD99Wag5oWX4OXRhz7s6n++rwj1mm86SWIXZsKeJL1ev1UCarnIWMY16o9+75cXtTEg4FfUnSG+uX//Tk0tgKJ+QSi+7m0A6lqR88hHMx+fMVUGYqD/w+9SqXTzMOBVPKz3K37ZUx+/9G9YZATaG6ESZg/tNwzRo+9v6d20HKh54SW98PAjI9AbtQ/rq6Ywc80LMzHu4m+/PKp8Fx9G5c807uKvjdKhID+/7WjCy8ZZ31gB/eYF9PlwBEBdK9KBhlEf4J3o6zX+Q/1H4rfHq9wyDwNew8Onv8IvX+Ft6bH7Wy/kAB32UgFCncqBmhdmFjEDRcMmrX+ZnWtemInpGHROV7ShpvE5kaHt0G9VzzFju6kLxk/uo3TscLAVULr6xWd+AaAuFulAP26EN4wonvoWH3smo+J+PcuHLNDp7a6ja22no+uPbfy3VkJloM/MQSilXjA6VoclaF7YCujuJj02sXPNCzMxAV3UFpU8/yw+Vy/2rxmN0KvP4uPLiy36mmvr/UQEPpwI8LICivpO8LoBQF0s0oE2mcEOOryG+r/YxPvJJrHlQxYo/Vzzdx59jkaTupWhCS+VVgK6tPbQ4R27PhefSL2XzuzETQtbAb1Vt9ZlFqh5YWaiCej2OjQqfKtqm+71mzKNN2b3rN7x+Wqdss21XX67SutejQZEMEAHeOOEM0A3UW8jAOpikQ40wHgZ8sji0v7zU9ZvK8QHm6bhSbYFxbv7VvxehK4HpOAT7YA05jroNoTKAnLx+fVufCSwfPftjNVp6FBQAXsdlF2YXQQd+s30f9j+HX5h5poXxrkcwD5CmhnAOD37w6oDxidFy05uWHuk1KK6uG83RZWhMygxgE1y1Gr8byYgHKHff5X8jSEqRInf4vvPtx5CIIoFgEI0HSWAHo2xHkIgigVut4NoOgAUoukAUIimA0Ahmg4AhWg6ABSi6QBQiKYDQCFaTFmJaUQ6UJo3t0v55wnOpbsKrOQa+k+BtRQpsI7/0HUF1nJXia9TeluBldy4psBK7hbzztInAlDBAaDcOBoo/qsDoEIDQLlxIFAD+wpAhQeAcuM4oGnhecwAgAoPAOXGUUBzo0LOFjAjAFR4ACg3jgFqOB8akWkcBaDCA0C5cdAWNDah0DQGQIUHgHIDZ/EAlBB3BmqwngdAhQeAcqM00PzoZOt5AFR4ACg3ygI1JOlOZ1rPA6DCA0C5URRo5mldYmGleSKBXs0ssxgAUNEBoISYgaZF5nDmCQO6zdS88f5xs2feLB8AUPEBoIRU7OK584QAvXrkLWML3zd8LqE1e80DACohAJQQuZeZNi0cbASqC0Ao2t88AKASAkAtkxF+cOuyj4dOv5scQ9h4shG2ix9qBHpgI0LZE80DhG5u27Yt6iZvisv45wnOrXsKrOQOuqXAWkoUWMctdFeBtdxT4uuUFSuwkiLRX8eQ9O/eLcv8fPq/0NyLMqZHTGjKdZ7Fb4sBumcLQgXvmQcI6Tt37rzO5gchEJzLybo/vl06870BL7SoTVVO3Sl7Im7wfvSeaSgI6N9rEEr/yDwwhX8DDrt4bjxmF1+QGPL71iB/3yE92j5UnYPSMg98M+R3/v+BqF18ClZ5ZIV5AEAlxK2B6s+f2vd14KzxA1966kGbJi1S5/GXRn4ay/8/EAF0L4389qdPPYvMAwAqPu4HNEW3/7ug2RO8X36qoVCU1Rq37f6O75yV2/88k8WsRP7NIp8z10HnZ6Irm4OYBmNNAwAqPu4BNDfuyE/B8ycP79Ouqe3dd0VqPfxMn6GTPlu57UBoivmMPTcqz/h14G4mAMqNWKBZUYe2r/Cf4N31yfoCUdZr+cLroz4KCN55ODKTu76C87ozucavA0ABKDeCgObFHv5x5acTBr74eB1hKO9r9WJ/n5lLNu4+EZ9rc80Z4bok06YUgAJQQmwATTq1Z8PCKUO7P32/IJR1W3bpP8Zvyabd/57LE/y/j43ON48CUABKSGWgBeeO7ljt/37/zs1qCkBZvUm7PsOnLNi8++9Y7h0eQmJx2xIABaCEGIEWJhzfsWr2e290aFLVvspaj3TuN2bmsq//0JlvK9bEb/EA1Bh3AnpRt2dbgO+Azg/XsKuyZrNOb7z7SeDWA+Hp3PVIAGpIvFBpCgAFoMYUJhz5IdBvRI/W3B8cK+fBNr1GfLh40z5dis01igeKT44qrxKAejhQfdyhbxdPHtylmb3NZfWHn+83dvaKHX/FCz3ZEQtUHx8SzVk3APVMoIZzh79fMmVwl6bV7LHsNOCDT9f+fPI83z1v/BEL9EJ4GnciAPUsoBdDdq7wG/5yczsn4w+1f91n9qod/ySIZ1kR0bv4AsI0AOoRQA3nDm353PeNtravXdZ8rOvb05Z8+2dMngZuWDYFgLo1UH3MH+s/HfPK4zY3mLVbvzLyk+U7TiRWfM7JQDPieWcBULcEWhC7f73/qO7Nbd2uUeuJHiM/WbnzVOULO0ycCpQ5OSLt3dkAUPcCmvzXDwve69XSxil5tWYvvv1R4I/Hk22txplA08JCU/kPdQGoewDNC/85cOqAdnX5YdZt03fcvI0HY/RCVudEoPrQs7ybTxqAujzQC0e/mTem+yP8v0U+0GHgpKXbj9u+pl45ztyC2uIJQF0XaNKh4E/e6fQAL8wGHbynBu44lSGpFDiLB6DcCASafCjYb0gH3huD67btN3HJ9pOE38ZFxClAC87m216ACQB1HaAZx7Z8OvR5vkuZ1Zp3HzN38+EktR/5qIgdoBfCQgVs3gGoCwDVn94RMLZbEx6ZXm0HTA365bT5V2wXAZofHRIn5HwNgGoa6IXDa6cPfJLnMvt9zw3xW7f/XKWPuAjQ2AhhR8cAVKNAY3cvfb97I7LM+zu+M2vDIZ4LmS4CVC/wV34AqjWghZE/Lhj1fD2izNrPDPYL5pNpiosAFRoAqh2ghgs75w1tX4t4BtSy7+QVe+OEbHU0DzSNcFMdfwCoJoDG/LxgRAcvEs37Oo2a932I8AcitQ4UnxydFbMSAKoy0NQ/Asd2IV7UfKS374p9CaJXqGmghcm6sIuiVgJAVQOaf2rz9FcfJu3PH+8/Y/0RaT8BaRxoui6hck8IdgJA1QCasveLUc8SLh5Va+Xt9/UJ261u2IumgRpEfzcA6lyghsjvZr7RjEuzymP9ZmzmbetaTDQNVHwAqNOA6v8NnvgS4WizUa/JXx1hGtDSynPxtCOA5ifyLmczANQZQPOOrRr3PPf6Ua3nxizZm1S+lBsDZU6OBNwZQggAdTDQ/OOrxj7HPdxs9rrfN6GVfot2X6A5kSHnbN/2yRsA6jigBSHBH3Ti2KzedviivcTbh90WaGHomWypKwGgjgEa+91H3TjPX9R+Yfzqo/zX3N0WKJ0j/ewPgCoONGPfvAEPVbZZv9uUjSF29nLuC1RGAKiSQA26dT5tKzcmU6/btM2nhWxC3BCoIUXEj7TEAFClgGbundO3QSWbXl0mbQwT/NOJ+wHFJ0epMlcCQJUAGrdlavtKG85q7XxWnxD0iG953A3otRTd6Sy5K3Es0GLelJbxzxOeUgXWUYLuyfl4UWzw6OaVNpyPDAk8fkXCulCJnEpMUeLPpLhMibUkh2UWyV6JLSh3YQtqO/q/F/Wv9NxvrRenfc/f0JDtuNsW9JIC64BdvFSgeX/O61PpOlKzIUv/kvZziTHuBhTO4tUCmn9oXm/rroGqd/TdEie3EvcBmsPe8wlA1QBacHThq9Y46/T836+ZarfNVBH1gRae10UxQwDqdKDhXw60vpL0QP+Av9hTdQBanozToYnsZV8A6lSgSV+PfsQKZ6NBgf+WX+MEoOZkhMSYLs4DUKcBzds7vX0VS5wPDvoyxOrHIQBqjqH8mSMA6hygZwJftzrovH/AslOcXy4BKDcA1PFAc3b5Pm7122Wv+UeIt3wAULztrPSzJgB1MNDY5a9bPqpe9bkZe3mf+QKgdGaEzrrrWADqQKCFh/zaWW46Hx6zxWYbxR4PtCA+JKrSP18A6iig2T+MftDy58tei07ZW4unAzWEh3F6CwGgDgGavLa/5Y69xQc/Cbkjx9OB0he5d24BUOWBxi7tZnHbXI2eX4QKXIvHAyUEgCoMNGLB8xYXOxuO/FZEO+8eDDSL7wYZAKok0PC5z1js2J/8+KC4x2Q9Fqj+bAhfkwwAVDGgUfMsdFbt8nm46LV4KtD08NBkvuetAKgyQHMXd7I47OyzUnyLh7THAj1vqycEAKoA0Aure1R00lar/3pSz6pC4qFA82w1EglA5QLN+/7NioY/vAZultokJ+2xQG0GgMoDemhcxb2dNQfI0Ul7INCCTLsrAaAygMbPa1Wus3qfYHkdB9KeBzQtLNzu8/4AVCrQvG/7lB94VnkxWFxHwOR4FtC8mJA4+48HAlBpQEMmNSzfeLb6NFITvXywcRmgObpwIT0hAFAJQLODu5TrfOCDw7TqvXxYxGWAGpIF/YoBQEUDDZ1Y3ldwtde/Mz46A0AJgbN4FYDmb+1R/lN7qwXll+MBKCG8QMW0tQRAxQBNnNPUrLP2qIMWv84BUEJ4gObHhogQCkCFAz06ovyKfLsg674iASghRKCG1NBwMf1sAlCBQAu+71r+Y+bIQ5XnAlBCSEANUSK7iQOggoBmBj5m5vlYAOGSJwAlhLgFTRPZEwIAFQA00c/cPmKVPj8R//0DUELgLN45QKPeN/eeVfcDvns8ASghlYDqxTUVbQoAtQP01FDz80WPLuQ/uAeghFgBxSdHorp4NweA2gR6/E3zVc8OX9vaAABQQiyB5kaFxMMWVFJsAD3yholnlVd/s70SAEqIBdBUXYT9O+uIAaC8QI+/Yf5B850T9lYCQAmxAJqbJLWbOADKAzTE27T1rOkTaX8lAJQQ9zmLLws9WMiOJO5kcgcdw69RagKNHmG617OWr6BW4wEoISxQg8xe4jQBdNX87WPzmZFz27dv3zTmLpqyZfv2CPWAJvmaftOsNfGcsJUAUEIYoLlRwjvJI0YLQPVji9HOLeZ3W4+gshFlKu7is+fWM+3cJwjkCUCJKb1tSNJFyOwmTgtATwThnfsnpjfZs8sQPSls3wWVgBYGP2x6yMgnVvhKACghpVcidInS+9A2RgtA921GKH+86U1QJEIJg9fvfO8f/Oa/qVOn7pPWw52IfvIs3xx/3nRhadh5MeuQ2RUiqRKp0VBXiCUXrsleSYkif7DyukLcywAdZxzPnYpfrl1E6PgkPHLl008/PXSXNyVl/PMEp6i0YvzCcNOpe59QcSspRkUKlFJqfxG7KULFCqylVImvU1aiwEruKfJ1bPzJ3rEP9PhyhJL8jOPbtpomFr7j9F183tzaRp5td4ldCeziK4U5d3eby0wF40vQHtNJ0gcx+GX/enxgOsPZQH8x9XTQeLW4NumYAFCrGBJ1F90IKFoT9PuEfIQWZaH8oUX4vWHCV79MiHYu0LODTKfuHwt5GLZyAKhlMiPYu5LdB2ip8UL9Lhpl/81OuH58f275XP51Kwe0MLC+0We/M5JWAkAtcs7UE4L7ALUd/nUrBjTkBSPPx3+WuBIAapGUVOO1JQCqEND8OcYfjmr58/ZgZC8AlBAAqgzQCFPDyL2l7d3ZAFA2BqvTSwCqBFD9nBosz4Yb5awFgDLJjIi3fAtAFQB6urNx8zlMXut0AJSmCxJ0kVbdGAJQ+UBXGi/NN9khcz0AlM4MD021/uEdgMoFmvKmcfM5Qmqj8uUBoHQupycEACoT6IFmxl+OtstaCxsASggAlQW0cF511ucbIpu6IMazgfL8NAxA5QBNeZXl6fUl7dj+4sXENYEWngsnP1AMQGUAPdqc9dnmlCP7ixcblwSaEa5LIj/VAUClA11nbM3GJ8dx/cVLiAsCLYgNieXrCQGASgWq92V51mGvzQNQQgQDLYzh73wHgEoEmtKD9dlax74DoITAWbyKQMONNyZ7m3qFA6CECAFq93FiACoJ6D6278Kqn5l/9QCghAgAmmG3myMAKgXoJvbWuno/lk8AoITYBVoQFxJtr80QACoB6AL2sc3mpyqmAFBC7AG9EBpmvycEACoaaOFk9vCzc6LFNABKiD2gSWcFPFgIQMUC1Y8wnh5Z3RQGQAmBs3g1gOYNYH36Wp9+AlBCbAAV3pYNABUHNLsP26bNvEqTASghvED18fE8c7gBoKKAZrGX56utrjwdgBLCA9RwIUxEN3EAVAzQrO6MzxrfcmYAUELIQHOjQs6K6AkBgIoAmtOTbTaE8GgHACWEB6i4xj4BqHCgeX3ZB99/IcwCoITw7eJFrQSACgZa4M363E2aB0AJ4QCV0g4tABUK1DCG3b+TG1UEoIRUBpoWIaEXLgAqFOgM9vzoB/JMAEqINVCJ3cQBUIFAg9jblzbxzAWghFgCNSSGSusmDoAKA/oD2xtsIN9sAEqIFdDIBGk9yQBQQUCP12F8zuSdD0AJsdrFS+3oCIAKAXqO7VVmNP9ZKAAlBG4WcRbQ3E6Mz158Dx7SAJQYI9D86Aw5KwGgAoCOZHw+zf/kIQAlhgFqSNKdltVNHAC1DzSQbfozytYiAJQQDDTL2BOCjABQu0APMY3T1thncxkASggGmmjd2KeEAFB7QFPY5uuW2V4IgBKCgRrk9rLpMUD5e7Gz0xXinf6Mz1H2+slTosM+d+sKsQS6QnTCFnQR262hveN82IJWSmHqObjM5Aygx5kn4OuE2isegFon64wuwQBAHQ80+ylmAxpst3gAapnCBN2ZbLhQ7wygbAt2w+wXD0AtkxPKNvYJQB0OdB/ThEhzW1foTQGgVjE2yABAHQ00qwVzi91+AcUDUEIAqKOBTmJ28FOFFA9AjcmOsWjNBoA6GOjfVbHPJwX9FAJAmTDdxFm0VgdAHQtU/yyzg/9TUPEAlDb2hGD5yxEAdSzQxcwOfoKw4gEoTReeibFu7BOAOhToufrYZ1N7DQCbAkBxKj8SB0AdCpRtZZHbyA05AJQQAOpIoIeZS6C9hBbv2UALE4g3zQNQBwI1dGFuArX7G7w5Hg0UnxylkqYDUAcC/ZbZwU8WXLwHA9XH8/WEAEAdBzSf6QapofAe4D0YaCJvY58A1HFAlzMb0KXCi/dgoAbe9mwAqMOA5jTFPh+z14WPRTwYKH8AqMOAfsFsQPnaYSLFI4FmnLc9H4A6Cmh2Y+YxDzGPy3ogUH1cSLTtR+IAqKOALmE2oN+LKd7zgKaFhabaeWQTgDoIaB7TElM7UQ/MehzQXF283W7iAKiDgK5hNqDfiSre44DSAs4gAahjgBY+iX22Ftdgi+cBFRAA6higPzAb0HXiivcgoAUJArqAZQNAHQP0ZeY2OxHXQJl4DlB8ciS0tToA6hCgJ5gN6HyRxXsK0PzokDjBPSEAUIcAfRf7rE28O8dGPAXomdMiWqMFoI4AesELAx0rtnhPAZon5tzRk4GWnI0swYMbOevPKQx0KbOHPyW2eE8BKioeDPTqixTVKOp/dbGlfxUGyjTG9JLo4t0faJr4hrw9GOgXDfacX9akdvCxsEvCfAoGekjsbSLGuDtQfHJ0TvRaPBjoW374pfUYgTjFAGVOkR7IFV28ewMtTNaFCXy81TIeDLR3IH7pFaQ80Kx6GKiv+OLdG2iytJ4QPBlokPlFYaAbmT38P+KLd2+ghdJ6QgCgygN9lbmPSULx7g1UYjwZaP+goKAnmJegbCWBJlXHQAMkFO+uQPPE/mJhGQ8GOvzR8oQrCfRLprmweAnFuydQ5uRI6J0hhHgwUFKubA40Yd08d+7c/ZYTBANl7hPpJqV4twSaGxli/65kG/FkoOFjek3VWwP12xEzPoEdGx8aHZ1tOUEo0PNMg6DLpRTvjkDz2Z4QZMSDgUZXazP0wRY3LX0mT0Xo0HJm7N6oShMEA12BfVZLlFK8OwKlM+X1sunJQCc+cQ+dp3ZaAj26BqG06cxY3gdfL/691GKCYKB9pO7h3ROo3Hgw0Ndm4Zd2VpeZ9mxBqGAsu3kd/e+5Wd9VTNB37tx5HRKQa0ynXWuFLOnmKdPfU7sEF4v5z8vGddD9GxHK8TW/ixxbMeHW3r17z93gTVGZeWwbc5X+PP+SNnLznqSPWecOuqnAWuRXUhito+8oUYkSX6esSIGV3FXk65Twz7tlH6juC4TiZjNj124glD/cYgIT/q1zxS5+hMSr9LRb7eINibrT2bCL50bUhXrvr7766knm5atc06QbPtfQxj3M2IH/IbR3ocUEgUALG2KgftKKdyOg0bpkAxyDEiLqbqZG5Qk1Ezw4ZfEsvKUdnnRnke/8KbnlEwQD/ZvZwx+SVrwbAc3Jh5MkYmQ/8nEtqwy/JmCThRklFRMEA/0M+2wg8cK0GwFlAkAJEQP0lwhbUknhX3c50Jcw0LckFu8WQHPKr8sDUEJE382kMNDMGhjoGonFuwHQwkRdjHkcgBKiNtBdzCFoDP9yNuP6QDNOhyaWt5cGQAlRG+hH2GdLqcW7PNA0q54QACghooB6NTBHpxTQThioj9TiXR5oYbrlOwBKiCigg9ebk6cQ0AzmXuWNUot3eaDWAaCEqLyL38McgsZJLd6FgRoIjdkAUEJUBjob+2wuuXjXBZoZoeO2BgZACREDdMAqxYH2xkCHSS7eVYEWnAuJIrQCAEAJUbfxsML7MNAvJRfvokALeHpCAKCEqAv0FHMIelxy8S4KlE4jN/YJQAlRF+haplVQwU2zcuKqQHkCQAlRF+g4DLSr9OJdD2iWrQeOACgh6gLtKKr3bU5cDaj+bEiyjdkAlBBVgebXwkA3Sy/exYCmh4cm2+qoDIASoipQtueEMOnFuxbQs/Z6QgCghKgKNBj7rCOjFQ3XApplrycEAEqIqkAnY6BdZBTvWkDtBoASoirQHhjo+zKKdxWgBcJa+gSghKgKtKHURplMcRGg6QulIAIAABf2SURBVGGRgtYBQAlRE2gic450QEbxLgE0LyYkLl/QOgAoIWoC/Y0BmiKjeFcAmiW8JwQASoiaQAOxz4fkFO8KQAvOC75MAUAJURPoBAy0p5ziXQGoiABQQtQE+goGOkFO8RoHKrbjJwBKiJpAH8ZAA+UUr2mg+bE6kUIBKCEqAs2qgoHukVO8hoEaUkPD0kSuA4ASoiLQk3LabGCjXaCGSAndxAFQQlQE+h32WVNOfxYaBkonSegJAYASoiLQBRhoa1nFaxiolABQQlQEOhYDfV1W8ZoEqpfcSwcAJURFoL2kdXFsEQ0CxSdHknrUYQJACVERaEsMdLGs4rUHNDcqJF7yQ4AAlBD1gBYw3c9sl1W85oCm6CIypa8DgBKiHtA45irTCVnFaw5oRpKtZ47sBYASoh7QQwzQC7KK1xxQeQGghKgHdAvzQJK84jUE9K705ifKA0AJcSzQ67wpKluMgT7Nv4CQ3CiW93k2t9EN+SsxxEdek72SG+i2/EquFyvwda6XFimwkjtKfJ17JfzzzP0aSwfK34tdUdkUDLSvvG7ytNIV4rULoVH58iu5iaArRE7EdIUoPvxb59ul3hjoaHmbf43s4nMjdIl3FKgEdvGEqHcM+gIGOkte8RoBWhCXCydJhLg40EdlPtJJawYoEwDKjWsDLZF/nV4DQMtvxgKg3Lg20ALmMujf8opXG6ghUWdukgGAcuPaQNkfkmLlFa8y0KyIiruSASg3rg30KPZZRViDBrxRFajhrGVPCACUG9cG+hPTDbfM4tXdgiZY9oQAQLlxbaBrMNAnZRav9jGoRQAoN64NdC4G+pLM4tUCauDeswRAuXFtoBMxUG+ZxasENOsM96Z5AMqNawN9S2bboExUAVqYoIvkPrIJQLlxbaBM47UzZRavBtAMcjdxAJQb1wbaTvYTSSoBjSXe+QlAuXFtoE0x0GCZxcNZPCEAVBmgTBdJO2QW72Sgtp43AqDcuDRQmvml86DM4p0KtCAhwoZQAMqNSwNNZYDqZBbvTKAZ4Tpbj2wCUG5cGmgEA/S8zOKdB1QfGxJr88YBAMqNSwM9zADNk1m884AWRNpp7BOAcuPSQH/BPr3kFg9n8YQAUEWAfoOBNpZbvFOACmusDoBy49JAV2OgT8gt3hlAM04LaooWgHLj0kAXYaAd5BbveKD45Cha0JEyAOXGpYHOxkC7yy3e4UBTQ8PSha0FgHLj0kCZnrj7yS3e4UDPCm7sE4By49JA38VAh8kt3uFAhTemCEC5cWmggxS4HdShQEU29AlAuXFpoH0w0I/lFu84oPp4kS3NA1BuXBpoZwz0M7nFOwqoITVM6MmROQCUG5cG2gYDXSq3eAcBzYkKOSu2PVoAyo1LA22Bga6RW7yDgGZI6AkBgHLj0kAbY6Cb5BbvsF28+LUAUG5cGmh9DPR7ucXDzSKEAFBFgFbHQHfJLV5xoGkxUvsxBKDcuDJQPXM76O9yi1cYaG50SLzU3pcBKDeuDDSDAfqX3OIVBWpIktNNHADlxpWBJjFA/5VbvKJAC8ISJPdTDEBJ0QTQhI/GflPKjoV/NGaBAaFZgwYN2mwXaAwDNEJu8cru4mXwBKCkaAFoyfj4O/4nmLHCkSl31i9CyOd6cXGJXaBhDNA4ucXDWTwhANQy0bMRClnIjJ1YilDOGHTHR9Au/h8GaIrc4hUCqo/Jtb+YnQBQbrQA9PA6hDKnMWN3biB0cgHK8Pl4zOLLzPujR49e4O3EjmkAnCqQ3U+eEl0h3soOjciXvZZ7ClQCXSESIrMrxN3f4J27eaN5alwSSl72X8mqQPxG37lz53W8nzvGAC3hne3EXIsNu6iJQiCic880tAH0UDDegk5hR68vnpFpnJgyEr+U5ObmXrvMl13YZ03euUJzpUj2Ki7Hx9y8Kn8tl4sVWMdVdFOBtRRdUWAlpXcUWMmtGwqspOge/7zr9oFGz0EobCEzVuy3tYzBmYJQevlxKO/Rw3cY6H2yj0+UOAYtvAonSdy4zTFoybj00s+PY5e3//2MnaAbX1i6dr1doBsw0IdkFw9n8YQAUKskTZ/MbDmHJG4dhPMuQnt9x60xd5PMD5R5LL657OJlAS1MNl5FAKCEuA9Q2+Fd9XIl2m2QBTT7jM74VAcAJcTjgQZhoK1kFy8daEGC7oypxRAASojHAw3EQFvLLl460Iuhyea7kgEoIR4PdBkG+rTs4mXs4iueOQKghHg80CUYaFvZxcNZPCEAVAmgi1UDmn220hNHAJQQjwfKNG73jOzixQMtOKc7U6kpbwBKiMcDXYiBtpddvGigpJ4QACghHg/0cyWaBxUNtCA8mtsTAgAlxOOBzsdAO8ouXvQWlNRRBwAlxOOBzsNAO8kuHs7iCQGgSgD9DAN9QXbxwoEWnue9aR6AEuLxQOdgoF1kFy8YaMZpHW8/RwCUEI8H6o+Bvii7eIFA9fG2ekIAoIR4PFCmD4WXZBcvEGh8uK1u4gAoIR4PdBYG+rLs4gUCLbDZ2CcAJcTjgX6iRC80cBZPCgBVAqgfBtpTdvF2gWam2l8JACXE44HOwEB7yS7eDlDm5Mj+SgAoIR4P9GMMtLfs4m0DTQsLTRXQVjIAJcTjgX6EgfaRXbxNoBkCG/sEoIR4PNBpGGhf2cXb3oIK6qUYgBLj8UCnYKCvyS4ezuIJAaBKAGX6kn1DdvE8QPWJYrrpAKCEeDzQiRhof9nFk4GmhYXliFgJACXE44H6YqBvyi6eBDQ/OiROVDdxAJQQiUDX+Sfh1z8C2Tc/bGGA5v62bMURGZWoBPQDDHSgjLKNIQA1hJ++KG4lAJQQaUAzalHL8MD/cfbdqD4Y6PHWtbs8XWWI1M5TVAM6HgP1lly0OaQtaLbYpuYBKCHSgK6v0Z25h9ICaObD7+DDrUP1FkquRCWg4zDQwZKLNgfO4glREeirr22gYqyA+j3K3uf4sfSnJ1QC+h4G+pbkos2xBpouraV5AEqIJKAp1YNTqy+0Avr8TLmVqATUBwN9W27tVkDxyVGSpJUAUEIkAV1eI43u2cESqKFusNxKVAI6BgMdKrd2C6CFqaHh6dJWAkAJkQS06+tMq3ARFkALvVwV6CgMdJjc2i2AJugkdxMHQAmRAjSuyjPDh79KfWa5i+9g3MUff1tyl0MqAR2JgY6QWnN5KoDqxVyatw4AJUQK0IXVZ/n7+z/Zhl5Zj/0lr/e71+gpzdiTpKmNJVeiEtARGOgoyUWbA2fxhKgGtH0/5nU5FRJeYx4W+lO1bdfotMbemTS9x2uW5EpUAjoMAx0tuWhzGKB5Eg89ywNACZEANJz6nhmk1vyE/qrOo688XW0a81PnoRa1uzxODSY16SIsKgF9BwMdI7locy7dNaToIsTcGUIIACVEAtCj/sZHu9etpenELZ8HRxh/i8/6+YvVx2RUohLQtzFQHxllG3PpcqTAu5JtBIAS4ik3i9zhy1AMdALvXKH5LyzmkuyVFKO7stdx506pAuu4i4oVWEtJ+dfJ/fOy1JWU3VOgkuIiUYsn/U2aWmLrT1Y2UN5O7AZjoO/L7ibvSv4l2eu4fAO5a1eIP1NxUlcisytE/Z5Px38cfFFcV4jz7iNNldkVop3wbpy9MdDxsjf/cBZPSMUu/ifmh3FpkbWLLwxqRrHxOS/mY3OJfWOqdAw6kNnFi6m+UgxpzKkRACVEdaA5b1LmtDgh4nOaAjoAV+8rovhKyYkMyaIBKDGqA32Hqkjzs8I/pymg/XDxE4XXbh1Dou404xOAkqI20O2szFZvda3BDAcJ/6CmgL6Ba58svHarGCLNPSEAUELUBtoR/9V67cR/+eefZ4SGCf6gpoC+hkufKrj0Sskw/y4BQAlRGWgco3It+7efWh+Pzhf8SU0BfRWXPk1w6XwBoIRYAt34q8QcOSj1k0zvAzVMf/3MPWs9BX9ydH3i11EHaB9c+kfi//BzrX/TBaCEWAJVKY1Nf/2fiPtYXeLXUQdob1zPdLF/9PjkyPqkEIASYgl0f5TEXDgv9ZMb8d9s9ULjX/8QPO4t+JPTtLSLfwWX7ifyTz7jdGilJkMAKCEqH4MmM9vCz9i//ehaeHSZ4E9q6hi0h3igKdyeEAAoIWqfxffEf7VVv8B/+X8/xliNFfxBTQHtjkv/RHDpbPK5PSEAUELUBnqAPZ70at+YHY4T/kFNAX0Z1/4/4bXzBIASojZQtnFic54WcTu5poB2xcXPFlq5IYtnBgAlRHWgBZPLfT4rfAevMaAv4ur9BRaeFRHGc1MyACVEdaA0vas9y7PJAoFtCBujKaBdcP1zBJVdcC4kiq/JEABKiAaA0vTp9QuX/35Z3B31mgLaGQOdK6TqfFs9IQBQQiqAZkeJaofSMmo88pFG/OekElDmPoJ5gspOtvGHDEAJgWeSlADK3PIi/DYCvgBQQtQEGhr0bYZ5/PDizfgUfpc/G+nPdaoEtAMG+rmd0rLtPk8MQAlREWhwrZebP5VgHP+w5qttG5ygF72A04naLLkSlYA+i4EG2Cys4GyI3WtoAJQQ9YDmPBBI57b7mB0/Q62nr3cx9TS0rr3kg2G1gD6DgS6yVVd6eGgybEGlRD2gW2rl0HRgQ3Z8J5VK31jUnB1PaXxceiUqAW2LgS62UVZsSKyAf3QAlBD1gM5rj18OUZnMeAz1HX3jbWNPQ+Pek1GJSkDbYKBLbZSVnmFjZnkAKCHqAfV9Bb+EUWfYN6vrD+/eIpQZi64t+XIsrRrQp0TdiMUXAEqIekAnMP1Xh1GsypwRraaObvwTMzpGVitxKgFtjYEGEucUiDieBqCEqAd0Tgea2cWzd50taZFN3/ihVhbeGXodkFOJSkBbYaBfkmakh4m4vwCAEqLiSVKdPJpeaTxJGjKEpm+kU3/iff2jspofVAno4xjoCu7kvJiQWBFNSQJQQtQDml0vmNa/MBn/NerpgMbn6RurvPDWtO9YWZWoBLQlBrqSM/WiLkxUN3EAlBAVL9RvqDvkuacTabr6h3Re7/sHdPXaQNP6evL6UVAJaAsMdDVnal6CuMY+ASghR5fuLt+nnlm51vQcwj8HRa1E4k+dIUFbmV9X5uzBL799sZFpOyzF/5ytT+RuX/aPeTxlU6Bx/K8l35dDUAlocwz0K2Ff2kYAKDfv1uvVYKBJ6Bqv7g89FMeMJTcW11yws24WSevYtEdN0wXxI43avlpzPj5NHn3/K7W7mc+VVQL6CAa61nKCpEbMASgnf1UP/y+izi52/EzV3bS+NXuVvF81bQJd0CKd/trL2EdN25EGen/1aHpt4zg6qob513uVgDINSFocm+THhUr5tRaAcjKuGz4G9TY22TWd6dk15iR+WdG+rzaBPjmbpgsbBjGjCdRR/NrlM7oz87jvv+aL+yoBbYqBrje/MaSGhnEf2RQQAMpJ7ykY6Lzn2PE+k0OD1jNbp/CGuje1CbTmj/ilN9sIUhTFHIB2f5eu9cMfi7eV71FVAvoQBrrRNK6PDDknrScEAMpJ288w0BUPs+PPdn6w7+ONTtL5zwXS2gSaQjHnbkPYPgcLm/jic7mab6RTLz36esMO5gclVQLKPDS9yfzmHN9Tm/YCQDlpM5cB2ogdf7JhHK3v3YOe0cegWaB/4tchxn6vd9R+/rUmbQefp17OpZMbfWpaRCWgD2KgX4v5ssQAUE56TmV28c+w410ZlJtqpVR9z9+/dQd/Md1lOgmoofoO/NpnkvFdzMpVca/66qswWy6fPqZF5AItCz1YaDVWMcEW0IYY6Dd47y6vEy4Aysm4Xhjo297s+HCms8kN96UNwmnafJDN65GV4rSTJObJySbGuzL+SaXpgsZr6GbM2fOYAaYl5AJdNX/72HzLsYoJtoA+gIF+a7gQdkH41yUEgHJyoObZ/87e9wNtyCukf60fTed1NWLV5i6entM6h95ZI5kuyMMn8NjkynqZ9MzOOXR8A/OtRDKB6scWo51bLMYqJtgEej8GuiMqJF76owBMACg345qMeOStAvpPaidtePe+fo89Ybz5RqNA0zu1facetjiXyqL/9Grdre7PNJ3asXn/Bq8rdKH+RBBCiZ9YjFVMsAm0PkWNOHpa6smROQCUG8ORpbsLaDrOPwK/+WPxVlPjHt/sELUWpz12nLV9GfM8yAH/fHwMGhTM/uyV/eMXe8oXkAl032aE8sdbjJVPuLZ06dLjvH3Y1aOofgdvi+opj9hPnuw1uHNXiDKiRleI5MjsCnEv43GcxVj5hEs+Pj677vHlwoX01Ku8cwWnTP4q7pUgBVaiSCX3UIkCK1GmklIFVlKqyNex8X2K7AM9vhyhJD+LsYoJ/Lt4A94F3S4Vsa/gC+ziCYGWRSxTML4E7dliMVYxgRdoTlQ0ACUFgBIi9zLTmqDfJ+QjtCjLPGYa8AI1JOkiMgEoKQCUELlAS43X5XfR5rFS2xfqsyOMPSEAUG4AKCHO/qkzP9rY2CcA5QaAEqLSb/EAlBAASogTgRZavgGg3ABQQpwGtDA5zPKxDgDKDQAlxFlAsyJ0CZabUADKDQAlxDlADWcr94QAQLkBoIQ4CWjshUp3fgJQbgAoIXAWD0AJ8SCgPPfMA1BuACghjgaadYZ80zwA5QaAEuJYoAXnQiJziOsGoNwAUEIcCvRaWGgK7OIFB4AS4lCg1/Pu8s0K/U7qSpVO+rqbapdgyq11aWqXYM73OrUrMOfwr/aXkb6L50/wAAesVFL+6VxofyGnhO58XO0SzPFeq3YF5nzma38ZAOqcAFBCACgAJQSAXtM7YKWScju3RO0STCnNva12Cebor9lfxjn5z2B/GUcAhUAUCwCFaDrKAb20YMyiq5ZjFROcnHsbfGZcYMfurBg7/iBCUUwTW9dVrcRUQsUEZ+fghAnH2JGFTCXTUBEzCFWlFBRabBwmfDT2m9LyATnKAQ3cVbI12HKsYoKTczCg6PTkMmZs3ariCyNS0J/fFBcXq1uJqYSKCU5O5vhLeh/2kK8EF7J9H8r2w0M1KkEod+QtdlgyPv6O/wnzgCeKAb097A66MrysYqxigrMzKxahacnM2KSLCC0/gLYeUqEK60pMJVRMcHK2/YDQxj2mN/pZJejMlypUwSZo2CAj0OjZCIUsNA94ohjQ3In4ZczVirGKCc7OWBqhZSHM2OVSVPJhElo2y8f3mAqFWFRiKqFigpOz/ARCBzaa3gRFIbR/2oT3vlXpGsdQI9DD6/CWfZp5wBPFgCbNwC8TsivGKiY4O0Pw919j2mheWbSiDG34qyx96EVVKzGVYFmaU7PgNELHTBvNrJn45dCWoqsfHlShElQOdPc3CBX6mAc8UQxo9iT8MuZyxVjFBGfH5xLeTJ1iR3Xv/WQ6yFi4T91KjCVYT3BivjyBt6AbjOPrfzdN/HWxCpWgcqCH8BlK5hTzgCfKHYMOL0LXRpRWjFVMcHZmnUXoI/ZAL2RCBn4tOYJ3ZYvV2G6VV2IuoaI0J2fbTwh9bTwGLR7F7NZO44ON31U6DjUBjZ6DUNhC84Anyp3FLzmAdn2Ft5+XzGOmgfPzR1BZwsQydCkbTTnLTpi2qyR7VIGqlZhKME1wftIn3rr6vh7dTkEojm3zddPiWzen/6tCJcgENOV2ybj00s+PI9OAJ8oBvTJ/4qKbCM3/xTxmGjg/pRsmzcRHnL/Mv8Nc6xt0EOnn+3wYqWol5hJME1TIoalTTyCUOAShH9lrf3fWjpuwx85nHBUW6JBElDR98lb8r9U0IAd+SYJoOgAUoukAUIimA0Ahmg4AhWg6ABSi6QBQxyXhJJssdB6//pteilAS8/70JbULc6UAUMdlSFUvJoFoGB6pTnVIRT7MlCpVP1S7MhcKAHVchgwzjQwbglDx4Sf6Ip/++F3xamq/mmW5VgCo42IFFKFVXqUsUIQaLFKrJNcLAHVcKgGde59xC4qKau9WrSaXCwB1XIa0X4nzEwba4+TJw351fJHPi/gk6Y8h7dV4PspFA0AdlyGNe+NMQ+xJktcjH940niRVrbZL7cpcKADUcam0i8dhd/H07OqaadlC+wGgjgsPUHSNOqpOQa4YAOq48AFFlIBmByHGAFDHhRfoQ6tVqcclA0Adl/kLTSML55tGlvqzg49Hq1GOawaAQjQdAArRdAAoRNMBoBBNB4BCNB0ACtF0AChE0wGgEE0HgEI0HQAK0XQAKETT+T+qx4wqNFBMRwAAAABJRU5ErkJggg==" /><!-- --></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">## Logout from DataSHIELD server</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">## ========================================</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a></span>
+<span id="cb4-7"><a href="#cb4-7"></a>DSI<span class="op">::</span><span class="kw">datashield.logout</span>(<span class="dt">conns =</span> connections, <span class="dt">save =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;   Logged out from all servers [==========================================================] 100% / 0s</span></span></code></pre></div>
+
+</body>
+</html>
