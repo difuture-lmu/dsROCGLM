@@ -7,9 +7,10 @@
 getNegativeScores(truth_name, prob_name)
 }
 \arguments{
-\item{truth_name}{[character(1L)] Character containing the name of the vector of 0-1-values encoded as integer or numeric.}
+\item{truth_name}{(`character(1L)`) Character containing the name of the vector of 0-1-values
+encoded as integer or numeric.}
 
-\item{prob_name}{[character(1L)] Character containing the name of the vector of probabilities.}
+\item{prob_name}{(`character(1L)`) Character containing the name of the vector of probabilities.}
 }
 \value{
 Negative scores

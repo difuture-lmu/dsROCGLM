@@ -13,13 +13,14 @@ probitLikelihood(y, X, beta, w = NULL)
 
 \item{beta}{Estimated parameter vector}
 
-\item{x}{Weight vector}
+\item{w}{Weight vector}
 }
 \value{
 Numeric value containing the likelihood
 }
 \description{
-This function calculates the likelihood used in a probit regression (Bernoulli distribution + probit link).
+This function calculates the likelihood used in a probit regression
+  (Bernoulli distribution + probit link).
 }
 \author{
 Stefan B., Daniel S.

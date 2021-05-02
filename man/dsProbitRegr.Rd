@@ -15,26 +15,29 @@ dsProbitRegr(
 )
 }
 \arguments{
-\item{connections}{[DSI::connection] Connection to an OPAL server.}
+\item{connections}{(`DSI::connection`) Connection to an OPAL server.}
 
-\item{formula}{[character(1L)] Formula used for the probit regression.}
+\item{formula}{(`character(1L)`) Formula used for the probit regression.}
 
-\item{data}{[character(1L)] Data as string}
+\item{data}{(`character(1L)`) Data as string.}
 
-\item{w}{[character(1L)] Weights for the probit regression. Must be a column in `data`.}
+\item{w}{(`character(1L)`) Weights for the probit regression. Must be a column in `data`.}
 
-\item{stop_tol}{[numeric(1L)] Tolerance for the stop criteria (`abs(dev - dev_old) / (abs(dev) + 0.1)`) for
+\item{stop_tol}{(`numeric(1L)`) Tolerance for the stop criteria (`abs(dev - dev_old) / (abs(dev) + 0.1)`) for
 which the Fischer scoring stops (default is `1e-8`).}
 
-\item{iter_max}{[integer(1L)] Maximal number of Fischer scoring iterations (default is `25L`).}
+\item{iter_max}{(`integer(1L)`) Maximal number of Fischer scoring iterations (default is `25L`).}
 
-\item{trace}{[logical(1L)] If `TRUE` (default), information about the progress is shown.}
+\item{trace}{(`logical(1L)`) If `TRUE` (default), information about the progress is shown.}
 }
 \value{
-List with estimated parameter, number of iterations, and the deviance when the algorithm is stopped.
+List with estimated parameter, number of iterations, and the deviance at the stopping iteration.
 }
 \description{
-Probit
+Distributed computing of the probit regression using DataSHIELD. The method gets the
+  parts required for the fisher scoring in each iteration and aggreagtes it to a global update.
+  Hence, the updating step is done at the analyst's machine while calculation of the required parts
+  are done at the servers.
 }
 \author{
 Daniel S.

@@ -7,11 +7,12 @@
 \method{plot}{ROC.GLM}(roc_glm, by = 0.001, plot_ci = TRUE)
 }
 \arguments{
-\item{roc_glm}{[list()] List containing the ROC-GLM parameter returned from `dsROCGLM`.}
+\item{roc_glm}{(`list()`) List containing the ROC-GLM parameter returned from `dsROCGLM`.}
 
-\item{by}{[numeric(1L)] Numeric value indicating the grid size (default is `0.001`). This value must be between 0 and 1.}
+\item{by}{(`numeric(1L)`) Numeric value indicating the grid size (default is `0.001`).
+This value must be between 0 and 1.}
 
-\item{plot_ci}{[logical(1L)] Indicator whether the CI should be added to the plot or not (default is `TRUE`).}
+\item{plot_ci}{(`logical(1L)`) Indicator whether the CI should be added to the plot or not (default is `TRUE`).}
 }
 \value{
 ggplot of approximated ROC curve, AUC, and CI for the AUC.

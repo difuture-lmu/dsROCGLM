@@ -7,9 +7,9 @@
 rocGLMData(U, tset)
 }
 \arguments{
-\item{U}{[matrix()] Response matrix for ROC-GLM}
+\item{U}{(`matrix()`) Response matrix for ROC-GLM}
 
-\item{tset}{[numeric()] Set of thresholds}
+\item{tset}{(`numeric()`) Set of thresholds}
 }
 \value{
 Data used for the ROC-GLM

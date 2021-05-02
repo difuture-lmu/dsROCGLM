@@ -7,14 +7,14 @@
 calculateAUC(roc_glm)
 }
 \arguments{
-\item{roc_glm}{[lit()] List containing the ROC-GLM parameter returned from `dsROCGLM`.}
+\item{roc_glm}{(`list()`) List containing the ROC-GLM parameter returned from `dsROCGLM`.}
 }
 \value{
 Numeric value of the approximated AUC.
 }
 \description{
-This function calculates the AUC from the ROC-GLM by integrating the binormal form `pnorm(a + b*qnorm(x))`
-  for x in 0 to 1. The parameter a and b are obtained by `dsROCGLM`.
+This function calculates the AUC from the ROC-GLM by integrating the binormal
+  form `pnorm(a + b*qnorm(x))`  for x in 0 to 1. The parameter a and b are obtained by `dsROCGLM`.
 }
 \author{
 Daniel S.

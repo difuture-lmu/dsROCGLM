@@ -3,16 +3,16 @@
 #' @description This function plots the approximted ROC curve after calculating the ROC-GLM using `dsROCGLM`.
 #'   The function calculates a regular grid from 0 to 1 and calculate the ROC from the binormal form
 #'   `pnorm(a + b*qnorm(x))` with a and b the parameter from the ROC-GLM.
-#' @param roc_glm [list()] List containing the ROC-GLM parameter returned from `dsROCGLM`.
-#' @param by [numeric(1L)] Numeric value indicating the grid size (default is `0.001`). This value must be between 0 and 1.
-#' @param plot_ci [logical(1L)] Indicator whether the CI should be added to the plot or not (default is `TRUE`).
+#' @param roc_glm (`list()`) List containing the ROC-GLM parameter returned from `dsROCGLM`.
+#' @param by (`numeric(1L)`) Numeric value indicating the grid size (default is `0.001`).
+#'   This value must be between 0 and 1.
+#' @param plot_ci (`logical(1L)`) Indicator whether the CI should be added to the plot or not (default is `TRUE`).
 #' @return ggplot of approximated ROC curve, AUC, and CI for the AUC.
 #' @author Daniel S.
 #' @export
-plot.ROC.GLM = function (roc_glm, by = 0.001, plot_ci = TRUE)
-{
+plot.ROC.GLM = function(roc_glm, by = 0.001, plot_ci = TRUE) {
   x = seq(0, 1, by = by)
-  y = pnorm(roc_glm$parameter[1] + roc_glm$parameter[2] * qnorm(x))
+  y = stats::pnorm(roc_glm$parameter[1] + roc_glm$parameter[2] * stats::qnorm(x))
 
   df_plt = data.frame(TPR = y, FPR = x)
 
@@ -32,8 +32,5 @@ plot.ROC.GLM = function (roc_glm, by = 0.001, plot_ci = TRUE)
       ggplot2::annotate("text", x = df_auc$upper, y = 0.1, label = round(df_auc$upper, 2), vjust = 3)
   }
 
-  return (gg)
+  return(gg)
 }
-
-
-

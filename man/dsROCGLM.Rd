@@ -14,18 +14,19 @@ dsROCGLM(
 )
 }
 \arguments{
-\item{connections}{[DSI::connection] Connection to an OPAL server.}
+\item{connections}{(`DSI::connection`) Connection to an OPAL server.}
 
-\item{truth_name}{[character(1L)] Character containing the name of the vector of 0-1-values encoded as integer or numeric.}
+\item{truth_name}{(`character(1L)`) Character containing the name of the vector of 0-1-values
+encoded as integer or numeric.}
 
-\item{trace}{[logical(1L)] If `TRUE` (default), information about the progress is shown.}
+\item{pred_name}{(`character(1L)`) Character containing the name of the vector of probabilities.}
 
-\item{clean_server}{[logical(1L)] Set to `TRUE` (default) if all temprary data stored on the server should
+\item{trace}{(`logical(1L)`) If `TRUE` (default), information about the progress is shown.}
+
+\item{clean_server}{(`logical(1L)`) Set to `TRUE` (default) if all temprary data stored on the server should
 be removed when the fitting is finished.}
 
-\item{alpha}{[numeric(1L)] Significance level alpha for confidence interval (default is `0.05`).}
-
-\item{prob_name}{[character(1L)] Character containing the name of the vector of probabilities.}
+\item{alpha}{(`numeric(1L)`) Significance level alpha for confidence interval (default is `0.05`).}
 }
 \value{
 List with estimated parameter, number of iterations, and the deviance when the algorithm is stopped.

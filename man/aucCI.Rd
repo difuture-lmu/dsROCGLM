@@ -7,11 +7,11 @@
 aucCI(connections, roc_glm, alpha = 0.05)
 }
 \arguments{
-\item{connections}{[DSI::connection] Connection to an OPAL server.}
+\item{connections}{(`DSI::connection`) Connection to an OPAL server.}
 
-\item{roc_glm}{[list()] List containing the ROC-GLM parameter returned from `dsROCGLM`.}
+\item{roc_glm}{(`list()`) List containing the ROC-GLM parameter returned from `dsROCGLM`.}
 
-\item{alpha}{[numeric(1L)] Significance level alpha (default is `0.05`).}
+\item{alpha}{(`numeric(1L)`) Significance level alpha (default is `0.05`).}
 }
 \value{
 Numeric vector with two values containing the boundaries of the confidence interval.

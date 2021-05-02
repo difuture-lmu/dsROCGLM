@@ -7,7 +7,7 @@
 \method{print}{ROC.GLM}(roc_glm)
 }
 \arguments{
-\item{roc_glm}{[list()] List containing the ROC-GLM parameter returned from `dsROCGLM`.}
+\item{roc_glm}{(`list()`) List containing the ROC-GLM parameter returned from `dsROCGLM`.}
 }
 \description{
 This function provides a printer for the ROC-GLM object returned from `dsROCGLM`.

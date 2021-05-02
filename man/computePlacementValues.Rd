@@ -7,13 +7,14 @@
 computePlacementValues(pooled_scores_name, truth_name, prob_name, tset = NULL)
 }
 \arguments{
-\item{pooled_scores_name}{[character(1L)] Name of the object holding the pooled negative scores.}
+\item{pooled_scores_name}{(`character(1L)`) Name of the object holding the pooled negative scores.}
 
-\item{truth_name}{[character(1L)] Character containing the name of the vector of 0-1-values encoded as integer or numeric.}
+\item{truth_name}{(`character(1L)`) Character containing the name of the vector of 0-1-values encoded
+as integer or numeric.}
 
-\item{prob_name}{[character(1L)] Character containing the name of the vector of probabilities.}
+\item{prob_name}{(`character(1L)`) Character containing the name of the vector of probabilities.}
 
-\item{tset}{Set of thresholds}
+\item{tset}{(`numeric()`) Set of thresholds}
 }
 \value{
 Placement values

@@ -7,9 +7,9 @@
 calcU(tset, pv)
 }
 \arguments{
-\item{tset}{[numeric()] Set of thresholds}
+\item{tset}{(`numeric()`) Set of thresholds}
 
-\item{pv}{[numeric()] Placement values}
+\item{pv}{(`numeric()`) Placement values}
 }
 \value{
 Matrix of zeros and ones that are used as target variable for Probit regression

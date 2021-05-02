@@ -16,7 +16,8 @@ Imports:
     DSI,
     stringr
 Suggests:
-    ggplot2
+    ggplot2,
+    testthat
 AggregateMethods:
   calculateDistrGLMParts,
   getNegativeScores,

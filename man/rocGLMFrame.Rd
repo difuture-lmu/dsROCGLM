@@ -7,11 +7,13 @@
 rocGLMFrame(truth_name, prob_name, pooled_scores_name)
 }
 \arguments{
-\item{truth_name}{[character(1L)] Character containing the name of the vector of 0-1-values encoded as integer or numeric.}
+\item{truth_name}{(`character(1L)`) Character containing the name of the vector of 0-1-values
+encoded as integer or numeric.}
 
-\item{prob_name}{[character(1L)] Character containing the name of the vector of probabilities.}
+\item{prob_name}{(`character(1L)`) Character containing the name of the vector of probabilities.}
 
-\item{pooled_scores_name}{[character(1L)] Character containing the name of the object holding the pooled negative scores.}
+\item{pooled_scores_name}{(`character(1L)`) Character containing the name of the object holding
+the pooled negative scores.}
 }
 \value{
 Data.frame used to calculate ROC-GLM

@@ -7,11 +7,12 @@
 checkTruthProb(truth_name, prob_name, pos = NULL)
 }
 \arguments{
-\item{truth_name}{[character(1L)] Character containing the name of the vector of 0-1-values encoded as integer or numeric.}
+\item{truth_name}{(`character(1L)`) Character containing the name of the vector of 0-1-values
+encoded as integer or numeric.}
 
-\item{prob_name}{[character(1L)] Character containing the name of the vector of probabilities.}
+\item{prob_name}{(`character(1L)`) Character containing the name of the vector of probabilities.}
 
-\item{pos}{[character(1L)] Character containing the name of the positive class.}
+\item{pos}{(`character(1L)`) Character containing the name of the positive class.}
 }
 \value{
 Data frame containing the truth and prediction vector.

@@ -7,19 +7,20 @@
 calculateDistrGLMParts(formula, data, w = NULL, params_char)
 }
 \arguments{
-\item{formula}{[character(1L)] Formula used for the probit regression as character.}
+\item{formula}{(`character(1L)`) Formula used for the probit regression as character.}
 
-\item{data}{[character(1L)] Data as character string. Note that all servers must have data of that name.}
+\item{data}{(`character(1L)`) Data as character string. Note that all servers must have data of that name.}
 
-\item{w}{[character(1L)] Weights as character. The weight vector must be a column in `data`.}
+\item{w}{(`character(1L)`) Weights as character. The weight vector must be a column in `data`.}
 
-\item{params_char}{[character(1L)] Parameter vector encoded as one string.}
+\item{params_char}{(`character(1L)`) Parameter vector encoded as one string.}
 }
 \value{
 List with XtX, Xy, and the likelihood of the respective server.
 }
 \description{
-This function calculates the parts required to conduct an update for the Fisher scoring for probit regression
+This function calculates the parts required to conduct an update for the
+  Fisher scoring for probit regression
 }
 \author{
 Daniel S.
