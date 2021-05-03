@@ -9,7 +9,23 @@ v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.or
 
 # ROC-GLM for DataSHIELD
 
-## Overview
+The package provides functionality to conduct and visualize ROC analysis
+on decentralized data. The basis is the
+DataSHIELD\](<https://www.datashield.org/>) infrastructure for
+distributed computing. This package provides the calculation of the
+[**ROC-GLM**](https://www.jstor.org/stable/2676973?seq=1) as well as
+[**AUC confidence
+intervals**](https://www.jstor.org/stable/2531595?seq=1). In order to
+calculate the ROC-GLM it is necessry to push models and predict them at
+the servers. This is done automatically by the base package
+[`ds.predict.base`](https://github.com/difuture-lmu/ds.predict.base).
+Note that DataSHIELD uses an option `datashield.privacyLevel` to
+indicate the minimal amount of numbers required to be allowed to share
+an aggregated value of these numbers. Instead of setting the option, we
+directly retrieve the privacy level from the
+[`DESCRIPTION`](https://github.com/difuture-lmu/ds.calibration/blob/master/DESCRIPTION)
+file each time a function calls for it. This options is set to 5 by
+default.
 
 ## Installation
 
