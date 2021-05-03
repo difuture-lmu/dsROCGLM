@@ -4,16 +4,18 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "Readme_files/"
+  fig.path = "Readme_files/",
+  eval = FALSE
 )
 
 devtools::load_all()
-devtools::load_all("../ds.predict.base")
 ```
+
+[![Actions Status](https://github.com/difuture-lmu/ds.roc.glm/workflows/R-CMD-check/badge.svg)](https://github.com/difuture-lmu/ds.roc.glm/actions) [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0) [![codecov](https://codecov.io/gh/difuture-lmu/ds.roc.glm/branch/master/graph/badge.svg?token=E8AZRM6XJX)](https://codecov.io/gh/difuture-lmu/ds.roc.glm)
 
 # ROC-GLM for DataSHIELD
 
@@ -21,36 +23,29 @@ devtools::load_all("../ds.predict.base")
 
 ## Installation
 
-#### Developer version:
+At the moment, there is no CRAN version available. Install the development version from GitHub:
 
-The package is currently hosted at a private GitLab repository. If access is granted, the installation can be done via `devtools`:
-
-```r
-cred = git2r::cred_user_pass(username = "username", password = "password")
-devtools::install_git("https://gitlab.lrz.de/difuture_analysegruppe/ds.roc.glm.git", credentials = cred)
+```{r,eval=FALSE}
+remotes::install_github("difuture-lmu/ds.roc.glm")
 ```
-
-Note that you have to supply your username and password from GitLab to install the package.
 
 #### Register methods
 
-It is necessary to register the assign and aggregate methods in the OPAL administration to use them.
+It is necessary to register the aggregate and assign methods in the OPAL administration. The assign methods are:
 
 __Assign methods:__
 
-- `ds.roc.glm::rocGLMFrame`
+- `rocGLMFrame`
 
 __Aggregate methods:__
 
-- `ds.roc.glm::getPositiveScores`
-- `ds.roc.glm::getNegativeScores`
-- `ds.roc.glm::calculateDistrGLMParts`
+- `getPositiveScores`
+- `getNegativeScores`
+- `calculateDistrGLMParts`
 
 ## Usage
 
-The following code shows how to use the ROC-GLM.
-
-```{r}
+```{r, results="hide", warnings=FALSE}
 library(DSI)
 library(DSOpal)
 library(DSLite)
@@ -64,19 +59,18 @@ builder = DSI::newDSLoginBuilder()
 
 builder$append(
   server   = "ibe",
-  url      = "https://dsibe.ibe.med.uni-muenchen.de",
-  user     = "ibe",
-  password = "123456",
+  url      = "*****''",
+  user     = "***",
+  password = "******",
   table    = "ProVal.KUM"
 )
 
 logindata = builder$build()
-connections = DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D", opts = list(ssl_verifyhost = 0, ssl_verifypeer=0))
+connections = DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D",
+  opts = list(ssl_verifyhost = 0, ssl_verifypeer=0))
 
 ### Get available tables:
 DSI::datashield.symbols(connections)
-
-
 
 ## Read test data (same as on server)
 ## ========================================
