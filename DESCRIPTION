@@ -3,26 +3,29 @@ Type: Package
 Title: ROC-GLM Implementation for DataSHIELD
 Authors@R:
     c(person(given = "Daniel",
-             family = "Schalk",
-             role = c("aut", "cre"),
-             email = "daniel.schalk@stat.uni-muenchen.de"))
+        family = "Schalk",
+        role = c("aut", "cre"),
+        email = "daniel.schalk@stat.uni-muenchen.de"))
 Version: 0.0.1
 License: GPL-3
-Description: DataSHIELD ROC-GLM
+Description: ROC-GLM implementation for DataSHIELD.
 Depends:
     R (>= 3.1.0)
 Imports:
+    ds.predict.base,
     checkmate,
     DSI,
     stringr
 Suggests:
     ggplot2,
     testthat
+Remotes:
+    difuture-lmu/ds.predict.base
 AggregateMethods:
-  calculateDistrGLMParts,
-  getNegativeScores,
-  getPositiveScores
+    calculateDistrGLMParts,
+    getNegativeScores,
+    getPositiveScores
 AssignMethods:
-  rocGLMFrame
+    rocGLMFrame
 Options: datashield.privacyLevel=5
 RoxygenNote: 7.1.0
