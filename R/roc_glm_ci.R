@@ -13,8 +13,10 @@ aucCI = function(connections, roc_glm, alpha = 0.05) {
 
   auc = calculateAUC(roc_glm)
 
-  pred = stats::predict(mod, type = "response")
-  data.frame(sort(n_scores[[1]]), sort(pred[dat$gender == 0]))
+  ### ???? Where is mod comming from? GlobalEnv?
+  ### ACTION: Remove -> check
+  #pred = stats::predict(mod, type = "response")
+  #data.frame(sort(n_scores[[1]]), sort(pred[dat$gender == 0]))
 
   pooled_n_scores = Reduce("c", n_scores)
   pooled_p_scores = Reduce("c", p_scores)
@@ -23,7 +25,8 @@ aucCI = function(connections, roc_glm, alpha = 0.05) {
   s_nond = function(x) 1 - stats::ecdf(pooled_n_scores)(x)
 
   # Variance of empirical auc after DeLong:
-  var_auc = var(s_d(pooled_n_scores)) / length(pooled_n_scores) + var(s_nond(pooled_p_scores)) / sum(pooled_p_scores)
+  var_auc = stats::var(s_d(pooled_n_scores)) / length(pooled_n_scores) +
+    stats::var(s_nond(pooled_p_scores)) / sum(pooled_p_scores)
 
   logit_pm = log(auc / (1 - auc)) + c(-1, 1) * stats::qnorm(1 - alpha / 2) * sqrt(var_auc) / (auc * (1 - auc))
 

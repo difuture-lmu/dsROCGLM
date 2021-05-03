@@ -49,6 +49,7 @@ dsProbitRegr = function(connections, formula, data, w = NULL, stop_tol = 1e-8, i
       call = paste0("calculateDistrGLMParts(formula = ", formula, ", data = '", data, "', w = '",
         w, "', params_char = '", params_char, "')")
     }
+    cq = NULL
     eval(parse(text = paste0("cq = quote(", call, ")")))
 
     update = DSI::datashield.aggregate(conns = connections, cq)

@@ -4,10 +4,12 @@
 \alias{print.ROC.GLM}
 \title{Printer for ROC-GLM}
 \usage{
-\method{print}{ROC.GLM}(roc_glm)
+\method{print}{ROC.GLM}(x, ...)
 }
 \arguments{
-\item{roc_glm}{(`list()`) List containing the ROC-GLM parameter returned from `dsROCGLM`.}
+\item{x}{(`list()`) List containing the ROC-GLM parameter returned from `dsROCGLM`.}
+
+\item{...}{Additional parameters (basically none, but CRAN forces us to do this in print).}
 }
 \description{
 This function provides a printer for the ROC-GLM object returned from `dsROCGLM`.
