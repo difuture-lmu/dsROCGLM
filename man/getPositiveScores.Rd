@@ -4,13 +4,17 @@
 \alias{getPositiveScores}
 \title{Return positive scores}
 \usage{
-getPositiveScores(truth_name, prob_name)
+getPositiveScores(truth_name, prob_name, lag = 4L, ntimes = 2L)
 }
 \arguments{
 \item{truth_name}{(`character(1L)`) Character containing the name of the vector of 0-1-values
 encoded as integer or numeric.}
 
 \item{prob_name}{(`character(1L)`) Character containing the name of the vector of probabilities.}
+
+\item{lag}{(`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.}
+
+\item{ntimes}{(`integer(1L)`) Times the standard deviation used for simulating noise added to the data.}
 }
 \value{
 Positive scores

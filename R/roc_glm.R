@@ -86,10 +86,14 @@ dsProbitRegr = function(connections, formula, data, w = NULL, stop_tol = 1e-8, i
 #' @param clean_server (`logical(1L)`) Set to `TRUE` (default) if all temprary data stored on the server should
 #'   be removed when the fitting is finished.
 #' @param alpha (`numeric(1L)`) Significance level alpha for confidence interval (default is `0.05`).
+#' @param lag (`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.
+#' @param ntimes (`integer(1L)`) Times the standard deviation used for simulating noise added to the data.
 #' @return List with estimated parameter, number of iterations, and the deviance when the algorithm is stopped.
 #' @author Daniel S.
 #' @export
-dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_server = TRUE, alpha = 0.05) {
+dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_server = TRUE,
+  alpha = 0.05, lag = 4L, ntimes = 2L) {
+
   checkmate::assertLogical(trace, len = 1L, any.missing = FALSE, null.ok = FALSE)
   checkmate::assertLogical(clean_server, len = 1L, any.missing = FALSE, null.ok = FALSE)
 
@@ -97,7 +101,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
 
   ## Checks are included in "getNegativeScores":
   n_scores = DSI::datashield.aggregate(conns = connections, paste0("getNegativeScores(\"", truth_name,
-    "\", \"", pred_name, "\")"))
+    "\", \"", pred_name, "\", 4L, 2L)"))
   pooled_scores = Reduce("c", n_scores)
 
   if (trace) message("[", Sys.time(), "] Host: Pushing pooled scores\n")

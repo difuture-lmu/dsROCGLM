@@ -10,7 +10,9 @@ dsROCGLM(
   pred_name,
   trace = TRUE,
   clean_server = TRUE,
-  alpha = 0.05
+  alpha = 0.05,
+  lag = 4L,
+  ntimes = 2L
 )
 }
 \arguments{
@@ -27,6 +29,10 @@ encoded as integer or numeric.}
 be removed when the fitting is finished.}
 
 \item{alpha}{(`numeric(1L)`) Significance level alpha for confidence interval (default is `0.05`).}
+
+\item{lag}{(`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.}
+
+\item{ntimes}{(`integer(1L)`) Times the standard deviation used for simulating noise added to the data.}
 }
 \value{
 List with estimated parameter, number of iterations, and the deviance when the algorithm is stopped.

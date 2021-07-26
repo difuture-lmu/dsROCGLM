@@ -7,12 +7,16 @@
 #' @param pred_name (`character(1L)`) Character containing the name of the vector of probabilities.
 #' @param roc_glm (`list()`) List containing the ROC-GLM parameter returned from `dsROCGLM`.
 #' @param alpha (`numeric(1L)`) Significance level alpha (default is `0.05`).
+#' @param lag (`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.
+#' @param ntimes (`integer(1L)`) Times the standard deviation used for simulating noise added to the data.
 #' @return Numeric vector with two values containing the boundaries of the confidence interval.
 #' @author Daniel S.
 #' @export
-aucCI = function(connections, truth_name, pred_name, roc_glm, alpha = 0.05) {
-  n_scores = DSI::datashield.aggregate(connections, "getNegativeScores(\"", truth_name, "\", \"", pred_name, "\")")
-  p_scores = DSI::datashield.aggregate(connections, "getPositiveScores(\"", truth_name, "\", \"", pred_name, "\")")
+aucCI = function(connections, truth_name, pred_name, roc_glm, alpha = 0.05, lag = 4L, ntimes = 2L) {
+  n_scores = DSI::datashield.aggregate(connections, paste0("getNegativeScores(\"", truth_name, "\", \"",
+    pred_name, "\", ", lag, ", ", ntimes, ")"))
+  p_scores = DSI::datashield.aggregate(connections, paste0("getPositiveScores(\"", truth_name, "\", \"",
+    pred_name, "\", ", lag, ", ", ntimes, ")"))
 
   auc = calculateAUC(roc_glm)
 

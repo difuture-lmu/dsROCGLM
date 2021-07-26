@@ -4,7 +4,15 @@
 \alias{aucCI}
 \title{Calculate CI for AUC}
 \usage{
-aucCI(connections, truth_name, pred_name, roc_glm, alpha = 0.05)
+aucCI(
+  connections,
+  truth_name,
+  pred_name,
+  roc_glm,
+  alpha = 0.05,
+  lag = 4L,
+  ntimes = 2L
+)
 }
 \arguments{
 \item{connections}{(`DSI::connection`) Connection to an OPAL server.}
@@ -17,6 +25,10 @@ encoded as integer or numeric.}
 \item{roc_glm}{(`list()`) List containing the ROC-GLM parameter returned from `dsROCGLM`.}
 
 \item{alpha}{(`numeric(1L)`) Significance level alpha (default is `0.05`).}
+
+\item{lag}{(`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.}
+
+\item{ntimes}{(`integer(1L)`) Times the standard deviation used for simulating noise added to the data.}
 }
 \value{
 Numeric vector with two values containing the boundaries of the confidence interval.

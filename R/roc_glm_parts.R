@@ -47,16 +47,23 @@ checkTruthProb = function(truth_name, prob_name, pos = NULL) {
 #' @param truth_name (`character(1L)`) Character containing the name of the vector of 0-1-values
 #'   encoded as integer or numeric.
 #' @param prob_name (`character(1L)`) Character containing the name of the vector of probabilities.
+#' @param lag (`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.
+#' @param ntimes (`integer(1L)`) Times the standard deviation used for simulating noise added to the data.
 #' @return Positive scores
 #' @author Daniel S.
 #' @export
-getPositiveScores = function(truth_name, prob_name) {
+getPositiveScores = function(truth_name, prob_name, lag = 4L, ntimes = 2L) {
   df_pred = checkTruthProb(truth_name, prob_name)
+  checkmate::assertCount(nn, na.ok = FALSE, positive = TRUE)
+  checkmate::assertCount(ntimes, na.ok = FALSE, positive = TRUE)
 
   truth = df_pred$truth
   prob  = df_pred$prob
 
-  return (prob[truth == 1])
+  pv  = prob[truth == 1]
+  sde = ntimes * sd(diff(nv, lag = nn))
+
+  return(rnorm(n = length(pv), mean = pv, sd = sde))
 }
 
 #'
@@ -66,16 +73,23 @@ getPositiveScores = function(truth_name, prob_name) {
 #' @param truth_name (`character(1L)`) Character containing the name of the vector of 0-1-values
 #'   encoded as integer or numeric.
 #' @param prob_name (`character(1L)`) Character containing the name of the vector of probabilities.
+#' @param lag (`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.
+#' @param ntimes (`integer(1L)`) Times the standard deviation used for simulating noise added to the data.
 #' @return Negative scores
 #' @author Daniel S.
 #' @export
-getNegativeScores = function(truth_name, prob_name) {
+getNegativeScores = function(truth_name, prob_name, lag = 4L, ntimes = 2L) {
   df_pred = checkTruthProb(truth_name, prob_name)
+  checkmate::assertCount(nn, na.ok = FALSE, positive = TRUE)
+  checkmate::assertCount(ntimes, na.ok = FALSE, positive = TRUE)
 
   truth = df_pred$truth
   prob  = df_pred$prob
 
-  return (prob[truth == 0])
+  nv  = prob[truth == 0]
+  sde = ntimes * sd(diff(nv, lag = nn))
+
+  return(rnorm(n = length(nv), mean = nv, sd = sde))
 }
 
 
@@ -122,10 +136,8 @@ calcU = function(tset, pv) {
   checkmate::assertNumeric(pv, any.missing = FALSE)
 
   tset_sorted = sort(tset)
-  out = vapply(X = tset, FUN.VALUE = integer(length(pv)), FUN = function (th) {
-    ifelse(pv <= th, 1L, 0L)
-  })
-  return (out)
+  out = vapply(X = tset, FUN.VALUE = integer(length(pv)), FUN = function(th) ifelse(pv <= th, 1L, 0L))
+  return(out)
 }
 
 #'

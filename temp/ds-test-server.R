@@ -56,9 +56,9 @@ library(DSI)
 library(DSOpal)
 library(dsBaseClient)
 
-devtools::load_all("~/repos/ds.predict.base")
-devtools::load_all("~/repos/ds.calibration")
-devtools::load_all("~/repos/ds.roc.glm")
+devtools::load_all("~/repos-temp/ds.predict.base")
+devtools::load_all("~/repos-temp/ds.calibration")
+devtools::load_all("~/repos-temp/ds.roc.glm")
 
 ## DataSHIELD login:
 ## ----------------------------------------
@@ -121,11 +121,6 @@ datashield.symbols(connections)
 ### Now, calculate ROC-GLM:
 roc_glm = dsROCGLM(connections, "D_new$DIS_DIAB", "pred")
 roc_glm
-
-truth_name = "D$DIS_DIAB[-1]"
-pred_name = "pred[-1]"
-n_scores = DSI::datashield.aggregate(conns = connections, paste0("getNegativeScores(\"", truth_name, "\", \"", pred_name, "\")"))
-
 
 ### And plot it:
 plot(roc_glm)
