@@ -129,7 +129,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
   if (trace) cat("[", Sys.time(), "] Host: Calculating AUC and CI\n")
 
   roc_glm$auc = calculateAUC(roc_glm)
-  roc_glm$ci = aucCI(connections, roc_glm)
+  roc_glm$ci = aucCI(connections, truth_name, pred_name, roc_glm)
   roc_glm$alpha = alpha
 
   class(roc_glm) = "ROC.GLM"

@@ -4,10 +4,15 @@
 \alias{aucCI}
 \title{Calculate CI for AUC}
 \usage{
-aucCI(connections, roc_glm, alpha = 0.05)
+aucCI(connections, truth_name, pred_name, roc_glm, alpha = 0.05)
 }
 \arguments{
 \item{connections}{(`DSI::connection`) Connection to an OPAL server.}
+
+\item{truth_name}{(`character(1L)`) Character containing the name of the vector of 0-1-values
+encoded as integer or numeric.}
+
+\item{pred_name}{(`character(1L)`) Character containing the name of the vector of probabilities.}
 
 \item{roc_glm}{(`list()`) List containing the ROC-GLM parameter returned from `dsROCGLM`.}
 

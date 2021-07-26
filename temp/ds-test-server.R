@@ -19,15 +19,15 @@ pkgs = c("ds.predict.base", "ds.calibration", "ds.roc.glm")
 for (pkg in pkgs) {
   check1 = opalr::dsadmin.install_github_package(opal = opal, pkg = pkg, username = "difuture-lmu")
   if (! check1)
-    warning("Was not able to install ", pkg, "!")
+    warning("[", Sys.time(), "] Was not able to install ", pkg, "!")
   else
-    message("Install package ", pkg, "!")
+    message("[", Sys.time(), "] Install package ", pkg, "!")
 
   check2 = opalr::dsadmin.publish_package(opal = opal, pkg = pkg)
   if (! check2)
-    stop("Was not able to publish methods of ", pkg, "!")
+    stop("[", Sys.time(), "] Was not able to publish methods of ", pkg, "!")
   else
-    message("Publish methods from ", pkg, "!")
+    message("[", Sys.time(), "] Publish methods from ", pkg, "!")
 }
 
 
@@ -84,10 +84,10 @@ connections = datashield.login(logins = logindata, assign = TRUE)
 #  opts = list(ssl_verifyhost = 0, ssl_verifypeer=0))
 
 # test assignment:
-datashield.assign(connections, 'some.data', quote(c(1:10)))
+datashield.assign(connections, 'D_new', quote(removeMissings("D")))
 
 # test aggregate:
-datashield.aggregate(connections, expr = quote(NROW(D)))
+datashield.aggregate(connections, expr = quote(NROW(D_new)))
 
 ### Get available tables:
 datashield.symbols(connections)
@@ -102,7 +102,7 @@ pushObject(connections, mod)
 datashield.symbols(connections)
 
 ### Predict uploaded model on server data. Scores are stored in an object called `pred`:
-predictModel(connections, mod, "pred", "D", predict_fun = "predict(mod, newdata = D, type = 'response')")
+predictModel(connections, mod, "pred", "D_new", predict_fun = "predict(mod, newdata = D, type = 'response')")
 
 ### The `pred` object is later used for the ROC-GLM.
 
@@ -115,7 +115,7 @@ datashield.symbols(connections)
 ## ========================================
 
 ### Now, calculate ROC-GLM:
-roc_glm = dsROCGLM(connections, "D$DIS_DIAB", "pred")
+roc_glm = dsROCGLM(connections, "D_new$DIS_DIAB", "pred")
 roc_glm
 
 truth_name = "D$DIS_DIAB[-1]"

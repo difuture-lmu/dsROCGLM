@@ -2,14 +2,17 @@
 #' @title Calculate CI for AUC
 #' @description This function calculates a CI for the AUC based on the approach proposed by DeLong.
 #' @param connections (`DSI::connection`) Connection to an OPAL server.
+#' @param truth_name (`character(1L)`) Character containing the name of the vector of 0-1-values
+#'   encoded as integer or numeric.
+#' @param pred_name (`character(1L)`) Character containing the name of the vector of probabilities.
 #' @param roc_glm (`list()`) List containing the ROC-GLM parameter returned from `dsROCGLM`.
 #' @param alpha (`numeric(1L)`) Significance level alpha (default is `0.05`).
 #' @return Numeric vector with two values containing the boundaries of the confidence interval.
 #' @author Daniel S.
 #' @export
-aucCI = function(connections, roc_glm, alpha = 0.05) {
-  n_scores = DSI::datashield.aggregate(connections, "getNegativeScores(\"D$gender\", \"pred\")")
-  p_scores = DSI::datashield.aggregate(connections, "getPositiveScores(\"D$gender\", \"pred\")")
+aucCI = function(connections, truth_name, pred_name, roc_glm, alpha = 0.05) {
+  n_scores = DSI::datashield.aggregate(connections, "getNegativeScores(\"", truth_name, "\", \"", pred_name, "\")")
+  p_scores = DSI::datashield.aggregate(connections, "getPositiveScores(\"", truth_name, "\", \"", pred_name, "\")")
 
   auc = calculateAUC(roc_glm)
 
