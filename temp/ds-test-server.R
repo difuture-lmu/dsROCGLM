@@ -1,15 +1,18 @@
 ## SETUP
 ## ============================================
 
+base_dir = here::here()
+surl     = "https://opal-demo.obiba.org/"
+username = "administrator"
+password = "password"
+
+
+## Install packages on local machine:
 client_pkgs = c("DSI", "DSOpal", "dsBaseClient")
 install.packages(client_pkgs, repos = c(getOption("repos"), "https://cran.obiba.org"))
 
 knitr::kable(installed.packages()[client_pkgs, c("Version", "Built")])
 
-base_dir = here::here()
-surl     = "https://opal-demo.obiba.org/"
-username = "administrator"
-password = "password"
 
 ## Install packages on test server:
 opal = opalr::opal.login(username = username, password = password, url = surl)
@@ -87,6 +90,7 @@ connections = datashield.login(logins = logindata, assign = TRUE)
 datashield.assign(connections, 'D_new', quote(removeMissings("D")))
 
 # test aggregate:
+datashield.aggregate(connections, expr = quote(NROW(D)))
 datashield.aggregate(connections, expr = quote(NROW(D_new)))
 
 ### Get available tables:
