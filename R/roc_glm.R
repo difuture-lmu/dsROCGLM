@@ -64,7 +64,7 @@ dsProbitRegr = function(connections, formula, data, w = NULL, stop_tol = 1e-8, i
 
     iter = iter + 1L
 
-    if (trace) cat("Deviance of iter", iter, "=", round(dev, digits = 4L), "\n")
+    if (trace) cat("[", Sys.time(), "] Deviance of iter", iter, "=", round(dev, digits = 4L), "\n")
 
     stop_crit = abs(dev - dev_old) / (abs(dev) + 0.1)
     if (stop_crit < stop_tol) {
@@ -96,37 +96,37 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
   checkmate::assertLogical(trace, len = 1L, any.missing = FALSE, null.ok = FALSE)
   checkmate::assertLogical(clean_server, len = 1L, any.missing = FALSE, null.ok = FALSE)
 
-  if (trace) cat("\nInitializing ROC-GLM\n\n> Host: Received scores of negative response\n\n\n")
+  if (trace) cat("\n[", Sys.time(), "] Initializing ROC-GLM\n\n[", Sys.time(), "] Host: Received scores of negative response\n\n\n")
 
   ## Checks are included in "getNegativeScores":
   n_scores = DSI::datashield.aggregate(conns = connections, paste0("getNegativeScores(\"", truth_name,
     "\", \"", pred_name, "\")"))
   pooled_scores = Reduce("c", n_scores)
 
-  if (trace) cat("> Host: Pushing pooled scores\n")
+  if (trace) cat("[", Sys.time(), "] Host: Pushing pooled scores\n")
 
   ds.predict.base::pushObject(connections, pooled_scores)
 
-  if (trace) cat("> Server: Calculating placement values and parts for ROC-GLM\n")
+  if (trace) cat("[", Sys.time(), "] Server: Calculating placement values and parts for ROC-GLM\n")
 
   cq = NULL # Dummy for checks
   eval(parse(text = paste0("cq = quote(", paste0("rocGLMFrame(\"", truth_name, "\",\"",
     pred_name, "\", \"pooled_scores\")"), ")")))
   DSI::datashield.assign(connections, "roc_data", cq)
 
-  if (trace) cat("> Server: Calculating probit regression to obtain ROC-GLM\n")
+  if (trace) cat("[", Sys.time(), "] Server: Calculating probit regression to obtain ROC-GLM\n")
   roc_glm = dsProbitRegr(connections, "y ~ x", "roc_data", w = "w", trace = TRUE)
 
-  if (trace) cat("> Host: Finished calculating ROC-GLM\n")
+  if (trace) cat("[", Sys.time(), "] Host: Finished calculating ROC-GLM\n")
 
   ## Clean server objects:
   if (clean_server) {
-    if (trace) cat("> Host: Cleaning data on server\n")
+    if (trace) cat("[", Sys.time(), "] Host: Cleaning data on server\n")
     DSI::datashield.rm(connections, "pooled_scores")
     DSI::datashield.rm(connections, "roc_data")
   }
 
-  if (trace) cat("> Host: Calculating AUC and CI\n")
+  if (trace) cat("[", Sys.time(), "] Host: Calculating AUC and CI\n")
 
   roc_glm$auc = calculateAUC(roc_glm)
   roc_glm$ci = aucCI(connections, roc_glm)
@@ -134,7 +134,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
 
   class(roc_glm) = "ROC.GLM"
 
-  if (trace) cat("Finished!\n\n")
+  if (trace) cat("[", Sys.time(), "] Finished!\n\n")
 
   return(roc_glm)
 }
