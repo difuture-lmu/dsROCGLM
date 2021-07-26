@@ -54,14 +54,14 @@ checkTruthProb = function(truth_name, prob_name, pos = NULL) {
 #' @export
 getPositiveScores = function(truth_name, prob_name, lag = 4L, ntimes = 2L) {
   df_pred = checkTruthProb(truth_name, prob_name)
-  checkmate::assertCount(nn, na.ok = FALSE, positive = TRUE)
+  checkmate::assertCount(lag, na.ok = FALSE, positive = TRUE)
   checkmate::assertCount(ntimes, na.ok = FALSE, positive = TRUE)
 
   truth = df_pred$truth
   prob  = df_pred$prob
 
   pv  = prob[truth == 1]
-  sde = ntimes * sd(diff(nv, lag = nn))
+  sde = ntimes * sd(diff(nv, lag = lag))
 
   return(rnorm(n = length(pv), mean = pv, sd = sde))
 }
@@ -80,14 +80,14 @@ getPositiveScores = function(truth_name, prob_name, lag = 4L, ntimes = 2L) {
 #' @export
 getNegativeScores = function(truth_name, prob_name, lag = 4L, ntimes = 2L) {
   df_pred = checkTruthProb(truth_name, prob_name)
-  checkmate::assertCount(nn, na.ok = FALSE, positive = TRUE)
+  checkmate::assertCount(lag, na.ok = FALSE, positive = TRUE)
   checkmate::assertCount(ntimes, na.ok = FALSE, positive = TRUE)
 
   truth = df_pred$truth
   prob  = df_pred$prob
 
   nv  = prob[truth == 0]
-  sde = ntimes * sd(diff(nv, lag = nn))
+  sde = ntimes * sd(diff(nv, lag = lag))
 
   return(rnorm(n = length(nv), mean = nv, sd = sde))
 }
