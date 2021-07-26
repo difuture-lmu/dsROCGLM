@@ -61,7 +61,7 @@ getPositiveScores = function(truth_name, prob_name, lag = 4L, ntimes = 2L) {
   prob  = df_pred$prob
 
   pv  = prob[truth == 1]
-  sde = ntimes * sd(diff(nv, lag = lag))
+  sde = ntimes * sd(diff(pv, lag = lag))
 
   return(rnorm(n = length(pv), mean = pv, sd = sde))
 }
