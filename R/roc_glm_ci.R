@@ -19,7 +19,7 @@ aucCI = function(connections, truth_name, pred_name, roc_glm, alpha = 0.05, lag 
   ## Get sd of differences:
   ssd_neg = DSI::datashield.aggregate(connections, paste0("getNegativeScoresVar(\"", truth_name,
     "\", \"", pred_name, "\", ", lag, ")"))
-  n_neg   = sum((1 - mns$Mean.by.Study[,"Ntotal"]) * mns$Mean.by.Study[, "EstimatedMean"])
+  n_neg   = sum(mns$Mean.by.Study[,"Ntotal"] * (1 - mns$Mean.by.Study[, "EstimatedMean"]))
   sdd_neg = 1 / (n - 1) * sum(unlist(ssd))
 
   ssd_pos = DSI::datashield.aggregate(connections, paste0("getPositiveScoresVar(\"", truth_name,

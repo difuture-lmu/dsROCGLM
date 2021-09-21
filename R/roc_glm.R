@@ -106,7 +106,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
   ssd = DSI::datashield.aggregate(connections, paste0("getNegativeScoresVar(\"", truth_name,
     "\", \"", pred_name, "\", ", lag, ")"))
   mns = ds.mean(truth_name)
-  n   = sum((1 - mns$Mean.by.Study[,"Ntotal"]) * mns$Mean.by.Study[, "EstimatedMean"])
+  n   = sum((mns$Mean.by.Study[,"Ntotal"] * 1 - mns$Mean.by.Study[, "EstimatedMean"]))
 
   sdd = 1 / (n - 1) * sum(unlist(ssd))
 
