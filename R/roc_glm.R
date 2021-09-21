@@ -62,7 +62,7 @@ dsProbitRegr = function(connections, formula, data, w = NULL, stop_tol = 1e-8, i
 
     iter = iter + 1L
 
-    if (trace) message("[", Sys.time(), "] Deviance of iter", iter, "=", round(dev, digits = 4L), "\n")
+    if (trace) message("[", Sys.time(), "] Deviance of iter", iter, "=", round(dev, digits = 4L))
 
     stop_crit = abs(dev - dev_old) / (abs(dev) + 0.1)
     if (stop_crit < stop_tol) {
@@ -97,45 +97,50 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
   checkmate::assertLogical(trace, len = 1L, any.missing = FALSE, null.ok = FALSE)
   checkmate::assertLogical(clean_server, len = 1L, any.missing = FALSE, null.ok = FALSE)
 
-  if (trace) message("\n[", Sys.time(), "] Initializing ROC-GLM\n\n[", Sys.time(), "] Host: Received scores of negative response\n\n\n")
+  if (trace) message("\n[", Sys.time(), "] Initializing ROC-GLM\n\n[", Sys.time(), "] Host: Received scores of negative response\n")
 
+
+  if (trace) message("[", Sys.time(), "] Calculating standard deviation of differneces")
 
   ## Get sd of differences:
-  ssd = DSI::datashield.aggregate(connections, paste0("getNegativeScoresVar(\"", truth_name, "\", \", ", pred_name, "\", ", lag, ")"))
+  ssd = DSI::datashield.aggregate(connections, paste0("getNegativeScoresVar(\"", truth_name,
+    "\", \", ", pred_name, "\", ", lag, ")"))
   n   = ds.dim("D")
   n   = n[[grep("combined", names(n))]][1]
 
   sdd = 1 / (n - 1) * sum(unlist(ssd))
+
+  if (trace) message("[", Sys.time(), "] Receiving negative scores")
 
   ## Checks are included in "getNegativeScores":
   n_scores = DSI::datashield.aggregate(conns = connections, paste0("getNegativeScores(\"", truth_name,
     "\", \"", pred_name, "\", ", sdd, ", ", ntimes, ")"))
   pooled_scores = Reduce("c", n_scores)
 
-  if (trace) message("[", Sys.time(), "] Host: Pushing pooled scores\n")
+  if (trace) message("[", Sys.time(), "] Host: Pushing pooled scores")
 
   ds.predict.base::pushObject(connections, pooled_scores)
 
-  if (trace) message("[", Sys.time(), "] Server: Calculating placement values and parts for ROC-GLM\n")
+  if (trace) message("[", Sys.time(), "] Server: Calculating placement values and parts for ROC-GLM")
 
   cq = NULL # Dummy for checks
   eval(parse(text = paste0("cq = quote(", paste0("rocGLMFrame(\"", truth_name, "\",\"",
     pred_name, "\", \"pooled_scores\")"), ")")))
   DSI::datashield.assign(connections, "roc_data", cq)
 
-  if (trace) message("[", Sys.time(), "] Server: Calculating probit regression to obtain ROC-GLM\n")
+  if (trace) message("[", Sys.time(), "] Server: Calculating probit regression to obtain ROC-GLM")
   roc_glm = dsProbitRegr(connections, "y ~ x", "roc_data", w = "w", trace = TRUE)
 
-  if (trace) message("[", Sys.time(), "] Host: Finished calculating ROC-GLM\n")
+  if (trace) message("[", Sys.time(), "] Host: Finished calculating ROC-GLM")
 
   ## Clean server objects:
   if (clean_server) {
-    if (trace) message("[", Sys.time(), "] Host: Cleaning data on server\n")
+    if (trace) message("[", Sys.time(), "] Host: Cleaning data on server")
     DSI::datashield.rm(connections, "pooled_scores")
     DSI::datashield.rm(connections, "roc_data")
   }
 
-  if (trace) message("[", Sys.time(), "] Host: Calculating AUC and CI\n")
+  if (trace) message("[", Sys.time(), "] Host: Calculating AUC and CI")
 
   roc_glm$auc = calculateAUC(roc_glm)
   roc_glm$ci = aucCI(connections, truth_name, pred_name, roc_glm)
@@ -143,7 +148,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
 
   class(roc_glm) = "ROC.GLM"
 
-  if (trace) message("[", Sys.time(), "] Finished!\n\n")
+  if (trace) message("[", Sys.time(), "] Finished!")
 
   return(roc_glm)
 }
