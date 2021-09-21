@@ -23,6 +23,8 @@ Remotes:
     difuture-lmu/ds.predict.base
 AggregateMethods:
     calculateDistrGLMParts,
+    getNegativeScoresVar,
+    getPositiveScoresVar,
     getNegativeScores,
     getPositiveScores
 AssignMethods:
