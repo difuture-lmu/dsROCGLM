@@ -58,7 +58,9 @@ getPositiveScoresVar = function(truth_name, prob_name, lag = 4L) {
   prob  = df_pred$prob
 
   pv  = prob[truth == 1]
-  return(var(diff(pv, lag = lag)))
+  dv  = diff(pv, lag = lag)
+
+  return(sum((dv - mean(dv))^2))
 }
 
 #'
@@ -82,7 +84,7 @@ getPositiveScores = function(truth_name, prob_name, sd_noise, ntimes = 2L) {
   prob  = df_pred$prob
 
   pv  = prob[truth == 1]
-  sde = ntimes * sd(diff(pv, lag = lag))
+  sde = ntimes * sd_noise
 
   return(rnorm(n = length(pv), mean = pv, sd = sde))
 }
@@ -106,7 +108,9 @@ getNegativeScoresVar = function(truth_name, prob_name, lag = 4L) {
   prob  = df_pred$prob
 
   nv  = prob[truth == 0]
-  return(var(diff(nv, lag = lag)))
+  dv  = diff(nv, lag = lag)
+
+  return(sum((dv - mean(dv))^2))
 }
 
 #'
