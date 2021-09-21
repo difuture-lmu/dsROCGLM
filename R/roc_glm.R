@@ -105,8 +105,8 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
   ## Get sd of differences:
   ssd = DSI::datashield.aggregate(connections, paste0("getNegativeScoresVar(\"", truth_name,
     "\", \"", pred_name, "\", ", lag, ")"))
-  n   = ds.dim("D")
-  n   = n[[grep("combined", names(n))]][1]
+  mns = ds.mean(truth_name)
+  n   = sum((1 - mns$Mean.by.Study[,"Ntotal"]) * mns$Mean.by.Study[, "EstimatedMean"])
 
   sdd = 1 / (n - 1) * sum(unlist(ssd))
 
