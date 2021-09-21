@@ -100,11 +100,11 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
   if (trace) message("\n[", Sys.time(), "] Initializing ROC-GLM\n\n[", Sys.time(), "] Host: Received scores of negative response\n")
 
 
-  if (trace) message("[", Sys.time(), "] Calculating standard deviation of differneces")
+  if (trace) message("[", Sys.time(), "] Calculating standard deviation of differences")
 
   ## Get sd of differences:
   ssd = DSI::datashield.aggregate(connections, paste0("getNegativeScoresVar(\"", truth_name,
-    "\", \", ", pred_name, "\", ", lag, ")"))
+    "\", \"", pred_name, "\", ", lag, ")"))
   n   = ds.dim("D")
   n   = n[[grep("combined", names(n))]][1]
 
