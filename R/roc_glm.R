@@ -99,9 +99,17 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
 
   if (trace) message("\n[", Sys.time(), "] Initializing ROC-GLM\n\n[", Sys.time(), "] Host: Received scores of negative response\n\n\n")
 
+
+  ## Get sd of differences:
+  ssd = DSI::datashield.aggregate(connections, paste0("getNegativeScoresVar(\"", truth_name, "\", \", ", pred_name, "\", ", lag, ")"))
+  n   = ds.dim("D")
+  n   = n[[grep("combined", names(n))]][1]
+
+  sdd = 1 / (n - 1) * sum(unlist(ssd))
+
   ## Checks are included in "getNegativeScores":
   n_scores = DSI::datashield.aggregate(conns = connections, paste0("getNegativeScores(\"", truth_name,
-    "\", \"", pred_name, "\", ", lag, ", ", ntimes, ")"))
+    "\", \"", pred_name, "\", ", sdd, ", ", ntimes, ")"))
   pooled_scores = Reduce("c", n_scores)
 
   if (trace) message("[", Sys.time(), "] Host: Pushing pooled scores\n")

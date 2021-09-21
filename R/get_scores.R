@@ -77,7 +77,7 @@ getPositiveScoresVar = function(truth_name, prob_name, lag = 4L) {
 #' @export
 getPositiveScores = function(truth_name, prob_name, sd_noise, ntimes = 2L) {
   df_pred = checkTruthProb(truth_name, prob_name)
-  checkmate::assertNumeric(sd_noise, na.ok = FALSE, lower = 0, len = 1L, any.missing = FALSE, null.ok = FALSE)
+  checkmate::assertNumeric(sd_noise, lower = 0, len = 1L, any.missing = FALSE, null.ok = FALSE)
   checkmate::assertCount(ntimes, na.ok = FALSE, positive = TRUE)
 
   truth = df_pred$truth
@@ -127,7 +127,7 @@ getNegativeScoresVar = function(truth_name, prob_name, lag = 4L) {
 #' @export
 getNegativeScores = function(truth_name, prob_name, sd_noise, ntimes = 2L) {
   df_pred = checkTruthProb(truth_name, prob_name)
-  checkmate::assertNumeric(sd_noise, na.ok = FALSE, lower = 0, len = 1L, any.missing = FALSE, null.ok = FALSE)
+  checkmate::assertNumeric(sd_noise, lower = 0, len = 1L, any.missing = FALSE, null.ok = FALSE)
   checkmate::assertCount(ntimes, na.ok = FALSE, positive = TRUE)
 
   truth = df_pred$truth
