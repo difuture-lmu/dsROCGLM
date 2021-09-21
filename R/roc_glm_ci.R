@@ -20,12 +20,12 @@ aucCI = function(connections, truth_name, pred_name, roc_glm, alpha = 0.05, lag 
   ssd_neg = DSI::datashield.aggregate(connections, paste0("getNegativeScoresVar(\"", truth_name,
     "\", \"", pred_name, "\", ", lag, ")"))
   n_neg   = sum(mns$Mean.by.Study[,"Ntotal"] * (1 - mns$Mean.by.Study[, "EstimatedMean"]))
-  sdd_neg = 1 / (n - 1) * sum(unlist(ssd))
+  sdd_neg = 1 / (n_neg - 1) * sum(unlist(ssd))
 
   ssd_pos = DSI::datashield.aggregate(connections, paste0("getPositiveScoresVar(\"", truth_name,
     "\", \"", pred_name, "\", ", lag, ")"))
   n_pos   = sum(mns$Mean.by.Study[,"Ntotal"] * mns$Mean.by.Study[, "EstimatedMean"])
-  sdd_pos = 1 / (n - 1) * sum(unlist(ssd))
+  sdd_pos = 1 / (n_pos - 1) * sum(unlist(ssd))
 
 
   n_scores = DSI::datashield.aggregate(connections, paste0("getNegativeScores(\"", truth_name, "\", \"",
