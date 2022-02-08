@@ -1,5 +1,6 @@
 #'
 #' @title Calculate Probit Regression on Server
+#'
 #' @description Distributed computing of the probit regression using DataSHIELD. The method gets the
 #'   parts required for the fisher scoring in each iteration and aggreagtes it to a global update.
 #'   Hence, the updating step is done at the analyst's machine while calculation of the required parts

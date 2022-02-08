@@ -26,7 +26,8 @@ AggregateMethods:
     getNegativeScoresVar,
     getPositiveScoresVar,
     getNegativeScores,
-    getPositiveScores
+    getPositiveScores,
+    l2sens
 AssignMethods:
     rocGLMFrame
 Options: datashield.privacyLevel=5
