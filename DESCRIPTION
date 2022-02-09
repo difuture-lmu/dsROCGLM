@@ -7,7 +7,7 @@ Authors@R:
         role = c("aut", "cre"),
         email = "daniel.schalk@stat.uni-muenchen.de"))
 Version: 0.0.1
-License: LGPL (=> 3)
+License: LGPL-3
 Description: ROC-GLM implementation for DataSHIELD.
 Depends:
     R (>= 3.1.0)
