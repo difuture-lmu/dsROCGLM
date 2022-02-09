@@ -7,18 +7,20 @@ Authors@R:
         role = c("aut", "cre"),
         email = "daniel.schalk@stat.uni-muenchen.de"))
 Version: 0.0.1
-License: LGPL-3
+License: LGPL (=> 3)
 Description: ROC-GLM implementation for DataSHIELD.
 Depends:
-    R (>= 3.1.0)
-Imports:
-    ds.predict.base,
-    checkmate,
+    R (>= 3.1.0),
     DSI,
+    DSOpal,
+    ds.predict.base
+Imports:
+    checkmate,
     stringr
 Suggests:
     ggplot2,
-    testthat
+    testthat,
+    opalr
 Remotes:
     difuture-lmu/ds.predict.base
 AggregateMethods:
