@@ -3,8 +3,8 @@
 #'
 #' @description Calculation of the l2 sensitivity using a histogram representetation.
 #'   Source: https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf
-#' @param dat (`data.frame()`) The data used to find adjacent inputs.
-#' @param scores (`numeric()`) Predicted scores/probabilities.
+#' @param dat_name (`character()`) Name of the data used to find adjacent inputs.
+#' @param scores_name (`character()`) Name of the predicted scores/probabilities.
 #' @param nbreaks (`integer(1L)`) Number of breaks used for the histogram
 #'   (default = nrow(dat) / 3).
 #' @param cols (`character()`) Subset of columns used to find adjacent inputs.
@@ -14,7 +14,15 @@
 #'   used to calculate the maximal l2 sensitivity, and the number of adjacent inputs.
 #' @author Daniel S.
 #' @export
-l2sens = function(dat, scores, nbreaks = NULL, cols = NULL, norm = diff) {
+l2sens = function(dat_name, scores_name, nbreaks = NULL, cols = NULL, norm = diff) {
+  checkmate::assertCharacter(dat_name, len = 1L)
+  checkmate::assertCharacter(scores_name, len = 1L)
+  checkmate::assertCharacter(cols, len = 1L)
+
+  dat = eval(parse(text = dat_name))
+  scores = eval(parse(text = scores_name))
+  cols = eval(parse(text = cols))
+
   checkmate::assertDataFrame(dat)
   checkmate::assertNumeric(scores, len = nrow(dat))
   checkmate::assertCount(nbreaks, null.ok = TRUE)
@@ -75,7 +83,7 @@ dsL2Sens = function(connections, D, pred_name, nbreaks = NULL, cols = NULL) {
   if (is.null(cols[1]))
     cnames = "NULL"
   else
-    cnames = paste0("c(", paste(paste0("\"", cols, "\""), collapse = ", "), ")")
+    cnames = paste0("'c(", paste(paste0("\"", cols, "\""), collapse = ", "), ")'")
 
   f = paste0("l2sens(\"", D, "\", \"", pred_name, "\", ", nbreaks, ", ", cnames, ")")
 
