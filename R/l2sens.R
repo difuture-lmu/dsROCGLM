@@ -77,8 +77,10 @@ dsL2Sens = function(connections, dat_name, pred_name, nbreaks = NULL, cols = NUL
   checkmate::assertCount(nbreaks, null.ok = TRUE)
   checkmate::assertCharacter(cols, null.ok = TRUE)
 
-  if (is.null(nbreaks))
-    nbreaks = "NULL"
+  if (is.null(nbreaks)) {
+    ntotal = ds.dim(dat_name, type = "combined", datasources = connections)
+    nbreaks = floor(ntotal[[1]][1] / 3)
+  }
 
   xXcols = cols
   pushObject(connections, xXcols)
