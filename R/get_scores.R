@@ -1,4 +1,19 @@
 #'
+#' @title Get a seed depending on an object
+#' @description This function creates a seed based on the hash of an object.
+#' @param object (`character(1L)`) Character containing the name of the object
+#'   to which the seed is bounded.
+#' @return Integer containing a seed.
+#' @author Daniel S.
+seedBoundedToObject = function(object) {
+  checkmate::assertCharacter(object, len = 1L)
+  a = digest::sha1(eval(parse(text = object)))
+  seed_add = as.integer(gsub("[^\\d]+", "", substr(a, 1, 9), perl = TRUE))
+  if (is.na(seed_add)) seed_add = 0
+  return(seed_add)
+}
+
+#'
 #' @title Truth and Prediction Checker
 #' @description This function checks if the vector of true values and predictions
 #'   has the correct format to be used for the ROC-GLM. If something does not suit,
@@ -73,13 +88,28 @@ getPositiveScoresVar = function(truth_name, prob_name) {
 #' @param prob_name (`character(1L)`) Character containing the name of the vector of probabilities.
 #' @param epsilon (`numeric(1L)`) Privacy parameter for differential privacy (DP).
 #' @param delta (`numeric(1L)`) Probability of violating epsilon DP.
+#' @param seed (`integer(1L)`) Base seed for the randomizer.
+#' @param seed_object (`character(1L)`) Name of an object which is used
+#'   to add a seed based on an object.
 #' @return Positive scores
 #' @author Daniel S.
 #' @export
-getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2) {
+getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2, seed = NULL, seed_object = NULL) {
+
   df_pred = checkTruthProb(truth_name, prob_name)
   checkmate::assertNumeric(epsilon, len = 1L, lower = 0, upper = 1)
   checkmate::assertNumeric(delta, len = 1L, lower = 0, upper = 1)
+
+  checkmate::assertCount(seed, null.ok = TRUE)
+  checkmate::assertCharacter(seed_object, null.ok = TRUE, len = 1L)
+
+  if (! is.null(seed)) {
+    s = seed
+    if (! is.null(seed_object))
+      s = s + seedBoundedToObject(seed_object)
+
+    set.seed(s)
+  }
 
   if (epsilon == 0) stop("Epsilon must be > 0")
   if (delta == 0) stop("Delta must be > 0")
@@ -134,14 +164,28 @@ getNegativeScoresVar = function(truth_name, prob_name) {
 #' @param prob_name (`character(1L)`) Character containing the name of the vector of probabilities.
 #' @param epsilon (`numeric(1L)`) Privacy parameter for differential privacy (DP).
 #' @param delta (`numeric(1L)`) Probability of violating epsilon DP.
+#' @param seed (`integer(1L)`) Base seed for the randomizer.
+#' @param seed_object (`character(1L)`) Name of an object which is used
+#'   to add a seed based on an object.
 #' @return Negative scores
 #' @author Daniel S.
 #' @export
-getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2) {
+getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2, seed = NULL, seed_object = NULL) {
   df_pred = checkTruthProb(truth_name, prob_name)
-
   checkmate::assertNumeric(epsilon, len = 1L, lower = 0, upper = 1)
   checkmate::assertNumeric(delta, len = 1L, lower = 0, upper = 1)
+
+  checkmate::assertCount(seed, null.ok = TRUE)
+  checkmate::assertCharacter(seed_object, null.ok = TRUE, len = 1L)
+
+  if (! is.null(seed)) {
+    s = seed
+    if (! is.null(seed_object))
+      s = s + seedBoundedToObject(seed_object)
+
+    set.seed(s)
+  }
+
 
   if (epsilon == 0) stop("Epsilon must be > 0")
   if (delta == 0) stop("Delta must be > 0")

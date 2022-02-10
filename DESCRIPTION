@@ -16,7 +16,8 @@ Imports:
     DSOpal,
     ds.predict.base,
     checkmate,
-    stringr
+    stringr,
+    digest
 Suggests:
     ggplot2,
     testthat,

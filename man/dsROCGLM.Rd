@@ -14,6 +14,8 @@ dsROCGLM(
   epsilon = 0.2,
   delta = 0.2,
   dat_name = "D",
+  seed = NULL,
+  seed_object = NULL,
   ...
 )
 }
@@ -37,6 +39,11 @@ be removed when the fitting is finished.}
 \item{delta}{(`numeric(1L)`) Probability of violating epsilon DP.}
 
 \item{dat_name}{(`character(1L)`) Name of the data set on the servers..}
+
+\item{seed}{(`integer(1L)`) Base seed for the randomizer.}
+
+\item{seed_object}{(`character(1L)`) Name of an object which is used
+to add a seed based on an object.}
 
 \item{...}{Additional arguments passed to `dsL2Sens` (connections and pred_name is already set).}
 }

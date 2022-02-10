@@ -4,7 +4,14 @@
 \alias{getNegativeScores}
 \title{Return negative scores}
 \usage{
-getNegativeScores(truth_name, prob_name, epsilon = 0.2, delta = 0.2)
+getNegativeScores(
+  truth_name,
+  prob_name,
+  epsilon = 0.2,
+  delta = 0.2,
+  seed = NULL,
+  seed_object = NULL
+)
 }
 \arguments{
 \item{truth_name}{(`character(1L)`) Character containing the name of the vector of 0-1-values
@@ -15,6 +22,11 @@ encoded as integer or numeric.}
 \item{epsilon}{(`numeric(1L)`) Privacy parameter for differential privacy (DP).}
 
 \item{delta}{(`numeric(1L)`) Probability of violating epsilon DP.}
+
+\item{seed}{(`integer(1L)`) Base seed for the randomizer.}
+
+\item{seed_object}{(`character(1L)`) Name of an object which is used
+to add a seed based on an object.}
 }
 \value{
 Negative scores
