@@ -151,6 +151,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
 
   if (trace) message("[", Sys.time(), "] Host: Calculating AUC and CI")
 
+  if (seed == "NULL") seed = NULL
   roc_glm$auc = calculateAUC(roc_glm)
   roc_glm$ci = aucCI(connections, truth_name, pred_name, roc_glm, alpha = alpha,
     epsilon = epsilon, delta = delta, seed = seed, seed_object = seed_object)
