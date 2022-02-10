@@ -3,25 +3,25 @@
 #'
 #' @description Calculation of the l2 sensitivity using a histogram representetation.
 #'   Source: https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf
-#' @param dat_name (`character()`) Name of the data used to find adjacent inputs.
-#' @param scores_name (`character()`) Name of the predicted scores/probabilities.
+#' @param dat_name (`character(1)`) Name of the data used to find adjacent inputs.
+#' @param scores_name (`character(1)`) Name of the predicted scores/probabilities.
 #' @param nbreaks (`integer(1L)`) Number of breaks used for the histogram
 #'   (default = nrow(dat) / 3).
-#' @param cols (`character()`) Subset of columns used to find adjacent inputs.
+#' @param col_names (`character(1)`) Subset of columns used to find adjacent inputs.
 #' @param norm (`function()`) Function to calculate the differnece between the
 #'   scores of adjacent inputs (default = Euclidean norm).
 #' @return List with maximal l2 sensitivity, indices of inputs that are
 #'   used to calculate the maximal l2 sensitivity, and the number of adjacent inputs.
 #' @author Daniel S.
 #' @export
-l2sens = function(dat_name, scores_name, nbreaks = NULL, cols = NULL, norm = diff) {
+l2sens = function(dat_name, scores_name, nbreaks = NULL, col_names = NULL, norm = diff) {
   checkmate::assertCharacter(dat_name, len = 1L)
   checkmate::assertCharacter(scores_name, len = 1L)
-  checkmate::assertCharacter(cols, len = 1L)
+  checkmate::assertCharacter(col_names, len = 1L, null.ok = TRUE)
 
   dat = eval(parse(text = dat_name))
   scores = eval(parse(text = scores_name))
-  cols = eval(parse(text = cols))
+  cols = eval(parse(text = col_names))
 
   checkmate::assertDataFrame(dat)
   checkmate::assertNumeric(scores, len = nrow(dat))
@@ -80,16 +80,14 @@ dsL2Sens = function(connections, D, pred_name, nbreaks = NULL, cols = NULL) {
   if (is.null(nbreaks))
     nbreaks = "NULL"
 
-  if (is.null(cols[1]))
-    cnames = "NULL"
-  else
-    cnames = paste0("'c(", paste(paste0("\"", cols, "\""), collapse = ", "), ")'")
-
-  f = paste0("l2sens(\"", D, "\", \"", pred_name, "\", ", nbreaks, ", ", cnames, ")")
+  xXcols = cols
+  pushObject(connections, xXcols)
+  f = paste0("l2sens(\"", D, "\", \"", pred_name, "\", ", nbreaks, ", \"xXcols\")")
 
   ll_l2s = DSI::datashield.aggregate(conns = connections, f)
   l2s = as.data.frame(do.call(rbind, lapply(ll_l2s, function(x) {
     c(l2s = x$l2sens, l1n = x$l1n)
   })))
+  ds.rm("xXcols", connections)
   return(max(l2s$l2s[which.min(l2s$l1n)]))
 }
