@@ -97,7 +97,7 @@ getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2) 
   prob  = df_pred$prob
 
   pv  = prob[truth == 1]
-  sde = sqrt(2 * log(1.25 / delta)) * l2s$l2sens / epsilon
+  sde = sqrt(2 * log(1.25 / delta)) * l2s / epsilon
 
   return(rnorm(n = length(pv), mean = pv, sd = sde))
 }
@@ -162,7 +162,7 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2) 
   prob  = df_pred$prob
 
   nv  = prob[truth == 0]
-  sde = sqrt(2 * log(1.25 / delta)) * l2s$l2sens / epsilon
+  sde = sqrt(2 * log(1.25 / delta)) * l2s / epsilon
 
   return(rnorm(n = length(nv), mean = nv, sd = sde))
 }
