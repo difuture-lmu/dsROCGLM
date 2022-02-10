@@ -71,8 +71,8 @@ l2sens = function(dat_name, scores_name, nbreaks = NULL, col_names = NULL, norm 
 #'   used to calculate the maximal l2 sensitivity, and the number of adjacent inputs.
 #' @author Daniel S.
 #' @export
-dsL2Sens = function(connections, D, pred_name, nbreaks = NULL, cols = NULL) {
-  checkmate::assertCharacter(D, len = 1L)
+dsL2Sens = function(connections, dat_name, pred_name, nbreaks = NULL, cols = NULL) {
+  checkmate::assertCharacter(dat_name, len = 1L)
   checkmate::assertCharacter(pred_name, len = 1L)
   checkmate::assertCount(nbreaks, null.ok = TRUE)
   checkmate::assertCharacter(cols, null.ok = TRUE)
@@ -82,7 +82,7 @@ dsL2Sens = function(connections, D, pred_name, nbreaks = NULL, cols = NULL) {
 
   xXcols = cols
   pushObject(connections, xXcols)
-  f = paste0("l2sens(\"", D, "\", \"", pred_name, "\", ", nbreaks, ", \"xXcols\")")
+  f = paste0("l2sens(\"", dat_name, "\", \"", pred_name, "\", ", nbreaks, ", \"xXcols\")")
 
   ll_l2s = DSI::datashield.aggregate(conns = connections, f)
   l2s = as.data.frame(do.call(rbind, lapply(ll_l2s, function(x) {

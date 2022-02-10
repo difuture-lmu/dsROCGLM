@@ -87,16 +87,18 @@ dsProbitRegr = function(connections, formula, data, w = NULL, stop_tol = 1e-8, i
 #' @param clean_server (`logical(1L)`) Set to `TRUE` (default) if all temprary data stored on the server should
 #'   be removed when the fitting is finished.
 #' @param alpha (`numeric(1L)`) Significance level alpha for confidence interval (default is `0.05`).
-#' @param lag (`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.
-#' @param ntimes (`integer(1L)`) Times the standard deviation used for simulating noise added to the data.
+#' @param epsilon (`numeric(1L)`) Privacy parameter for differential privacy (DP).
+#' @param delta (`numeric(1L)`) Probability of violating epsilon DP.
+#' @param dat_name (`character(1L)`) Name of the data set on the servers..
 #' @param ... Additional arguments passed to `dsL2Sens` (connections and pred_name is already set).
 #' @return List with estimated parameter, number of iterations, and the deviance when the algorithm is stopped.
 #' @author Daniel S.
 #' @export
 dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_server = TRUE,
-  alpha = 0.05, epsilon = 0.2, delta = 0.2, ...) {
+  alpha = 0.05, epsilon = 0.2, delta = 0.2, dat_name = "D", ...) {
 
-  l2s = dsL2Sens(connections = connections, pred_name = pred_name,...)
+  checkmate::assertCharacter(dat_name, len = 1L)
+  l2s = dsL2Sens(connections = connections, dat_name = dat_name, pred_name = pred_name,...)
   if (trace)
     message("\n[", Sys.time(), "] L2 sensitivity is:", round(l2s, 3), "\n")
 

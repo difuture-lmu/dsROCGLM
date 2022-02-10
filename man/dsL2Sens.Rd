@@ -4,12 +4,10 @@
 \alias{dsL2Sens}
 \title{Calculate the l2 sensitivity on DataSHIELD servers}
 \usage{
-dsL2Sens(connections, D, pred_name, nbreaks = NULL, cols = NULL)
+dsL2Sens(connections, dat_name, pred_name, nbreaks = NULL, cols = NULL)
 }
 \arguments{
 \item{connections}{(`DSI::connection`) Connection to an OPAL server.}
-
-\item{D}{(`character(1)`) The name of the data at the DataSHIELD servers.}
 
 \item{pred_name}{(`character(1)`) Name of the prediction object at the DataSHIELD server.}
 
@@ -17,6 +15,8 @@ dsL2Sens(connections, D, pred_name, nbreaks = NULL, cols = NULL)
 (default = nrow(dat) / 3).}
 
 \item{cols}{(`character()`) Subset of columns used to find adjacent inputs.}
+
+\item{D}{(`character(1)`) The name of the data at the DataSHIELD servers.}
 }
 \value{
 List with maximal l2 sensitivity, indices of inputs that are
