@@ -9,14 +9,14 @@ dsL2Sens(connections, dat_name, pred_name, nbreaks = NULL, cols = NULL)
 \arguments{
 \item{connections}{(`DSI::connection`) Connection to an OPAL server.}
 
+\item{dat_name}{(`character(1)`) The name of the data at the DataSHIELD servers.}
+
 \item{pred_name}{(`character(1)`) Name of the prediction object at the DataSHIELD server.}
 
 \item{nbreaks}{(`integer(1L)`) Number of breaks used for the histogram
 (default = nrow(dat) / 3).}
 
 \item{cols}{(`character()`) Subset of columns used to find adjacent inputs.}
-
-\item{D}{(`character(1)`) The name of the data at the DataSHIELD servers.}
 }
 \value{
 List with maximal l2 sensitivity, indices of inputs that are

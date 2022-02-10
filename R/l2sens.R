@@ -62,7 +62,7 @@ l2sens = function(dat_name, scores_name, nbreaks = NULL, col_names = NULL, norm 
 #' @description Calculation of the l2 sensitivity using a histogram representetation.
 #'   Source: https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf
 #' @param connections (`DSI::connection`) Connection to an OPAL server.
-#' @param D (`character(1)`) The name of the data at the DataSHIELD servers.
+#' @param dat_name (`character(1)`) The name of the data at the DataSHIELD servers.
 #' @param pred_name (`character(1)`) Name of the prediction object at the DataSHIELD server.
 #' @param nbreaks (`integer(1L)`) Number of breaks used for the histogram
 #'   (default = nrow(dat) / 3).
