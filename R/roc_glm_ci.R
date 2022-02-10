@@ -28,20 +28,20 @@ aucCI = function(connections, truth_name, pred_name, roc_glm, alpha = 0.05, epsi
 
   ## Get sd of differences:
   ssd_neg = DSI::datashield.aggregate(connections, paste0("getNegativeScoresVar(\"", truth_name,
-    "\", \"", pred_name, ",", seed, ",", seed_object, "\")"))
+    "\", \"", pred_name, "\")"))
   n_neg   = sum(mns$Mean.by.Study[,"Ntotal"] * (1 - mns$Mean.by.Study[, "EstimatedMean"]))
   sdd_neg = 1 / (n_neg - 1) * sum(unlist(ssd_neg))
 
   ssd_pos = DSI::datashield.aggregate(connections, paste0("getPositiveScoresVar(\"", truth_name,
-    "\", \"", pred_name, ",", seed, ",", seed_object, "\")"))
+    "\", \"", pred_name, "\")"))
   n_pos   = sum(mns$Mean.by.Study[,"Ntotal"] * mns$Mean.by.Study[, "EstimatedMean"])
   sdd_pos = 1 / (n_pos - 1) * sum(unlist(ssd_pos))
 
 
   n_scores = DSI::datashield.aggregate(connections, paste0("getNegativeScores(\"", truth_name, "\", \"",
-    pred_name, "\", ", epsilon, ", ", delta, ")"))
+    pred_name, "\", ", epsilon, ", ", delta, ",", seed, ",", seed_object, ")"))
   p_scores = DSI::datashield.aggregate(connections, paste0("getPositiveScores(\"", truth_name, "\", \"",
-    pred_name, "\", ", epsilon, ", ", delta, ")"))
+    pred_name, "\", ", epsilon, ", ", delta, ",", seed, ",", seed_object, ")"))
 
   auc = calculateAUC(roc_glm)
 
