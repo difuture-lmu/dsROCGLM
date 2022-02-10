@@ -60,10 +60,8 @@ getPositiveScoresVar = function(truth_name, prob_name) {
   if (length(truth) < nfilter_privacy)
     stop("More than ", nfilter_privacy, " observations are required to ensure privacy!")
 
-  pv  = prob[truth == 1]
-  dv  = diff(pv, lag = lag)
-
-  return(sum((dv - mean(dv))^2))
+  pv = prob[truth == 1]
+  return(var(pv) * (length(pv) - 1))
 }
 
 #'
@@ -123,10 +121,8 @@ getNegativeScoresVar = function(truth_name, prob_name) {
   if (length(truth) < nfilter_privacy)
     stop("More than ", nfilter_privacy, " observations are required to ensure privacy!")
 
-  nv  = prob[truth == 0]
-  dv  = diff(nv, lag = lag)
-
-  return(sum((dv - mean(dv))^2))
+  nv = prob[truth == 0]
+  return(var(nv) * (length(nv) - 1))
 }
 
 #'
