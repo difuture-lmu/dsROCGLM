@@ -34,10 +34,10 @@ l2sens = function(dat_name, scores_name, nbreaks = NULL, col_names = NULL, norm 
   dtmp = dat[, cols, drop = FALSE]
   int_representation = do.call(cbind, lapply(dtmp, function(cl) {
     if (is.numeric(cl)) {
-      xh = hist(cl, plot = FALSE, breaks = nbreaks)$breaks
+      xh = graphics::hist(cl, plot = FALSE, breaks = nbreaks)$breaks
       return(vapply(cl, function(x) which.min(xh <= x) - 1, FUN.VALUE = numeric(1L)))
     } else {
-      return(model.matrix(~ 0 + cl))
+      return(stats::model.matrix(~ 0 + cl))
     }
   }))
   l1n = as.matrix(dist(int_representation, method = "manhattan"))

@@ -76,7 +76,7 @@ getPositiveScoresVar = function(truth_name, prob_name) {
     stop("More than ", nfilter_privacy, " observations are required to ensure privacy!")
 
   pv = prob[truth == 1]
-  return(var(pv) * (length(pv) - 1))
+  return(stats::var(pv) * (length(pv) - 1))
 }
 
 #'
@@ -127,7 +127,7 @@ getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2, 
   pv  = prob[truth == 1]
   sde = sqrt(2 * log(1.25 / delta)) * l2s / epsilon
 
-  return(rnorm(n = length(pv), mean = pv, sd = sde))
+  return(stats::rnorm(n = length(pv), mean = pv, sd = sde))
 }
 
 #'
@@ -152,7 +152,7 @@ getNegativeScoresVar = function(truth_name, prob_name) {
     stop("More than ", nfilter_privacy, " observations are required to ensure privacy!")
 
   nv = prob[truth == 0]
-  return(var(nv) * (length(nv) - 1))
+  return(stats::var(nv) * (length(nv) - 1))
 }
 
 #'
@@ -204,5 +204,5 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2, 
   nv  = prob[truth == 0]
   sde = sqrt(2 * log(1.25 / delta)) * l2s / epsilon
 
-  return(rnorm(n = length(nv), mean = nv, sd = sde))
+  return(stats::rnorm(n = length(nv), mean = nv, sd = sde))
 }
