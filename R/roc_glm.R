@@ -98,7 +98,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
 
   l2s = dsL2Sens(connections = connections, pred_name = pred_name,...)
   if (trace)
-    message("\n[", Sys.time(), "] L2 sensitivity is:", round(l2sens, 3), "\n")
+    message("\n[", Sys.time(), "] L2 sensitivity is:", round(l2s, 3), "\n")
 
   ds.predict.base::pushObject(connections, l2s)
 

@@ -80,8 +80,8 @@ getPositiveScoresVar = function(truth_name, prob_name) {
 #' @export
 getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2) {
   df_pred = checkTruthProb(truth_name, prob_name)
-  checkmate::assertNumeric(epsilon, na.ok = FALSE, len = 1L, lower = 0, upper = 1)
-  checkmate::assertNumeric(delta, na.ok = FALSE, len = 1L, lower = 0, upper = 1)
+  checkmate::assertNumeric(epsilon, len = 1L, lower = 0, upper = 1)
+  checkmate::assertNumeric(delta, len = 1L, lower = 0, upper = 1)
 
   if (epsilon == 0) stop("Epsilon must be > 0")
   if (delta == 0) stop("Delta must be > 0")
@@ -90,7 +90,7 @@ getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2) 
     stop("Cannot find l2 sensitivity. Please push an l2 sensitivity with name 'l2s' to the servers.")
 
   l2s = eval(parse(text = "l2s"))
-  assertNumeric(l2s, na.ok = FALSE, len = 1L, lower = 0)
+  assertNumeric(l2s, len = 1L, lower = 0)
   if (l2s == 0) stop("L2 sensitivity must be > 0")
 
   truth = df_pred$truth
@@ -144,8 +144,8 @@ getNegativeScoresVar = function(truth_name, prob_name) {
 getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2) {
   df_pred = checkTruthProb(truth_name, prob_name)
 
-  checkmate::assertNumeric(epsilon, na.ok = FALSE, len = 1L, lower = 0, upper = 1)
-  checkmate::assertNumeric(delta, na.ok = FALSE, len = 1L, lower = 0, upper = 1)
+  checkmate::assertNumeric(epsilon, len = 1L, lower = 0, upper = 1)
+  checkmate::assertNumeric(delta, len = 1L, lower = 0, upper = 1)
 
   if (epsilon == 0) stop("Epsilon must be > 0")
   if (delta == 0) stop("Delta must be > 0")
@@ -154,7 +154,7 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2) 
     stop("Cannot find l2 sensitivity. Please push an l2 sensitivity with name 'l2s' to the servers.")
 
   l2s = eval(parse(text = "l2s"))
-  assertNumeric(l2s, na.ok = FALSE, len = 1L, lower = 0)
+  assertNumeric(l2s, len = 1L, lower = 0)
   if (l2s == 0) stop("L2 sensitivity must be > 0")
 
 
