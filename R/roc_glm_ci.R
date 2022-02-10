@@ -7,38 +7,33 @@
 #' @param pred_name (`character(1L)`) Character containing the name of the vector of probabilities.
 #' @param roc_glm (`list()`) List containing the ROC-GLM parameter returned from `dsROCGLM`.
 #' @param alpha (`numeric(1L)`) Significance level alpha (default is `0.05`).
-#' @param lag (`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.
-#' @param ntimes (`integer(1L)`) Times the standard deviation used for simulating noise added to the data.
+#' @param epsilon (`numeric(1L)`) Privacy parameter for differential privacy (DP).
+#' @param delta (`numeric(1L)`) Probability of violating epsilon DP.
 #' @return Numeric vector with two values containing the boundaries of the confidence interval.
 #' @author Daniel S.
 #' @export
-aucCI = function(connections, truth_name, pred_name, roc_glm, alpha = 0.05, lag = 4L, ntimes = 2L) {
+aucCI = function(connections, truth_name, pred_name, roc_glm, alpha = 0.05, epsilon = 0.2, delta = 0.2) {
 
-  mns = ds.mean(truth_name)
+  mns = ds.mean(truth_name, datasources = connections)
 
   ## Get sd of differences:
   ssd_neg = DSI::datashield.aggregate(connections, paste0("getNegativeScoresVar(\"", truth_name,
-    "\", \"", pred_name, "\", ", lag, ")"))
+    "\", \"", pred_name, "\")"))
   n_neg   = sum(mns$Mean.by.Study[,"Ntotal"] * (1 - mns$Mean.by.Study[, "EstimatedMean"]))
   sdd_neg = 1 / (n_neg - 1) * sum(unlist(ssd_neg))
 
   ssd_pos = DSI::datashield.aggregate(connections, paste0("getPositiveScoresVar(\"", truth_name,
-    "\", \"", pred_name, "\", ", lag, ")"))
+    "\", \"", pred_name, "\")"))
   n_pos   = sum(mns$Mean.by.Study[,"Ntotal"] * mns$Mean.by.Study[, "EstimatedMean"])
   sdd_pos = 1 / (n_pos - 1) * sum(unlist(ssd_pos))
 
 
   n_scores = DSI::datashield.aggregate(connections, paste0("getNegativeScores(\"", truth_name, "\", \"",
-    pred_name, "\", ", sdd_neg, ", ", ntimes, ")"))
+    pred_name, "\", ", epsilon, ", ", delta, ")"))
   p_scores = DSI::datashield.aggregate(connections, paste0("getPositiveScores(\"", truth_name, "\", \"",
-    pred_name, "\", ", sdd_pos, ", ", ntimes, ")"))
+    pred_name, "\", ", epsilon, ", ", delta, ")"))
 
   auc = calculateAUC(roc_glm)
-
-  ### ???? Where is mod comming from? GlobalEnv?
-  ### ACTION: Remove -> check
-  #pred = stats::predict(mod, type = "response")
-  #data.frame(sort(n_scores[[1]]), sort(pred[dat$gender == 0]))
 
   pooled_n_scores = Reduce("c", n_scores)
   pooled_p_scores = Reduce("c", p_scores)

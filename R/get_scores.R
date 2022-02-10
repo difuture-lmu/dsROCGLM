@@ -46,16 +46,19 @@ checkTruthProb = function(truth_name, prob_name, pos = NULL) {
 #' @param truth_name (`character(1L)`) Character containing the name of the vector of 0-1-values
 #'   encoded as integer or numeric.
 #' @param prob_name (`character(1L)`) Character containing the name of the vector of probabilities.
-#' @param lag (`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.
 #' @return Variance of differences of positive scores
 #' @author Daniel S.
 #' @export
-getPositiveScoresVar = function(truth_name, prob_name, lag = 4L) {
+getPositiveScoresVar = function(truth_name, prob_name) {
   df_pred = checkTruthProb(truth_name, prob_name)
-  checkmate::assertCount(lag, na.ok = FALSE, positive = TRUE)
 
   truth = df_pred$truth
   prob  = df_pred$prob
+
+  ## Calculate brier score just if there are at least five or more values to ensure privacy:
+  nfilter_privacy = .getPrivacyLevel()
+  if (length(truth) < nfilter_privacy)
+    stop("More than ", nfilter_privacy, " observations are required to ensure privacy!")
 
   pv  = prob[truth == 1]
   dv  = diff(pv, lag = lag)
@@ -70,21 +73,31 @@ getPositiveScoresVar = function(truth_name, prob_name, lag = 4L) {
 #' @param truth_name (`character(1L)`) Character containing the name of the vector of 0-1-values
 #'   encoded as integer or numeric.
 #' @param prob_name (`character(1L)`) Character containing the name of the vector of probabilities.
-#' @param sd_noise (`numerical(1L)`) Standard deviation used to add noise to the return value.
-#' @param ntimes (`integer(1L)`) Times the standard deviation used for simulating noise added to the data.
+#' @param epsilon (`numeric(1L)`) Privacy parameter for differential privacy (DP).
+#' @param delta (`numeric(1L)`) Probability of violating epsilon DP.
 #' @return Positive scores
 #' @author Daniel S.
 #' @export
-getPositiveScores = function(truth_name, prob_name, sd_noise, ntimes = 2L) {
+getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2) {
   df_pred = checkTruthProb(truth_name, prob_name)
-  checkmate::assertNumeric(sd_noise, lower = 0, len = 1L, any.missing = FALSE, null.ok = FALSE)
-  checkmate::assertCount(ntimes, na.ok = FALSE, positive = TRUE)
+  checkmate::assertNumeric(epsilon, na.ok = FALSE, len = 1L, lower = 0, upper = 1)
+  checkmate::assertNumeric(delta, na.ok = FALSE, len = 1L, lower = 0, upper = 1)
+
+  if (epsilon == 0) stop("Epsilon must be > 0")
+  if (delta == 0) stop("Delta must be > 0")
+
+  if (! "l2s" %in% c(ls(envir = .GlobalEnv), ls()))
+    stop("Cannot find l2 sensitivity. Please push an l2 sensitivity with name 'l2s' to the servers.")
+
+  l2s = eval(parse(text = "l2s"))
+  assertNumeric(l2s, na.ok = FALSE, len = 1L, lower = 0)
+  if (l2s == 0) stop("L2 sensitivity must be > 0")
 
   truth = df_pred$truth
   prob  = df_pred$prob
 
   pv  = prob[truth == 1]
-  sde = ntimes * sd_noise
+  sde = sqrt(2 * log(1.25 / delta)) * l2s$l2sens / epsilon
 
   return(rnorm(n = length(pv), mean = pv, sd = sde))
 }
@@ -96,16 +109,19 @@ getPositiveScores = function(truth_name, prob_name, sd_noise, ntimes = 2L) {
 #' @param truth_name (`character(1L)`) Character containing the name of the vector of 0-1-values
 #'   encoded as integer or numeric.
 #' @param prob_name (`character(1L)`) Character containing the name of the vector of probabilities.
-#' @param lag (`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.
 #' @return Variance of differences of Negative scores
 #' @author Daniel S.
 #' @export
-getNegativeScoresVar = function(truth_name, prob_name, lag = 4L) {
+getNegativeScoresVar = function(truth_name, prob_name) {
   df_pred = checkTruthProb(truth_name, prob_name)
-  checkmate::assertCount(lag, na.ok = FALSE, positive = TRUE)
 
   truth = df_pred$truth
   prob  = df_pred$prob
+
+  ## Calculate brier score just if there are at least five or more values to ensure privacy:
+  nfilter_privacy = .getPrivacyLevel()
+  if (length(truth) < nfilter_privacy)
+    stop("More than ", nfilter_privacy, " observations are required to ensure privacy!")
 
   nv  = prob[truth == 0]
   dv  = diff(nv, lag = lag)
@@ -120,23 +136,33 @@ getNegativeScoresVar = function(truth_name, prob_name, lag = 4L) {
 #' @param truth_name (`character(1L)`) Character containing the name of the vector of 0-1-values
 #'   encoded as integer or numeric.
 #' @param prob_name (`character(1L)`) Character containing the name of the vector of probabilities.
-#' @param sd_noise (`numerical(1L)`) Standard deviation used to add noise to the return value.
-#' @param ntimes (`integer(1L)`) Times the standard deviation used for simulating noise added to the data.
+#' @param epsilon (`numeric(1L)`) Privacy parameter for differential privacy (DP).
+#' @param delta (`numeric(1L)`) Probability of violating epsilon DP.
 #' @return Negative scores
 #' @author Daniel S.
 #' @export
-getNegativeScores = function(truth_name, prob_name, sd_noise, ntimes = 2L) {
+getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2) {
   df_pred = checkTruthProb(truth_name, prob_name)
-  checkmate::assertNumeric(sd_noise, lower = 0, len = 1L, any.missing = FALSE, null.ok = FALSE)
-  checkmate::assertCount(ntimes, na.ok = FALSE, positive = TRUE)
+
+  checkmate::assertNumeric(epsilon, na.ok = FALSE, len = 1L, lower = 0, upper = 1)
+  checkmate::assertNumeric(delta, na.ok = FALSE, len = 1L, lower = 0, upper = 1)
+
+  if (epsilon == 0) stop("Epsilon must be > 0")
+  if (delta == 0) stop("Delta must be > 0")
+
+  if (! "l2s" %in% c(ls(envir = .GlobalEnv), ls()))
+    stop("Cannot find l2 sensitivity. Please push an l2 sensitivity with name 'l2s' to the servers.")
+
+  l2s = eval(parse(text = "l2s"))
+  assertNumeric(l2s, na.ok = FALSE, len = 1L, lower = 0)
+  if (l2s == 0) stop("L2 sensitivity must be > 0")
+
 
   truth = df_pred$truth
   prob  = df_pred$prob
 
   nv  = prob[truth == 0]
-  sde = ntimes * sd_noise
+  sde = sqrt(2 * log(1.25 / delta)) * l2s$l2sens / epsilon
 
   return(rnorm(n = length(nv), mean = nv, sd = sde))
 }
-
-

@@ -89,33 +89,31 @@ dsProbitRegr = function(connections, formula, data, w = NULL, stop_tol = 1e-8, i
 #' @param alpha (`numeric(1L)`) Significance level alpha for confidence interval (default is `0.05`).
 #' @param lag (`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.
 #' @param ntimes (`integer(1L)`) Times the standard deviation used for simulating noise added to the data.
+#' @param ... Additional arguments passed to `dsL2Sens` (connections and pred_name is already set).
 #' @return List with estimated parameter, number of iterations, and the deviance when the algorithm is stopped.
 #' @author Daniel S.
 #' @export
 dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_server = TRUE,
-  alpha = 0.05, lag = 4L, ntimes = 2L) {
+  alpha = 0.05, epsilon = 0.2, delta = 0.2, ...) {
+
+  l2s = dsL2Sens(connections = connections, pred_name = pred_name,...)
+  if (trace)
+    message("\n[", Sys.time(), "] L2 sensitivity is:", round(l2sens, 3), "\n")
+
+  ds.predict.base::pushObject(connections, l2s)
 
   checkmate::assertLogical(trace, len = 1L, any.missing = FALSE, null.ok = FALSE)
   checkmate::assertLogical(clean_server, len = 1L, any.missing = FALSE, null.ok = FALSE)
 
-  if (trace) message("\n[", Sys.time(), "] Initializing ROC-GLM\n\n[", Sys.time(), "] Host: Received scores of negative response\n")
-
-
-  if (trace) message("[", Sys.time(), "] Calculating standard deviation of differences")
-
-  ## Get sd of differences:
-  ssd = DSI::datashield.aggregate(connections, paste0("getNegativeScoresVar(\"", truth_name,
-    "\", \"", pred_name, "\", ", lag, ")"))
-  mns = ds.mean(truth_name)
-  n   = sum((mns$Mean.by.Study[,"Ntotal"] * 1 - mns$Mean.by.Study[, "EstimatedMean"]))
-
-  sdd = 1 / (n - 1) * sum(unlist(ssd))
+  if (trace)
+    message("\n[", Sys.time(), "] Initializing ROC-GLM\n\n[", Sys.time(),
+      "] Host: Received scores of negative response\n")
 
   if (trace) message("[", Sys.time(), "] Receiving negative scores")
 
   ## Checks are included in "getNegativeScores":
   n_scores = DSI::datashield.aggregate(conns = connections, paste0("getNegativeScores(\"", truth_name,
-    "\", \"", pred_name, "\", ", sdd, ", ", ntimes, ")"))
+    "\", \"", pred_name, "\", ", epsilon, ", ", delta, ")"))
   pooled_scores = Reduce("c", n_scores)
 
   if (trace) message("[", Sys.time(), "] Host: Pushing pooled scores")
@@ -144,7 +142,8 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
   if (trace) message("[", Sys.time(), "] Host: Calculating AUC and CI")
 
   roc_glm$auc = calculateAUC(roc_glm)
-  roc_glm$ci = aucCI(connections, truth_name, pred_name, roc_glm)
+  roc_glm$ci = aucCI(connections, truth_name, pred_name, roc_glm, alpha = alpha,
+    epsilon = epsilon, delta = delta)
   roc_glm$alpha = alpha
 
   class(roc_glm) = "ROC.GLM"

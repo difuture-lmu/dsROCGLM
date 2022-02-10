@@ -4,15 +4,13 @@
 \alias{getPositiveScoresVar}
 \title{Return variance of score differneces}
 \usage{
-getPositiveScoresVar(truth_name, prob_name, lag = 4L)
+getPositiveScoresVar(truth_name, prob_name)
 }
 \arguments{
 \item{truth_name}{(`character(1L)`) Character containing the name of the vector of 0-1-values
 encoded as integer or numeric.}
 
 \item{prob_name}{(`character(1L)`) Character containing the name of the vector of probabilities.}
-
-\item{lag}{(`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.}
 }
 \value{
 Variance of differences of positive scores

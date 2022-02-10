@@ -11,8 +11,9 @@ dsROCGLM(
   trace = TRUE,
   clean_server = TRUE,
   alpha = 0.05,
-  lag = 4L,
-  ntimes = 2L
+  epsilon = 0.2,
+  delta = 0.2,
+  ...
 )
 }
 \arguments{
@@ -29,6 +30,8 @@ encoded as integer or numeric.}
 be removed when the fitting is finished.}
 
 \item{alpha}{(`numeric(1L)`) Significance level alpha for confidence interval (default is `0.05`).}
+
+\item{...}{Additional arguments passed to `dsL2Sens` (connections and pred_name is already set).}
 
 \item{lag}{(`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.}
 

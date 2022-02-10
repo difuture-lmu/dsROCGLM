@@ -4,17 +4,17 @@
 \alias{l2sens}
 \title{Calculate the l2 sensitivity}
 \usage{
-l2sens(dat, scores, nbreaks = NULL, cols = NULL, norm = diff)
+l2sens(dat_name, scores_name, nbreaks = NULL, col_names = NULL, norm = diff)
 }
 \arguments{
-\item{dat}{(`data.frame()`) The data used to find adjacent inputs.}
+\item{dat_name}{(`character(1)`) Name of the data used to find adjacent inputs.}
 
-\item{scores}{(`numeric()`) Predicted scores/probabilities.}
+\item{scores_name}{(`character(1)`) Name of the predicted scores/probabilities.}
 
 \item{nbreaks}{(`integer(1L)`) Number of breaks used for the histogram
 (default = nrow(dat) / 3).}
 
-\item{cols}{(`character()`) Subset of columns used to find adjacent inputs.}
+\item{col_names}{(`character(1)`) Subset of columns used to find adjacent inputs.}
 
 \item{norm}{(`function()`) Function to calculate the differnece between the
 scores of adjacent inputs (default = Euclidean norm).}

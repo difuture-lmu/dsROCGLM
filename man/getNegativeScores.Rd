@@ -4,7 +4,7 @@
 \alias{getNegativeScores}
 \title{Return negative scores}
 \usage{
-getNegativeScores(truth_name, prob_name, sd_noise, ntimes = 2L)
+getNegativeScores(truth_name, prob_name, epsilon = 0.2, delta = 0.2)
 }
 \arguments{
 \item{truth_name}{(`character(1L)`) Character containing the name of the vector of 0-1-values
@@ -12,9 +12,9 @@ encoded as integer or numeric.}
 
 \item{prob_name}{(`character(1L)`) Character containing the name of the vector of probabilities.}
 
-\item{sd_noise}{(`numerical(1L)`) Standard deviation used to add noise to the return value.}
+\item{epsilon}{(`numeric(1L)`) Privacy parameter for differential privacy (DP).}
 
-\item{ntimes}{(`integer(1L)`) Times the standard deviation used for simulating noise added to the data.}
+\item{delta}{(`numeric(1L)`) Probability of violating epsilon DP.}
 }
 \value{
 Negative scores

@@ -10,8 +10,8 @@ aucCI(
   pred_name,
   roc_glm,
   alpha = 0.05,
-  lag = 4L,
-  ntimes = 2L
+  epsilon = 0.2,
+  delta = 0.2
 )
 }
 \arguments{
@@ -26,9 +26,9 @@ encoded as integer or numeric.}
 
 \item{alpha}{(`numeric(1L)`) Significance level alpha (default is `0.05`).}
 
-\item{lag}{(`integer(1L)`) Lag to the next neighbours considered for calculating the standard deviation of the noise.}
+\item{epsilon}{(`numeric(1L)`) Privacy parameter for differential privacy (DP).}
 
-\item{ntimes}{(`integer(1L)`) Times the standard deviation used for simulating noise added to the data.}
+\item{delta}{(`numeric(1L)`) Probability of violating epsilon DP.}
 }
 \value{
 Numeric vector with two values containing the boundaries of the confidence interval.
