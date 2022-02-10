@@ -100,7 +100,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
   checkmate::assertCharacter(dat_name, len = 1L)
   l2s = dsL2Sens(connections = connections, dat_name = dat_name, pred_name = pred_name,...)
   if (trace)
-    message("\n[", Sys.time(), "] L2 sensitivity is:", round(l2s, 3), "\n")
+    message("\n[", Sys.time(), "] L2 sensitivity is: ", round(l2s, 8), "\n")
 
   ds.predict.base::pushObject(connections, l2s)
 

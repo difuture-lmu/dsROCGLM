@@ -90,7 +90,7 @@ getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2) 
     stop("Cannot find l2 sensitivity. Please push an l2 sensitivity with name 'l2s' to the servers.")
 
   l2s = eval(parse(text = "l2s"))
-  assertNumeric(l2s, len = 1L, lower = 0)
+  checkmate::assertNumeric(l2s, len = 1L, lower = 0)
   if (l2s == 0) stop("L2 sensitivity must be > 0")
 
   truth = df_pred$truth
@@ -154,7 +154,7 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2) 
     stop("Cannot find l2 sensitivity. Please push an l2 sensitivity with name 'l2s' to the servers.")
 
   l2s = eval(parse(text = "l2s"))
-  assertNumeric(l2s, len = 1L, lower = 0)
+  checkmate::assertNumeric(l2s, len = 1L, lower = 0)
   if (l2s == 0) stop("L2 sensitivity must be > 0")
 
 
