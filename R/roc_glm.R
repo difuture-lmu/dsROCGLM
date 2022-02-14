@@ -90,7 +90,6 @@ dsProbitRegr = function(connections, formula, data, w = NULL, stop_tol = 1e-8, i
 #' @param epsilon (`numeric(1L)`) Privacy parameter for differential privacy (DP).
 #' @param delta (`numeric(1L)`) Probability of violating epsilon DP.
 #' @param dat_name (`character(1L)`) Name of the data set on the servers..
-#' @param seed (`integer(1L)`) Base seed for the randomizer.
 #' @param seed_object (`character(1L)`) Name of an object which is used
 #'   to add a seed based on an object.
 #' @param ... Additional arguments passed to `dsL2Sens` (connections and pred_name is already set).
@@ -98,7 +97,7 @@ dsProbitRegr = function(connections, formula, data, w = NULL, stop_tol = 1e-8, i
 #' @author Daniel S.
 #' @export
 dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_server = TRUE,
-  alpha = 0.05, epsilon = 0.2, delta = 0.2, dat_name = "D", seed = NULL, seed_object = NULL, ...) {
+  alpha = 0.05, epsilon = 0.2, delta = 0.2, dat_name = "D", seed_object = NULL, ...) {
 
   checkmate::assertCharacter(dat_name, len = 1L)
   l2s = dsL2Sens(connections = connections, dat_name = dat_name, pred_name = pred_name,...)
@@ -109,10 +108,8 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
 
   checkmate::assertLogical(trace, len = 1L, any.missing = FALSE, null.ok = FALSE)
   checkmate::assertLogical(clean_server, len = 1L, any.missing = FALSE, null.ok = FALSE)
-  checkmate::assertCount(seed, null.ok = TRUE)
   checkmate::assertCharacter(seed_object, null.ok = TRUE, len = 1L)
 
-  if (is.null(seed)) seed = "NULL"
   if (is.null(seed_object)) seed_object = "NULL"
 
   if (trace)
@@ -123,7 +120,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
 
   ## Checks are included in "getNegativeScores":
   n_scores = DSI::datashield.aggregate(conns = connections, paste0("getNegativeScores(\"", truth_name,
-    "\", \"", pred_name, "\", ", epsilon, ", ", delta, ",", seed, ", \"", seed_object, "\")"))
+    "\", \"", pred_name, "\", ", epsilon, ", ", delta, ", \"", seed_object, "\")"))
   pooled_scores = Reduce("c", n_scores)
 
   if (trace) message("[", Sys.time(), "] Host: Pushing pooled scores")
@@ -151,10 +148,9 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
 
   if (trace) message("[", Sys.time(), "] Host: Calculating AUC and CI")
 
-  if (seed == "NULL") seed = NULL
   roc_glm$auc = calculateAUC(roc_glm)
   roc_glm$ci = aucCI(connections, truth_name, pred_name, roc_glm, alpha = alpha,
-    epsilon = epsilon, delta = delta, seed = seed, seed_object = seed_object)
+    epsilon = epsilon, delta = delta, seed_object = seed_object)
   roc_glm$alpha = alpha
 
   class(roc_glm) = "ROC.GLM"

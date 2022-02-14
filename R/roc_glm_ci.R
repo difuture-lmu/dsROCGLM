@@ -9,21 +9,18 @@
 #' @param alpha (`numeric(1L)`) Significance level alpha (default is `0.05`).
 #' @param epsilon (`numeric(1L)`) Privacy parameter for differential privacy (DP).
 #' @param delta (`numeric(1L)`) Probability of violating epsilon DP.
-#' @param seed (`integer(1L)`) Base seed for the randomizer.
 #' @param seed_object (`character(1L)`) Name of an object which is used
 #'   to add a seed based on an object.
 #' @return Numeric vector with two values containing the boundaries of the confidence interval.
 #' @author Daniel S.
 #' @export
 aucCI = function(connections, truth_name, pred_name, roc_glm, alpha = 0.05, epsilon = 0.2, delta = 0.2,
-  seed = NULL, seed_object = NULL) {
+  seed_object = NULL) {
 
   mns = ds.mean(truth_name, datasources = connections)
 
-  checkmate::assertCount(seed, null.ok = TRUE)
   checkmate::assertCharacter(seed_object, null.ok = TRUE, len = 1L)
 
-  if (is.null(seed)) seed = "NULL"
   if (is.null(seed_object)) seed_object = "NULL"
 
   ## Get sd of differences:
@@ -39,9 +36,9 @@ aucCI = function(connections, truth_name, pred_name, roc_glm, alpha = 0.05, epsi
 
 
   n_scores = DSI::datashield.aggregate(connections, paste0("getNegativeScores(\"", truth_name, "\", \"",
-    pred_name, "\", ", epsilon, ", ", delta, ",", seed, ", \"", seed_object, "\")"))
+    pred_name, "\", ", epsilon, ", ", delta, ", \"", seed_object, "\")"))
   p_scores = DSI::datashield.aggregate(connections, paste0("getPositiveScores(\"", truth_name, "\", \"",
-    pred_name, "\", ", epsilon, ", ", delta, ",", seed, ",\"", seed_object, "\")"))
+    pred_name, "\", ", epsilon, ", ", delta, ", \"", seed_object, "\")"))
 
   auc = calculateAUC(roc_glm)
 
