@@ -9,7 +9,6 @@ getNegativeScores(
   prob_name,
   epsilon = 0.2,
   delta = 0.2,
-  seed = NULL,
   seed_object = NULL
 )
 }
@@ -22,8 +21,6 @@ encoded as integer or numeric.}
 \item{epsilon}{(`numeric(1L)`) Privacy parameter for differential privacy (DP).}
 
 \item{delta}{(`numeric(1L)`) Probability of violating epsilon DP.}
-
-\item{seed}{(`integer(1L)`) Base seed for the randomizer.}
 
 \item{seed_object}{(`character(1L)`) Name of an object which is used
 to add a seed based on an object.}
