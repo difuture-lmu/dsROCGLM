@@ -169,7 +169,6 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2, 
   checkmate::assertNumeric(epsilon, len = 1L, lower = 0, upper = 1)
   checkmate::assertNumeric(delta, len = 1L, lower = 0, upper = 1)
 
-  checkmate::assertCount(seed, null.ok = TRUE)
   checkmate::assertCharacter(seed_object, null.ok = TRUE, len = 1L)
 
   if (! is.null(seed_object)) {
