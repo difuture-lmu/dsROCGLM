@@ -1,4 +1,4 @@
-Package: ds.roc.glm
+Package: dsROCGLM
 Type: Package
 Title: ROC-GLM Implementation for DataSHIELD
 Authors@R:
@@ -14,7 +14,7 @@ Depends:
 Imports:
     DSI,
     DSOpal,
-    ds.predict.base,
+    dsPredictBase,
     checkmate,
     stringr,
     digest
@@ -23,7 +23,7 @@ Suggests:
     testthat,
     opalr
 Remotes:
-    difuture-lmu/ds.predict.base
+    difuture-lmu/dsPredictBase
 AggregateMethods:
     calculateDistrGLMParts,
     getNegativeScoresVar,

@@ -1,4 +1,4 @@
 library(testthat)
-library(ds.roc.glm)
+library(dsROCGLM)
 
-test_check("ds.roc.glm")
+test_check("dsROCGLM")

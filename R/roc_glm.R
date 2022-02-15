@@ -104,7 +104,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
   if (trace)
     message("\n[", Sys.time(), "] L2 sensitivity is: ", round(l2s, 4), "\n")
 
-  ds.predict.base::pushObject(connections, l2s)
+  dsPredictBase::pushObject(connections, l2s)
 
   checkmate::assertLogical(trace, len = 1L, any.missing = FALSE, null.ok = FALSE)
   checkmate::assertLogical(clean_server, len = 1L, any.missing = FALSE, null.ok = FALSE)
@@ -125,7 +125,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
 
   if (trace) message("[", Sys.time(), "] Host: Pushing pooled scores")
 
-  ds.predict.base::pushObject(connections, pooled_scores)
+  dsPredictBase::pushObject(connections, pooled_scores)
 
   if (trace) message("[", Sys.time(), "] Server: Calculating placement values and parts for ROC-GLM")
 
