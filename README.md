@@ -2,10 +2,10 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 [![Actions
-Status](https://github.com/difuture-lmu/ds.roc.glm/workflows/R-CMD-check/badge.svg)](https://github.com/difuture-lmu/ds.roc.glm/actions)
+Status](https://github.com/difuture-lmu/dsROCGLM/workflows/R-CMD-check/badge.svg)](https://github.com/difuture-lmu/dsROCGLM/actions)
 [![License: LGPL
 v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
-[![codecov](https://codecov.io/gh/difuture-lmu/ds.roc.glm/branch/master/graph/badge.svg?token=E8AZRM6XJX)](https://codecov.io/gh/difuture-lmu/ds.roc.glm)
+[![codecov](https://codecov.io/gh/difuture-lmu/dsROCGLM/branch/master/graph/badge.svg?token=E8AZRM6XJX)](https://codecov.io/gh/difuture-lmu/dsROCGLM)
 
 # ROC-GLM for DataSHIELD
 
@@ -18,12 +18,12 @@ distributed computing. This package provides the calculation of the
 intervals**](https://www.jstor.org/stable/2531595?seq=1). In order to
 calculate the ROC-GLM it is necessry to push models and predict them at
 the servers. This is done automatically by the base package
-[`ds.predict.base`](https://github.com/difuture-lmu/ds.predict.base).
-Note that DataSHIELD uses an option `datashield.privacyLevel` to
-indicate the minimal amount of numbers required to be allowed to share
-an aggregated value of these numbers. Instead of setting the option, we
-directly retrieve the privacy level from the
-[`DESCRIPTION`](https://github.com/difuture-lmu/ds.calibration/blob/master/DESCRIPTION)
+[`dsPredictBase`](https://github.com/difuture-lmu/dsPredictBase). Note
+that DataSHIELD uses an option `datashield.privacyLevel` to indicate the
+minimal amount of numbers required to be allowed to share an aggregated
+value of these numbers. Instead of setting the option, we directly
+retrieve the privacy level from the
+[`DESCRIPTION`](https://github.com/difuture-lmu/dsROCGLM/blob/master/DESCRIPTION)
 file each time a function calls for it. This options is set to 5 by
 default.
 
@@ -33,7 +33,7 @@ At the moment, there is no CRAN version available. Install the
 development version from GitHub:
 
 ``` r
-remotes::install_github("difuture-lmu/ds.roc.glm")
+remotes::install_github("difuture-lmu/dsROCGLM")
 ```
 
 #### Register methods
