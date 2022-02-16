@@ -3,11 +3,17 @@
 #' @description This function creates a seed based on the hash of an object.
 #' @param object (`character(1L)`) Character containing the name of the object
 #'   to which the seed is bounded.
+#' @param rm_attributes (`logical(1L)`) Flag whether attributes should be deleted or not.
 #' @return Integer containing a seed.
 #' @author Daniel S.
-seedBoundedToObject = function(object) {
+seedBoundedToObject = function(object, rm_attributes = TRUE) {
   checkmate::assertCharacter(object, len = 1L)
-  a = digest::sha1(eval(parse(text = object)))
+  checkmate::assertLogical(rm_attributes, len = 1L)
+  so = eval(parse(text = object))
+
+  if (rm_attributes) attributes(so) = NULL
+
+  a = digest::sha1(so)
   seed_add = as.integer(gsub("[^\\d]+", "", substr(a, 1, 9), perl = TRUE))
   if (is.na(seed_add)) seed_add = 0
   return(seed_add)

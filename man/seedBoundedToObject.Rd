@@ -4,11 +4,13 @@
 \alias{seedBoundedToObject}
 \title{Get a seed depending on an object}
 \usage{
-seedBoundedToObject(object)
+seedBoundedToObject(object, rm_attributes = TRUE)
 }
 \arguments{
 \item{object}{(`character(1L)`) Character containing the name of the object
 to which the seed is bounded.}
+
+\item{rm_attributes}{(`logical(1L)`) Flag whether attributes should be deleted or not.}
 }
 \value{
 Integer containing a seed.
