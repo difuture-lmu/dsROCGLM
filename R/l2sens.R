@@ -107,7 +107,7 @@ dsL2Sens = function(connections, dat_name, pred_name, nbreaks = NULL, cols = NUL
 
   xXcols = cols
   pushObject(connections, xXcols)
-  f = paste0("l2sens(\"", dat_name, "\", \"", pred_name, "\", ", nbreaks, ", \"xXcols\", ", drop_on_error, ")")
+  f = paste0("l2sens(\"", dat_name, "\", \"", pred_name, "\", ", nbreaks, ", \"xXcols\", diff, ", drop_on_error, ")")
 
   ll_l2s = DSI::datashield.aggregate(conns = connections, f)
   l2s = as.data.frame(do.call(rbind, lapply(ll_l2s, function(x) {
