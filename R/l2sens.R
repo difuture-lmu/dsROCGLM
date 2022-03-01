@@ -21,8 +21,12 @@ l2sens = function(dat_name, scores_name, nbreaks = NULL, col_names = NULL, norm 
   if (checkmate::testCharacter(scores_name, len = 1L))
     scores = eval(parse(text = scores_name))
 
-  if (checkmate::testCharacter(col_names, len = 1L, null.ok = TRUE))
-    cols = eval(parse(text = col_names))
+  if (checkmate::testCharacter(col_names, len = 1L, null.ok = TRUE)) {
+    if (is.null(col_names))
+      cols = NULL
+    else
+      cols = eval(parse(text = col_names))
+  }
 
   checkmate::assertDataFrame(dat)
   checkmate::assertNumeric(scores, len = nrow(dat))
