@@ -4,7 +4,14 @@
 \alias{dsL2Sens}
 \title{Calculate the l2 sensitivity on DataSHIELD servers}
 \usage{
-dsL2Sens(connections, dat_name, pred_name, nbreaks = NULL, cols = NULL)
+dsL2Sens(
+  connections,
+  dat_name,
+  pred_name,
+  nbreaks = NULL,
+  cols = NULL,
+  drop_on_error = TRUE
+)
 }
 \arguments{
 \item{connections}{(`DSI::connection`) Connection to an OPAL server.}
@@ -17,6 +24,8 @@ dsL2Sens(connections, dat_name, pred_name, nbreaks = NULL, cols = NULL)
 (default = nrow(dat) / 3).}
 
 \item{cols}{(`character()`) Subset of columns used to find adjacent inputs.}
+
+\item{drop_on_error}{(`logical(1L)`) NA is returned if an error occurs on a server.}
 }
 \value{
 List with maximal l2 sensitivity, indices of inputs that are

@@ -4,7 +4,14 @@
 \alias{l2sens}
 \title{Calculate the l2 sensitivity}
 \usage{
-l2sens(dat_name, scores_name, nbreaks = NULL, col_names = NULL, norm = diff)
+l2sens(
+  dat_name,
+  scores_name,
+  nbreaks = NULL,
+  col_names = NULL,
+  norm = diff,
+  drop_on_error = TRUE
+)
 }
 \arguments{
 \item{dat_name}{(`character(1)`) Name of the data used to find adjacent inputs.}
@@ -18,6 +25,8 @@ l2sens(dat_name, scores_name, nbreaks = NULL, col_names = NULL, norm = diff)
 
 \item{norm}{(`function()`) Function to calculate the differnece between the
 scores of adjacent inputs (default = Euclidean norm).}
+
+\item{drop_on_error}{(`logical(1L)`) NA is returned if an error occurs on a server.}
 }
 \value{
 List with maximal l2 sensitivity, indices of inputs that are
