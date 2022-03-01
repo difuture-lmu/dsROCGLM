@@ -65,13 +65,18 @@ l2sens = function(dat_name, scores_name, nbreaks = NULL, col_names = NULL, norm 
 
     if (ml2sens == 0)
       stop("No reasonable l2 sensitivity found! Try to decrease the number of breaks (current = ", nbreaks, ")")
-    list(l2sens = e, nl1n = nrow(idx) / 2, l1n = mdist,
+    list(l2sens = ml2sens, nl1n = nrow(idx) / 2, l1n = mdist,
       idx = unname(idx[which.max(l2senss), ]))
   }, silent = TRUE)
 
   if (inherits(e, "try-error")) {
-    warning("Additional error occurs: ", attributes(e)$condition$message)
-    return(list(l2sens = NA, nl1n = NA, l2n = NA, idx = NA))
+    msg = attributes(e)$condition$message
+    if (drop_on_error)
+      warning("Additional error occurs: ", msg)
+    else
+      stop(msg)
+
+    return(list(l2sens = NA, nl1n = NA, l1n = NA, idx = NA))
   } else {
     return(e)
   }
