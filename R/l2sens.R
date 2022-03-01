@@ -15,13 +15,14 @@
 #' @author Daniel S.
 #' @export
 l2sens = function(dat_name, scores_name, nbreaks = NULL, col_names = NULL, norm = diff) {
-  checkmate::assertCharacter(dat_name, len = 1L)
-  checkmate::assertCharacter(scores_name, len = 1L)
-  checkmate::assertCharacter(col_names, len = 1L, null.ok = TRUE)
+  if (checkmate::checkCharacter(dat_name, len = 1L))
+    dat = eval(parse(text = dat_name))
 
-  dat = eval(parse(text = dat_name))
-  scores = eval(parse(text = scores_name))
-  cols = eval(parse(text = col_names))
+  if (checkmate::checkCharacter(scores_name, len = 1L))
+    scores = eval(parse(text = scores_name))
+
+  if (checkmate::checkCharacter(col_names, len = 1L, null.ok = TRUE))
+    cols = eval(parse(text = col_names))
 
   checkmate::assertDataFrame(dat)
   checkmate::assertNumeric(scores, len = nrow(dat))
