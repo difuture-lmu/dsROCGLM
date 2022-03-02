@@ -53,10 +53,10 @@ dsProbitRegr = function(connections, formula, data, w = NULL, stop_tol = 1e-8, i
 
     update = DSI::datashield.aggregate(conns = connections, cq)
 
-    lh = Reduce("+", lapply(update, function(x) x$likelihood))
+    lh = Reduce("+", lapply(update, function(x) ifelse(is.nan(x$likelihood), 0, x$likelihood)))
     dev = -2 * log(lh)
-    xtx = Reduce("+", lapply(update, function(x) x$XtX))
-    xty = Reduce("+", lapply(update, function(x) x$Xy))
+    xtx = Reduce("+", lapply(update, function(x) ifelse(is.nan(x$XtX), 0, x$XtX)))
+    xty = Reduce("+", lapply(update, function(x) ifelse(is.nan(x$Xy), 0, x$Xy)))
 
     if (iter == 0L) params = rep(0, length(update[[1]]$Xy))
     params = params + solve(xtx) %*% xty
