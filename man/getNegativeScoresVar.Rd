@@ -2,22 +2,24 @@
 % Please edit documentation in R/get_scores.R
 \name{getNegativeScoresVar}
 \alias{getNegativeScoresVar}
-\title{Return variance of differences of negative scores}
+\title{Return variance of negative scores}
 \usage{
-getNegativeScoresVar(truth_name, prob_name)
+getNegativeScoresVar(truth_name, prob_name, m = NULL)
 }
 \arguments{
 \item{truth_name}{(`character(1L)`) Character containing the name of the vector of 0-1-values
 encoded as integer or numeric.}
 
 \item{prob_name}{(`character(1L)`) Character containing the name of the vector of probabilities.}
+
+\item{m}{(`numeric(1L)`) Sample mean used for variance calculation. If `NULL` (default), the
+sample mean of the negative scores is used.}
 }
 \value{
 Variance of differences of Negative scores
 }
 \description{
-This function just returns negative scores and is used
-  as aggregator to send these positive scores.
+This function just returns the variance of negative scores.
 }
 \author{
 Daniel S.

@@ -6,6 +6,7 @@
 #' @param rm_attributes (`logical(1L)`) Flag whether attributes should be deleted or not.
 #' @return Integer containing a seed.
 #' @author Daniel S.
+#' @export
 seedBoundedToObject = function(object, rm_attributes = TRUE) {
   checkmate::assertCharacter(object, len = 1L)
   checkmate::assertLogical(rm_attributes, len = 1L)
@@ -62,16 +63,20 @@ checkTruthProb = function(truth_name, prob_name, pos = NULL) {
 }
 
 #'
-#' @title Return variance of score differneces
-#' @description
+#' @title Return variance of positive scores
+#' @description This function just returns the variance of positive scores.
 #' @param truth_name (`character(1L)`) Character containing the name of the vector of 0-1-values
 #'   encoded as integer or numeric.
 #' @param prob_name (`character(1L)`) Character containing the name of the vector of probabilities.
+#' @param m (`numeric(1L)`) Sample mean used for variance calculation. If `NULL` (default), the
+#'   sample mean of the positive scores is used.
 #' @return Variance of differences of positive scores
 #' @author Daniel S.
 #' @export
-getPositiveScoresVar = function(truth_name, prob_name) {
+getPositiveScoresVar = function(truth_name, prob_name, m = NULL) {
   df_pred = checkTruthProb(truth_name, prob_name)
+
+  checkmate::assertNumeric(m, len = 1L, null.ok = TRUE)
 
   truth = df_pred$truth
   prob  = df_pred$prob
@@ -82,7 +87,11 @@ getPositiveScoresVar = function(truth_name, prob_name) {
     stop("More than ", nfilter_privacy, " observations are required to ensure privacy!")
 
   pv = prob[truth == 1]
-  return(stats::var(pv) * (length(pv) - 1))
+
+  if (is.null(m))
+    return(stats::var(pv) * (length(pv) - 1))
+  else
+    return(sum((pv - m)^2))
 }
 
 #'
@@ -107,11 +116,6 @@ getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2, 
 
   checkmate::assertCharacter(seed_object, null.ok = TRUE, len = 1L)
 
-  if (! is.null(seed_object)) {
-    seed = seedBoundedToObject(seed_object)
-    set.seed(seed)
-  }
-
   if (epsilon == 0) stop("Epsilon must be > 0")
   if (delta == 0) stop("Delta must be > 0")
 
@@ -128,20 +132,31 @@ getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2, 
   pv  = prob[truth == 1]
   sde = sqrt(2 * log(1.25 / delta)) * l2s / epsilon
 
-  return(stats::rnorm(n = length(pv), mean = pv, sd = sde))
+  if (! is.null(seed_object)) {
+    seed_old = .Random.seed
+    seed = seedBoundedToObject(seed_object)
+    set.seed(seed)
+  }
+
+  out = stats::rnorm(n = length(pv), mean = pv, sd = sde)
+
+  if (! is.null(seed_object)) set.seed(seed_old)
+
+  return(out)
 }
 
 #'
-#' @title Return variance of differences of negative scores
-#' @description This function just returns negative scores and is used
-#'   as aggregator to send these positive scores.
+#' @title Return variance of negative scores
+#' @description This function just returns the variance of negative scores.
 #' @param truth_name (`character(1L)`) Character containing the name of the vector of 0-1-values
 #'   encoded as integer or numeric.
 #' @param prob_name (`character(1L)`) Character containing the name of the vector of probabilities.
+#' @param m (`numeric(1L)`) Sample mean used for variance calculation. If `NULL` (default), the
+#'   sample mean of the negative scores is used.
 #' @return Variance of differences of Negative scores
 #' @author Daniel S.
 #' @export
-getNegativeScoresVar = function(truth_name, prob_name) {
+getNegativeScoresVar = function(truth_name, prob_name, m = NULL) {
   df_pred = checkTruthProb(truth_name, prob_name)
 
   truth = df_pred$truth
@@ -153,7 +168,11 @@ getNegativeScoresVar = function(truth_name, prob_name) {
     stop("More than ", nfilter_privacy, " observations are required to ensure privacy!")
 
   nv = prob[truth == 0]
-  return(stats::var(nv) * (length(nv) - 1))
+
+  if (is.null(m))
+    return(stats::var(nv) * (length(nv) - 1))
+  else
+    return(sum((nv - m)^2))
 }
 
 #'
@@ -177,11 +196,6 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2, 
 
   checkmate::assertCharacter(seed_object, null.ok = TRUE, len = 1L)
 
-  if (! is.null(seed_object)) {
-    seed = seedBoundedToObject(seed_object)
-    set.seed(seed)
-  }
-
   if (epsilon == 0) stop("Epsilon must be > 0")
   if (delta == 0) stop("Delta must be > 0")
 
@@ -199,5 +213,15 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2, 
   nv  = prob[truth == 0]
   sde = sqrt(2 * log(1.25 / delta)) * l2s / epsilon
 
-  return(stats::rnorm(n = length(nv), mean = nv, sd = sde))
+  if (! is.null(seed_object)) {
+    seed_old = .Random.seed
+    seed = seedBoundedToObject(seed_object)
+    set.seed(seed)
+  }
+
+  out = stats::rnorm(n = length(nv), mean = nv, sd = sde)
+
+  if (! is.null(seed_object)) set.seed(seed_old)
+
+  return(out)
 }
