@@ -6,7 +6,6 @@
 #' @param rm_attributes (`logical(1L)`) Flag whether attributes should be deleted or not.
 #' @return Integer containing a seed.
 #' @author Daniel S.
-#' @export
 seedBoundedToObject = function(object, rm_attributes = TRUE) {
   checkmate::assertCharacter(object, len = 1L)
   checkmate::assertLogical(rm_attributes, len = 1L)
@@ -20,7 +19,7 @@ seedBoundedToObject = function(object, rm_attributes = TRUE) {
   a = digest::sha1(mean(unlist(so), na.rm = TRUE))
   seed_add = as.integer(gsub("[^\\d]+", "", substr(a, 1, 9), perl = TRUE))
   if (is.na(seed_add)) seed_add = 0
-  return(list(object = so, seed = seed_add))
+  return(seed_add)
 }
 
 #'
