@@ -119,5 +119,5 @@ dsL2Sens = function(connections, dat_name, pred_name, nbreaks = NULL, cols = NUL
     c(l2s = x$l2sens, l1n = x$l1n)
   })))
   ds.rm("xXcols", connections)
-  return(max(l2s$l2s[min(l2s$l1n) == l2s$l1n]))
+  return(max(l2s$l2s[min(l2s$l1n, na.rm = TRUE) == l2s$l1n], na.rm = TRUE))
 }
