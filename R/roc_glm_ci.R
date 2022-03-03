@@ -51,8 +51,8 @@ aucCI = function(connections, truth_name, pred_name, roc_glm, alpha = 0.05, epsi
   s_nond = function(x) 1 - stats::ecdf(pooled_n_scores)(x)
 
   # Variance of empirical auc after DeLong:
-  var_auc = stats::var(s_d(pooled_n_scores)) / length(pooled_p_scores) +
-    stats::var(s_nond(pooled_p_scores)) / length(pooled_n_scores)
+  var_auc = stats::var(s_d(pooled_n_scores)) / length(pooled_n_scores) +
+    stats::var(s_nond(pooled_p_scores)) / length(pooled_p_scores)
 
   logit_pm = log(auc / (1 - auc)) + c(-1, 1) * stats::qnorm(1 - alpha / 2) * sqrt(var_auc) / (auc * (1 - auc))
 
