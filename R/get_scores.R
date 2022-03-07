@@ -6,6 +6,7 @@
 #' @param rm_attributes (`logical(1L)`) Flag whether attributes should be deleted or not.
 #' @return Integer containing a seed.
 #' @author Daniel S.
+#' @export
 seedBoundedToObject = function(object, rm_attributes = TRUE) {
   checkmate::assertCharacter(object, len = 1L)
   checkmate::assertLogical(rm_attributes, len = 1L)
@@ -29,6 +30,7 @@ seedBoundedToObject = function(object, rm_attributes = TRUE) {
 #'   to which the seed is bounded.
 #' @return Object
 #' @author Daniel S.
+#' @export
 getObject = function(object) {
   checkmate::assertCharacter(object, len = 1L)
   so = eval(parse(text = object))
