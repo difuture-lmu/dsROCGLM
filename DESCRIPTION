@@ -30,7 +30,9 @@ AggregateMethods:
     getPositiveScoresVar,
     getNegativeScores,
     getPositiveScores,
-    l2sens
+    l2sens,
+    getObject,
+    seedBoundedToObject
 AssignMethods:
     rocGLMFrame
 Options: datashield.privacyLevel=5
