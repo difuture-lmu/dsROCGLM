@@ -151,10 +151,11 @@ getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
   truth = df_pred$truth
   prob  = df_pred$prob
 
-  mysort = function(x) return(x)
-  if (sort) mysort = sort
-
-  pv  = mysort(prob[truth == 1])
+  if (sort) {
+    pv  = sort(prob[truth == 1])
+  } else {
+    pv  = prob[truth == 1]
+  }
   sde = sqrt(2 * log(1.25 / delta)) * l2s / epsilon
 
   if (! is.null(seed_object)) {
@@ -240,10 +241,11 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
   truth = df_pred$truth
   prob  = df_pred$prob
 
-  mysort = function(x) return(x)
-  if (sort) mysort = sort
-
-  nv  = mysort(prob[truth == 0])
+  if (sort) {
+    nv  = sort(prob[truth == 0])
+  } else {
+    nv  = prob[truth == 0]
+  }
   sde = sqrt(2 * log(1.25 / delta)) * l2s / epsilon
 
   if (! is.null(seed_object)) {
