@@ -38,9 +38,9 @@ aucCI = function(connections, truth_name, pred_name, roc_glm, alpha = 0.05, epsi
 
 
   n_scores = DSI::datashield.aggregate(connections, paste0("getNegativeScores(\"", truth_name, "\", \"",
-    pred_name, "\", ", epsilon, ", ", delta, ", \"", seed_object, "\")"))
+    pred_name, "\", ", epsilon, ", ", delta, ", \"", seed_object, "\", TRUE)"))
   p_scores = DSI::datashield.aggregate(connections, paste0("getPositiveScores(\"", truth_name, "\", \"",
-    pred_name, "\", ", epsilon, ", ", delta, ", \"", seed_object, "\")"))
+    pred_name, "\", ", epsilon, ", ", delta, ", \"", seed_object, "\", TRUE)"))
 
   auc = calculateAUC(roc_glm)
 

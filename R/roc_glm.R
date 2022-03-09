@@ -120,7 +120,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
 
   ## Checks are included in "getNegativeScores":
   n_scores = DSI::datashield.aggregate(conns = connections, paste0("getNegativeScores(\"", truth_name,
-    "\", \"", pred_name, "\", ", epsilon, ", ", delta, ", \"", seed_object, "\")"))
+    "\", \"", pred_name, "\", ", epsilon, ", ", delta, ", \"", seed_object, "\", TRUE)"))
   pooled_scores = Reduce("c", n_scores)
 
   if (trace) message("[", Sys.time(), "] Host: Pushing pooled scores")

@@ -9,7 +9,8 @@ getNegativeScores(
   prob_name,
   epsilon = 0.2,
   delta = 0.2,
-  seed_object = NULL
+  seed_object = NULL,
+  sort = FALSE
 )
 }
 \arguments{
@@ -24,6 +25,9 @@ encoded as integer or numeric.}
 
 \item{seed_object}{(`character(1L)`) Name of an object which is used
 to add a seed based on an object.}
+
+\item{sort}{(`logical(1L)`) Indicator whether the return values should be
+sorted or not.}
 }
 \value{
 Negative scores

@@ -9,7 +9,8 @@ getPositiveScores(
   prob_name,
   epsilon = 0.2,
   delta = 0.2,
-  seed_object = NULL
+  seed_object = NULL,
+  sort = FALSE
 )
 }
 \arguments{

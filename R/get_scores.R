@@ -123,16 +123,20 @@ getPositiveScoresVar = function(truth_name, prob_name, m = NULL) {
 #' @param delta (`numeric(1L)`) Probability of violating epsilon DP.
 #' @param seed_object (`character(1L)`) Name of an object which is used
 #'   to add a seed based on an object.
+#' @param seed_object (`character(1L)`) Name of an object which is used
+#'   to add a seed based on an object.
 #' @return Positive scores
 #' @author Daniel S.
 #' @export
-getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2, seed_object = NULL) {
+getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
+  seed_object = NULL, sort = FALSE) {
 
   df_pred = checkTruthProb(truth_name, prob_name)
   checkmate::assertNumeric(epsilon, len = 1L, lower = 0, upper = 1)
   checkmate::assertNumeric(delta, len = 1L, lower = 0, upper = 1)
 
   checkmate::assertCharacter(seed_object, null.ok = TRUE, len = 1L)
+  checkmate::assertLogical(sort, len = 1L)
 
   if (epsilon == 0) stop("Epsilon must be > 0")
   if (delta == 0) stop("Delta must be > 0")
@@ -147,23 +151,18 @@ getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2, 
   truth = df_pred$truth
   prob  = df_pred$prob
 
-  pv  = prob[truth == 1]
+  if (sort) mysort = sort else mysort = function(x) x
+  pv  = sort(prob[truth == 1])
   sde = sqrt(2 * log(1.25 / delta)) * l2s / epsilon
 
   if (! is.null(seed_object)) {
     seed_old = .Random.seed
     seed = seedBoundedToObject(seed_object)
     set.seed(seed)
-    msg = paste0("seed = ", seed)
-  } else {
-    msg = "no seed"
   }
-
   out = stats::rnorm(n = length(pv), mean = pv, sd = sde)
 
   if (! is.null(seed_object)) set.seed(seed_old)
-
-  attr(out, "seed") = msg
 
   return(out)
 }
@@ -190,6 +189,7 @@ getNegativeScoresVar = function(truth_name, prob_name, m = NULL) {
   if (length(truth) < nfilter_privacy)
     stop("More than ", nfilter_privacy, " observations are required to ensure privacy!")
 
+
   nv = prob[truth == 0]
 
   if (is.null(m))
@@ -209,15 +209,20 @@ getNegativeScoresVar = function(truth_name, prob_name, m = NULL) {
 #' @param delta (`numeric(1L)`) Probability of violating epsilon DP.
 #' @param seed_object (`character(1L)`) Name of an object which is used
 #'   to add a seed based on an object.
+#' @param sort (`logical(1L)`) Indicator whether the return values should be
+#'   sorted or not.
 #' @return Negative scores
 #' @author Daniel S.
 #' @export
-getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2, seed_object = NULL) {
+getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
+  seed_object = NULL, sort = FALSE) {
+
   df_pred = checkTruthProb(truth_name, prob_name)
   checkmate::assertNumeric(epsilon, len = 1L, lower = 0, upper = 1)
   checkmate::assertNumeric(delta, len = 1L, lower = 0, upper = 1)
 
   checkmate::assertCharacter(seed_object, null.ok = TRUE, len = 1L)
+  checkmate::assertLogical(sort, len = 1L)
 
   if (epsilon == 0) stop("Epsilon must be > 0")
   if (delta == 0) stop("Delta must be > 0")
@@ -233,7 +238,9 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2, 
   truth = df_pred$truth
   prob  = df_pred$prob
 
-  nv  = prob[truth == 0]
+  if (sort) mysort = sort else mysort = function(x) x
+
+  nv  = mysort(prob[truth == 0])
   sde = sqrt(2 * log(1.25 / delta)) * l2s / epsilon
 
   if (! is.null(seed_object)) {
