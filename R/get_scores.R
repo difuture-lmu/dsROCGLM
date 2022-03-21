@@ -125,6 +125,8 @@ getPositiveScoresVar = function(truth_name, prob_name, m = NULL) {
 #'   to add a seed based on an object.
 #' @param seed_object (`character(1L)`) Name of an object which is used
 #'   to add a seed based on an object.
+#' @param sort (`logical(1L)`) Indicator whether the return values should be
+#'   sorted or not.
 #' @return Positive scores
 #' @author Daniel S.
 #' @export
@@ -156,7 +158,7 @@ getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
   } else {
     pv  = prob[truth == 1]
   }
-  sde = sqrt(2 * log(1.25 / delta)) * l2s / epsilon
+  sde = GMVar(l2s, epsilon, delta)
 
   if (! is.null(seed_object)) {
     seed_old = .Random.seed
@@ -246,7 +248,7 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
   } else {
     nv  = prob[truth == 0]
   }
-  sde = sqrt(2 * log(1.25 / delta)) * l2s / epsilon
+  sde = GMVar(l2s, epsilon, delta)
 
   if (! is.null(seed_object)) {
     seed_old = .Random.seed
@@ -259,4 +261,19 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
   if (! is.null(seed_object)) set.seed(seed_old)
 
   return(out)
+}
+
+#'
+#' @title Calculate standard deviation for Gaussian Mechanism
+#' @param l2s (`numeric(1L)`) l2-sensitivity.
+#' @param epsilon (`numeric(1L)`) First privacy parameter for (e,d)-differential privacy.
+#' @param delta (`numeric(1L)`) second privacy parameter for (e,d)-differential privacy.
+#' @return Numerical value for the standard deviation for the normal distribution.
+#' @author Daniel S.
+GMVar = function(l2s, epsilon, delta) {
+  checmate::assertNumeric(l2s, len = 1L)
+  checmate::assertNumeric(epsilon, len = 1L)
+  checmate::assertNumeric(delta, len = 1L)
+
+  return(sqrt(2 * log(1.25 / delta)) * l2s / epsilon)
 }

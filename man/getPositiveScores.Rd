@@ -25,6 +25,9 @@ encoded as integer or numeric.}
 
 \item{seed_object}{(`character(1L)`) Name of an object which is used
 to add a seed based on an object.}
+
+\item{sort}{(`logical(1L)`) Indicator whether the return values should be
+sorted or not.}
 }
 \value{
 Positive scores
