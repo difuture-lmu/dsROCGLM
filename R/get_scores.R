@@ -256,9 +256,9 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
 #' @return Numerical value for the standard deviation for the normal distribution.
 #' @author Daniel S.
 GMVar = function(l2s, epsilon, delta) {
-  checmate::assertNumeric(l2s, len = 1L)
-  checmate::assertNumeric(epsilon, len = 1L)
-  checmate::assertNumeric(delta, len = 1L)
+  checkmate::assertNumeric(l2s, len = 1L)
+  checkmate::assertNumeric(epsilon, len = 1L)
+  checkmate::assertNumeric(delta, len = 1L)
 
   return(sqrt(2 * log(1.25 / delta)) * l2s / epsilon)
 }
