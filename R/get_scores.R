@@ -24,21 +24,6 @@ seedBoundedToObject = function(object, rm_attributes = TRUE) {
 }
 
 #'
-#' @title Get a seed depending on an object
-#' @description This function creates a seed based on the hash of an object.
-#' @param object (`character(1L)`) Character containing the name of the object
-#'   to which the seed is bounded.
-#' @return Object
-#' @author Daniel S.
-#' @export
-getObject = function(object) {
-  checkmate::assertCharacter(object, len = 1L)
-  so = eval(parse(text = object))
-  return(so)
-}
-
-
-#'
 #' @title Truth and Prediction Checker
 #' @description This function checks if the vector of true values and predictions
 #'   has the correct format to be used for the ROC-GLM. If something does not suit,
