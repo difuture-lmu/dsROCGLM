@@ -46,7 +46,7 @@ test_that("all methods can be used and produce reasonable output", {
   )
   connections <<- datashield.login(logins = builder$build(), assign = TRUE)
 
-  datashield.assign(connections, "valid", quote(c(rep(1, 45), rep(0, 105))))
+  datashield.assign(connections, "valid", quote(c(rep(1, 40), rep(0, 110))))
   pushObject(connections, mod)
   datashield.assign(connections, "dat", quote(iris))
   predictModel(connections, mod, "pred", "dat", predict_fun = "predict(mod, newdata = D, type = 'response')")
