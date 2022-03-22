@@ -74,29 +74,26 @@ builder$append(
   server   = "ds1",
   url      = surl,
   user     = username,
-  password = password,
-  table    = "CNSIM.CNSIM1"
+  password = password
 )
 builder$append(
   server   = "ds2",
   url      = surl,
   user     = username,
-  password = password,
-  table    = "CNSIM.CNSIM2"
+  password = password
 )
 
 connections = datashield.login(logins = builder$build(), assign = TRUE)
 #> 
 #> Logging into the collaborating servers
-#> 
-#>   No variables have been specified. 
-#>   All the variables in the table 
-#>   (the whole dataset) will be assigned to R!
-#> 
-#> Assigning table data...
 ```
 
 #### Assign iris at DataSHIELD
+
+``` r
+datashield.assign(connections, "iris", quote(iris))
+datashield.assign(connections, "y", quote(c(rep(1, 50), rep(0, 100))))
+```
 
 #### Load test model, push to DataSHIELD, and calculate predictions
 
@@ -114,10 +111,10 @@ predictModel(connections, mod, "pred", "iris", predict_fun = pfun)
 
 datashield.symbols(connections)
 #> $ds1
-#> [1] "D"    "iris" "mod"  "pred" "y"   
+#> [1] "iris" "mod"  "pred" "y"   
 #> 
 #> $ds2
-#> [1] "D"    "iris" "mod"  "pred" "y"
+#> [1] "iris" "mod"  "pred" "y"
 ```
 
 #### Calculate l2-sensitivity
@@ -143,36 +140,36 @@ l2s
 roc_glm = dsROCGLM(connections, truth_name = "y", pred_name = "pred",
   dat_name = "iris", seed_object = "y")
 #> 
-#> [2022-03-22 13:42:41] L2 sensitivity is: 0.1281
+#> [2022-03-22 13:47:43] L2 sensitivity is: 0.1281
 #> Warning in dsROCGLM(connections, truth_name = "y", pred_name = "pred", dat_name
 #> = "iris", : l2-sensitivity may be too high for good results! Epsilon = 0.5 and
 #> delta = 0.5 is used which may lead to bad results.
 #> 
-#> [2022-03-22 13:42:42] Setting: epsilon = 0.5 and delta = 0.5
+#> [2022-03-22 13:47:44] Setting: epsilon = 0.5 and delta = 0.5
 #> 
-#> [2022-03-22 13:42:42] Initializing ROC-GLM
+#> [2022-03-22 13:47:44] Initializing ROC-GLM
 #> 
-#> [2022-03-22 13:42:42] Host: Received scores of negative response
-#> [2022-03-22 13:42:42] Receiving negative scores
-#> [2022-03-22 13:42:42] Host: Pushing pooled scores
-#> [2022-03-22 13:42:43] Server: Calculating placement values and parts for ROC-GLM
-#> [2022-03-22 13:42:44] Server: Calculating probit regression to obtain ROC-GLM
-#> [2022-03-22 13:42:45] Deviance of iter1=137.2431
-#> [2022-03-22 13:42:45] Deviance of iter2=121.5994
-#> [2022-03-22 13:42:46] Deviance of iter3=147.7237
-#> [2022-03-22 13:42:47] Deviance of iter4=140.4008
-#> [2022-03-22 13:42:48] Deviance of iter5=129.2244
-#> [2022-03-22 13:42:48] Deviance of iter6=123.9979
-#> [2022-03-22 13:42:49] Deviance of iter7=123.1971
-#> [2022-03-22 13:42:50] Deviance of iter8=124.1615
-#> [2022-03-22 13:42:51] Deviance of iter9=124.5356
-#> [2022-03-22 13:42:51] Deviance of iter10=124.5503
-#> [2022-03-22 13:42:52] Deviance of iter11=124.5504
-#> [2022-03-22 13:42:53] Deviance of iter12=124.5504
-#> [2022-03-22 13:42:53] Host: Finished calculating ROC-GLM
-#> [2022-03-22 13:42:53] Host: Cleaning data on server
-#> [2022-03-22 13:42:54] Host: Calculating AUC and CI
-#> [2022-03-22 13:42:59] Finished!
+#> [2022-03-22 13:47:44] Host: Received scores of negative response
+#> [2022-03-22 13:47:44] Receiving negative scores
+#> [2022-03-22 13:47:45] Host: Pushing pooled scores
+#> [2022-03-22 13:47:47] Server: Calculating placement values and parts for ROC-GLM
+#> [2022-03-22 13:47:48] Server: Calculating probit regression to obtain ROC-GLM
+#> [2022-03-22 13:47:50] Deviance of iter1=137.2431
+#> [2022-03-22 13:47:51] Deviance of iter2=121.5994
+#> [2022-03-22 13:47:52] Deviance of iter3=147.7237
+#> [2022-03-22 13:47:54] Deviance of iter4=140.4008
+#> [2022-03-22 13:47:55] Deviance of iter5=129.2244
+#> [2022-03-22 13:47:56] Deviance of iter6=123.9979
+#> [2022-03-22 13:47:58] Deviance of iter7=123.1971
+#> [2022-03-22 13:47:59] Deviance of iter8=124.1615
+#> [2022-03-22 13:48:00] Deviance of iter9=124.5356
+#> [2022-03-22 13:48:01] Deviance of iter10=124.5503
+#> [2022-03-22 13:48:03] Deviance of iter11=124.5504
+#> [2022-03-22 13:48:04] Deviance of iter12=124.5504
+#> [2022-03-22 13:48:04] Host: Finished calculating ROC-GLM
+#> [2022-03-22 13:48:04] Host: Cleaning data on server
+#> [2022-03-22 13:48:05] Host: Calculating AUC and CI
+#> [2022-03-22 13:48:14] Finished!
 plot(roc_glm)
 ```
 
@@ -184,7 +181,7 @@ datashield.logout(connections)
 
 ## Deploy information:
 
-**Build by root (machine 20.6.0) on 2022-03-22 13:43:01.**
+**Build by root (machine 20.6.0) on 2022-03-22 13:48:16.**
 
 This readme is built automatically after each push to the repository.
 Hence, it also is a test if the functionality of the package works also
