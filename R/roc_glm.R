@@ -87,8 +87,6 @@ dsProbitRegr = function(connections, formula, data, w = NULL, stop_tol = 1e-8, i
 #' @param clean_server (`logical(1L)`) Set to `TRUE` (default) if all temprary data stored on the server should
 #'   be removed when the fitting is finished.
 #' @param alpha (`numeric(1L)`) Significance level alpha for confidence interval (default is `0.05`).
-#' @param epsilon (`numeric(1L)`) Privacy parameter for differential privacy (DP).
-#' @param delta (`numeric(1L)`) Probability of violating epsilon DP.
 #' @param dat_name (`character(1L)`) Name of the data set on the servers..
 #' @param seed_object (`character(1L)`) Name of an object which is used
 #'   to add a seed based on an object.
@@ -97,14 +95,29 @@ dsProbitRegr = function(connections, formula, data, w = NULL, stop_tol = 1e-8, i
 #' @author Daniel S.
 #' @export
 dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_server = TRUE,
-  alpha = 0.05, epsilon = 0.2, delta = 0.2, dat_name = "D", seed_object = NULL, ...) {
+  alpha = 0.05, dat_name = "D", seed_object = NULL, ...) {
 
   checkmate::assertCharacter(dat_name, len = 1L)
-  l2s = dsL2Sens(connections = connections, dat_name = dat_name, pred_name = pred_name,...)
+  l2s = dsL2Sens(connections = connections, dat_name = dat_name, pred_name = pred_name, ...)
   if (trace)
     message("\n[", Sys.time(), "] L2 sensitivity is: ", round(l2s, 4), "\n")
-
   dsPredictBase::pushObject(connections, l2s)
+
+  # Select privacy parameters based on the l2 sensitivity:
+  l2breaks = c(0.01, 0.03, 0.05, 0.07, Inf)
+  priv_pars_choice = list(c(0.2, 0.1), c(0.3, 0.4), c(0.5, 0.3), c(0.5, 0.5), c(0.5, 0.5))
+  pp_select = which(l2s <= l2breaks)[1]
+
+  if (pp_select == 5)
+    warning("l2-sensitivity may be too high for good results! ",
+      "Epsilon = 0.5 and delta = 0.5 is used which may lead to bad results.")
+
+  epsilon = priv_pars_choice[[pp_select]][1]
+  delta = priv_pars_choice[[pp_select]][2]
+
+  if (trace)
+    message("\n[", Sys.time(), "] Setting: epsilon = ", epsilon, " and delta = ", delta, "\n")
+
 
   checkmate::assertLogical(trace, len = 1L, any.missing = FALSE, null.ok = FALSE)
   checkmate::assertLogical(clean_server, len = 1L, any.missing = FALSE, null.ok = FALSE)

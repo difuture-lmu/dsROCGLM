@@ -144,15 +144,13 @@ getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
     pv  = prob[truth == 1]
   }
   sde = GMVar(l2s, epsilon, delta)
+  if (sde <= 0) stop("Standard deviation must be positive to ensure privacy!")
 
   if (! is.null(seed_object)) {
-    seed_old = .Random.seed
     seed = seedBoundedToObject(seed_object)
     set.seed(seed)
   }
   out = stats::rnorm(n = length(pv), mean = pv, sd = sde)
-
-  if (! is.null(seed_object)) set.seed(seed_old)
 
   return(out)
 }
@@ -234,16 +232,14 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
     nv  = prob[truth == 0]
   }
   sde = GMVar(l2s, epsilon, delta)
+  if (sde <= 0) stop("Standard deviation must be positive to ensure privacy!")
 
   if (! is.null(seed_object)) {
-    seed_old = .Random.seed
     seed = seedBoundedToObject(seed_object)
     set.seed(seed)
   }
 
   out = stats::rnorm(n = length(nv), mean = nv, sd = sde)
-
-  if (! is.null(seed_object)) set.seed(seed_old)
 
   return(out)
 }

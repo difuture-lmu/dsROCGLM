@@ -50,7 +50,8 @@ l2sens = function(dat_name, scores_name, nbreaks = NULL, col_names = NULL, norm 
       if (is.numeric(cl)) {
         xh = graphics::hist(cl, plot = FALSE, breaks = nbreaks)$breaks
         return(vapply(cl, function(x) which.min(xh <= x) - 1, FUN.VALUE = numeric(1L)))
-      } else {
+      }
+      if (is.character(cl) || is.factor(cl)) {
         return(stats::model.matrix(~ 0 + cl))
       }
     }))

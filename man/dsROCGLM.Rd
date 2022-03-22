@@ -11,8 +11,6 @@ dsROCGLM(
   trace = TRUE,
   clean_server = TRUE,
   alpha = 0.05,
-  epsilon = 0.2,
-  delta = 0.2,
   dat_name = "D",
   seed_object = NULL,
   ...
@@ -32,10 +30,6 @@ encoded as integer or numeric.}
 be removed when the fitting is finished.}
 
 \item{alpha}{(`numeric(1L)`) Significance level alpha for confidence interval (default is `0.05`).}
-
-\item{epsilon}{(`numeric(1L)`) Privacy parameter for differential privacy (DP).}
-
-\item{delta}{(`numeric(1L)`) Probability of violating epsilon DP.}
 
 \item{dat_name}{(`character(1L)`) Name of the data set on the servers..}
 
