@@ -38,90 +38,179 @@ remotes::install_github("difuture-lmu/dsROCGLM")
 
 #### Register methods
 
-It is necessary to register the aggregate and assign methods in the OPAL
-administration. The assign methods are:
+It is necessary to register the assign and aggregate methods in the OPAL
+administration. These methods are registered automatically when
+publishing the package on OPAL (see
+[`DESCRIPTION`](https://github.com/difuture/dsROCGLM/blob/main/DESCRIPTION)).
 
-**Assign methods:**
-
-  - `rocGLMFrame`
-
-**Aggregate methods:**
-
-  - `getPositiveScores`
-  - `getNegativeScores`
-  - `calculateDistrGLMParts`
+Note that the package needs to be installed at both locations, the
+server and the analysts machine.
 
 ## Usage
 
 ``` r
 library(DSI)
+#> Loading required package: progress
+#> Loading required package: R6
 library(DSOpal)
-library(DSLite)
+#> Loading required package: opalr
+#> Loading required package: httr
 library(dsBaseClient)
 
+library(dsPredictBase)
+library(dsROCGLM)
+```
 
-## DataSHIELD login:
-## ========================================
+#### Log into DataSHIELD server
 
-builder = DSI::newDSLoginBuilder()
+``` r
+builder = newDSLoginBuilder()
+
+surl     = "https://opal-demo.obiba.org/"
+username = "administrator"
+password = "password"
 
 builder$append(
-  server   = "ibe",
-  url      = "*****''",
-  user     = "***",
-  password = "******",
-  table    = "ProVal.KUM"
+  server   = "ds1",
+  url      = surl,
+  user     = username,
+  password = password,
+  table    = "CNSIM.CNSIM1"
+)
+builder$append(
+  server   = "ds2",
+  url      = surl,
+  user     = username,
+  password = password,
+  table    = "CNSIM.CNSIM2"
 )
 
-logindata = builder$build()
-connections = DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D",
-  opts = list(ssl_verifyhost = 0, ssl_verifypeer=0))
-
-### Get available tables:
-DSI::datashield.symbols(connections)
-
-## Read test data (same as on server)
-## ========================================
-
-# We use this data to calculate a model which we want to evaluate. Here a simple logistic regression:
-dat = read.csv("data/test-kum.csv")
-mod = glm(gender ~ age + height, family = "binomial", data = dat)
-
-
-
-## Preperation for ROC-GLM
-## ========================================
-
-### The ROC-GLM requires scores and true values. The function `predictModel` calculates the
-### scores based on a model. In our case the logistic regression form above.
-
-### Upload model to DataSHIELD server:
-pushModel(connections, mod)
-
-### Predict uploaded model on server data. Scores are stored in an object called `pred`:
-predictModel(connections, mod, "pred", "D", predict_fun = "predict(mod, newdata = D, type = 'response')")
-
-### The `pred` object is later used for the ROC-GLM.
-
-### Get object on server:
-DSI::datashield.symbols(connections)
-
-
-
-## Calculate and visualize ROC-GLM
-## ========================================
-
-### Now, calculate ROC-GLM:
-roc_glm = dsROCGLM(connections, "D$gender", "pred")
-roc_glm
-
-### And plot it:
-plot(roc_glm)
-
-
-
-## Logout from DataSHIELD server
-## ========================================
-
-DSI::datashield.logout(conns = connections, save = FALSE)
+connections = datashield.login(logins = builder$build(), assign = TRUE)
+#> 
+#> Logging into the collaborating servers
+#> 
+#>   No variables have been specified. 
+#>   All the variables in the table 
+#>   (the whole dataset) will be assigned to R!
+#> 
+#> Assigning table data...
 ```
+
+#### Assign iris at DataSHIELD
+
+#### Load test model, push to DataSHIELD, and calculate predictions
+
+``` r
+# Model predicts if species of iris is setosa or not.
+iris$y = ifelse(iris$Species == "setosa", 1, 0)
+mod = glm(y ~ Sepal.Length, data = iris, family = binomial())
+
+# Push the model to the DataSHIELD servers using `dsPredictBase`:
+pushObject(connections, mod)
+
+# Calculate scores and save at the servers using `dsPredictBase`:
+predictModel(connections, mod, "pred", "iris", predict_fun = "predict(mod, newdata = D, type = 'response')")
+
+datashield.symbols(connections)
+#> $ds1
+#> [1] "D"    "iris" "mod"  "pred" "y"   
+#> 
+#> $ds2
+#> [1] "D"    "iris" "mod"  "pred" "y"
+```
+
+#### Calculate l2-sensitivity
+
+``` r
+# In order to securely calculate the ROC-GLM, we have to assess the
+# l2-sensitivity to set the privacy parameters of differential
+# privacy adequately:
+l2s = dsL2Sens(connections, "iris", "pred")
+
+
+# Due to the results presented in xyz, we set the privacy parameters to
+# - epsilon = 0.2, delta = 0.1 if i      l2s <= 0.01
+# - epsilon = 0.3, delta = 0.4 if 0.01 < l2s <= 0.03
+# - epsilon = 0.5, delta = 0.3 if 0.03 < l2s <= 0.05
+# - epsilon = 0.5, delta = 0.5 if 0.05 < l2s <= 0.07
+# - for l2s > 0.07 we cannot give any privacy guarantees!
+```
+
+#### Calculate ROC-GLM
+
+``` r
+roc_glm = dsROCGLM(connections, truth_name = "y", pred_name = "pred",
+  dat_name = "iris", seed_object = "y")
+#> 
+#> [2022-03-22 13:33:23] L2 sensitivity is: 0.1281
+#> Warning in dsROCGLM(connections, truth_name = "y", pred_name = "pred", dat_name
+#> = "iris", : l2-sensitivity may be too high for good results! Epsilon = 0.5 and
+#> delta = 0.5 is used which may lead to bad results.
+#> 
+#> [2022-03-22 13:33:23] Setting: epsilon = 0.5 and delta = 0.5
+#> 
+#> [2022-03-22 13:33:23] Initializing ROC-GLM
+#> 
+#> [2022-03-22 13:33:23] Host: Received scores of negative response
+#> [2022-03-22 13:33:23] Receiving negative scores
+#> [2022-03-22 13:33:24] Host: Pushing pooled scores
+#> [2022-03-22 13:33:25] Server: Calculating placement values and parts for ROC-GLM
+#> [2022-03-22 13:33:26] Server: Calculating probit regression to obtain ROC-GLM
+#> [2022-03-22 13:33:27] Deviance of iter1=137.2431
+#> [2022-03-22 13:33:27] Deviance of iter2=121.5994
+#> [2022-03-22 13:33:28] Deviance of iter3=147.7237
+#> [2022-03-22 13:33:29] Deviance of iter4=140.4008
+#> [2022-03-22 13:33:30] Deviance of iter5=129.2244
+#> [2022-03-22 13:33:31] Deviance of iter6=123.9979
+#> [2022-03-22 13:33:31] Deviance of iter7=123.1971
+#> [2022-03-22 13:33:32] Deviance of iter8=124.1615
+#> [2022-03-22 13:33:33] Deviance of iter9=124.5356
+#> [2022-03-22 13:33:34] Deviance of iter10=124.5503
+#> [2022-03-22 13:33:35] Deviance of iter11=124.5504
+#> [2022-03-22 13:33:35] Deviance of iter12=124.5504
+#> [2022-03-22 13:33:35] Host: Finished calculating ROC-GLM
+#> [2022-03-22 13:33:35] Host: Cleaning data on server
+#> [2022-03-22 13:33:36] Host: Calculating AUC and CI
+#> [2022-03-22 13:33:42] Finished!
+plot(roc_glm)
+```
+
+![](Readme_files/unnamed-chunk-8-1.png)<!-- -->
+
+``` r
+datashield.logout(connections)
+```
+
+## Deploy information:
+
+**Build by root (machine 20.6.0) on 2022-03-22 13:33:43.**
+
+This readme is built automatically after each push to the repository.
+Hence, it also is a test if the functionality of the package works also
+on the DataSHIELD servers. We also test these functionality in
+`tests/testthat/test_on_active_server.R`. The system information of the
+local and remote servers are as followed:
+
+  - Local machine:
+      - `R` version: R version 4.1.3 (2022-03-10)
+      - Version of DataSHELD client packages:
+
+| Package       | Version |
+| :------------ | :------ |
+| DSI           | 1.3.0   |
+| DSOpal        | 1.3.1   |
+| dsBaseClient  | 6.1.1   |
+| dsPredictBase | 0.0.1   |
+| dsROCGLM      | 0.0.1   |
+
+  - Remote DataSHIELD machines:
+      - `R` version of ds1: R version 4.1.1 (2021-08-10)
+      - `R` version of ds2: R version 4.1.1 (2021-08-10)
+      - Version of server packages:
+
+| Package       | ds1: Version | ds2: Version |
+| :------------ | :----------- | :----------- |
+| dsBase        | 6.1.1        | 6.1.1        |
+| resourcer     | 1.1.1        | 1.1.1        |
+| dsPredictBase | 0.0.1        | 0.0.1        |
+| dsROCGLM      | 0.0.1        | 0.0.1        |
