@@ -73,10 +73,12 @@ checkTruthProb = function(truth_name, prob_name, pos = NULL) {
 #' @param prob_name (`character(1L)`) Character containing the name of the vector of probabilities.
 #' @param m (`numeric(1L)`) Sample mean used for variance calculation. If `NULL` (default), the
 #'   sample mean of the positive scores is used.
+#' @param return_sum (`logical(1L)`) Logical value indicating whether the function should
+#'   just return the sum of positive scores.
 #' @return Variance of differences of positive scores
 #' @author Daniel S.
 #' @export
-getPositiveScoresVar = function(truth_name, prob_name, m = NULL) {
+getPositiveScoresVar = function(truth_name, prob_name, m = NULL, return_sum = FALSE) {
   df_pred = checkTruthProb(truth_name, prob_name)
 
   checkmate::assertNumeric(m, len = 1L, null.ok = TRUE)
@@ -90,6 +92,7 @@ getPositiveScoresVar = function(truth_name, prob_name, m = NULL) {
     stop("More than ", nfilter_privacy, " observations are required to ensure privacy!")
 
   pv = prob[truth == 1]
+  if (return_sum) return(sum(pv))
 
   if (is.null(m))
     return(stats::var(pv) * (length(pv) - 1))
@@ -163,10 +166,12 @@ getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
 #' @param prob_name (`character(1L)`) Character containing the name of the vector of probabilities.
 #' @param m (`numeric(1L)`) Sample mean used for variance calculation. If `NULL` (default), the
 #'   sample mean of the negative scores is used.
+#' @param return_sum (`logical(1L)`) Logical value indicating whether the function should
+#'   just return the sum of negative scores.
 #' @return Variance of differences of Negative scores
 #' @author Daniel S.
 #' @export
-getNegativeScoresVar = function(truth_name, prob_name, m = NULL) {
+getNegativeScoresVar = function(truth_name, prob_name, m = NULL, return_sum = FALSE) {
   df_pred = checkTruthProb(truth_name, prob_name)
 
   truth = df_pred$truth
@@ -177,8 +182,8 @@ getNegativeScoresVar = function(truth_name, prob_name, m = NULL) {
   if (length(truth) < nfilter_privacy)
     stop("More than ", nfilter_privacy, " observations are required to ensure privacy!")
 
-
   nv = prob[truth == 0]
+  if (return_sum) return(sum(nv))
 
   if (is.null(m))
     return(stats::var(nv) * (length(nv) - 1))

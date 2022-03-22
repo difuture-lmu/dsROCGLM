@@ -4,7 +4,7 @@
 \alias{getNegativeScoresVar}
 \title{Return variance of negative scores}
 \usage{
-getNegativeScoresVar(truth_name, prob_name, m = NULL)
+getNegativeScoresVar(truth_name, prob_name, m = NULL, return_sum = FALSE)
 }
 \arguments{
 \item{truth_name}{(`character(1L)`) Character containing the name of the vector of 0-1-values
@@ -14,6 +14,9 @@ encoded as integer or numeric.}
 
 \item{m}{(`numeric(1L)`) Sample mean used for variance calculation. If `NULL` (default), the
 sample mean of the negative scores is used.}
+
+\item{return_sum}{(`logical(1L)`) Logical value indicating whether the function should
+just return the sum of negative scores.}
 }
 \value{
 Variance of differences of Negative scores

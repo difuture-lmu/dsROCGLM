@@ -19,21 +19,29 @@ aucCI = function(connections, truth_name, pred_name, roc_glm, alpha = 0.05, epsi
 
   mns = ds.mean(truth_name, datasources = connections)
 
+  n_neg = sum(mns$Mean.by.Study[,"Ntotal"] * (1 - mns$Mean.by.Study[, "EstimatedMean"]))
+  n_pos = sum(mns$Mean.by.Study[,"Ntotal"] * mns$Mean.by.Study[, "EstimatedMean"])
+
   checkmate::assertCharacter(seed_object, null.ok = TRUE, len = 1L)
 
   if (is.null(seed_object)) seed_object = "NULL"
 
+  ## Calculate mean of negative and positive scores:
+  m_neg = DSI::datashield.aggregate(connections, paste0("getNegativeScoresVar(\"", truth_name,
+    "\", \"", pred_name, "\", return_sum = TRUE)"))
+  m_neg = sum(unlist(n_neg)) / n_neg
 
+  m_pos = DSI::datashield.aggregate(connections, paste0("getPositiveScoresVar(\"", truth_name,
+    "\", \"", pred_name, "\", return_sum = TRUE)"))
+  m_pos = sum(unlist(n_pos)) / n_pos
 
   ## Get sd of differences:
   ssd_neg = DSI::datashield.aggregate(connections, paste0("getNegativeScoresVar(\"", truth_name,
-    "\", \"", pred_name, "\")"))
-  n_neg   = sum(mns$Mean.by.Study[,"Ntotal"] * (1 - mns$Mean.by.Study[, "EstimatedMean"]))
+    "\", \"", pred_name, "\", m = ", m_neg, ")"))
   sdd_neg = 1 / (n_neg - 1) * sum(unlist(ssd_neg))
 
   ssd_pos = DSI::datashield.aggregate(connections, paste0("getPositiveScoresVar(\"", truth_name,
-    "\", \"", pred_name, "\")"))
-  n_pos   = sum(mns$Mean.by.Study[,"Ntotal"] * mns$Mean.by.Study[, "EstimatedMean"])
+    "\", \"", pred_name, "\", m = ", m_pos, ")"))
   sdd_pos = 1 / (n_pos - 1) * sum(unlist(ssd_pos))
 
 
