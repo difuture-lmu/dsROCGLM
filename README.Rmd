@@ -5,14 +5,57 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include=FALSE}
+options(width = 80)
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "Readme_files/",
-  eval = FALSE
+  fig.path = "Readme_files/"
 )
 
-devtools::load_all()
+pkgs = c("here", "opalr", "DSI", "DSOpal", "dsBaseClient")
+for (pkg in pkgs) {
+  if (! requireNamespace(pkg, quietly = TRUE))
+    install.packages(pkg, repos = c(getOption("repos"), "https://cran.obiba.org"))
+}
+devtools::install(quiet = TRUE, upgrade = "always")
+
+## Install packages on the DataSHIELD test machine:
+surl     = "https://opal-demo.obiba.org/"
+username = "administrator"
+password = "password"
+
+opal = opalr::opal.login(username = username, password = password, url = surl)
+
+pkgs = c("dsPredictBase", "dsROCGLM")
+for (pkg in pkgs) {
+  check1 = opalr::dsadmin.install_github_package(opal = opal, pkg = pkg, username = "difuture-lmu")
+  if (! check1)
+    stop("[", Sys.time(), "] Was not able to install ", pkg, "!")
+
+  check2 = opalr::dsadmin.publish_package(opal = opal, pkg = pkg)
+  if (! check2)
+    stop("[", Sys.time(), "] Was not able to publish methods of ", pkg, "!")
+}
+
+## Create dummy model:
+local_data1 = read.csv(here::here("inst/extdata/ds-test-cnsim1.csv"))
+local_data2 = read.csv(here::here("inst/extdata/ds-test-cnsim2.csv"))
+
+local_data = rbind(local_data1, local_data2)
+local_data$GENDER = as.factor(local_data$GENDER)
+local_data$DIS_CVA = as.factor(local_data$DIS_CVA)
+local_data$DIS_AMI = as.factor(local_data$DIS_AMI)
+local_data$MEDI_LPD = as.factor(local_data$MEDI_LPD)
+
+local_data = na.omit(local_data)
+
+## Train model:
+mod = glm(DIS_DIAB ~ LAB_TSC + LAB_TRIG + LAB_HDL + LAB_GLUC_ADJUSTED + GENDER + DIS_CVA + MEDI_LPD + DIS_AMI, data = local_data, family = binomial())
+p = predict(mod, type = "response")
+pROC::auc(local_data$DIS_DIAB, p)
+
+l2sens(local_data, p)
 ```
 
 [![Actions Status](https://github.com/difuture-lmu/dsROCGLM/workflows/R-CMD-check/badge.svg)](https://github.com/difuture-lmu/dsROCGLM/actions) [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0) [![codecov](https://codecov.io/gh/difuture-lmu/dsROCGLM/branch/master/graph/badge.svg?token=E8AZRM6XJX)](https://codecov.io/gh/difuture-lmu/dsROCGLM)
@@ -31,90 +74,143 @@ remotes::install_github("difuture-lmu/dsROCGLM")
 
 #### Register methods
 
-It is necessary to register the aggregate and assign methods in the OPAL administration. The assign methods are:
+It is necessary to register the assign and aggregate methods in the OPAL administration. These methods are registered automatically when publishing the package on OPAL (see [`DESCRIPTION`](https://github.com/difuture/dsROCGLM/blob/main/DESCRIPTION)).
 
-__Assign methods:__
-
-- `rocGLMFrame`
-
-__Aggregate methods:__
-
-- `getPositiveScores`
-- `getNegativeScores`
-- `calculateDistrGLMParts`
+Note that the package needs to be installed at both locations, the server and the analysts machine.
 
 ## Usage
 
-```{r, results="hide", warnings=FALSE}
+```{r}
 library(DSI)
 library(DSOpal)
-library(DSLite)
 library(dsBaseClient)
 
+library(dsPredictBase)
+library(dsROCGLM)
+```
 
-## DataSHIELD login:
-## ========================================
+#### Log into DataSHIELD server
 
-builder = DSI::newDSLoginBuilder()
+```{r}
+builder = newDSLoginBuilder()
+
+surl     = "https://opal-demo.obiba.org/"
+username = "administrator"
+password = "password"
 
 builder$append(
-  server   = "ibe",
-  url      = "*****''",
-  user     = "***",
-  password = "******",
-  table    = "ProVal.KUM"
+  server   = "ds1",
+  url      = surl,
+  user     = username,
+  password = password,
+  table    = "CNSIM.CNSIM1"
+)
+builder$append(
+  server   = "ds2",
+  url      = surl,
+  user     = username,
+  password = password,
+  table    = "CNSIM.CNSIM2"
 )
 
-logindata = builder$build()
-connections = DSI::datashield.login(logins = logindata, assign = TRUE, symbol = "D",
-  opts = list(ssl_verifyhost = 0, ssl_verifypeer=0))
+connections = datashield.login(logins = builder$build(), assign = TRUE)
+```
 
-### Get available tables:
-DSI::datashield.symbols(connections)
+#### Assign iris at DataSHIELD
 
-## Read test data (same as on server)
-## ========================================
+```{r, include=FALSE}
+datashield.assign(connections, "iris", quote(iris))
+datashield.assign(connections, "y", quote(c(rep(1, 50), rep(0, 100))))
+```
 
-# We use this data to calculate a model which we want to evaluate. Here a simple logistic regression:
-dat = read.csv("data/test-kum.csv")
-mod = glm(gender ~ age + height, family = "binomial", data = dat)
+#### Load test model, push to DataSHIELD, and calculate predictions
+
+```{r}
+# Model predicts if species of iris is setosa or not.
+iris$y = ifelse(iris$Species == "setosa", 1, 0)
+mod = glm(y ~ Sepal.Length, data = iris, family = binomial())
+
+# Push the model to the DataSHIELD servers using `dsPredictBase`:
+pushObject(connections, mod)
+
+# Calculate scores and save at the servers using `dsPredictBase`:
+predictModel(connections, mod, "pred", "iris", predict_fun = "predict(mod, newdata = D, type = 'response')")
+
+datashield.symbols(connections)
+```
+
+#### Calculate l2-sensitivity
+
+```{r, eval=FALSE}
+# In order to securely calculate the ROC-GLM, we have to assess the
+# l2-sensitivity to set the privacy parameters of differential
+# privacy adequately:
+l2s = dsL2Sens(connections, "iris", "pred")
 
 
+# Due to the results presented in xyz, we set the privacy parameters to
+# - epsilon = 0.2, delta = 0.1 if i      l2s <= 0.01
+# - epsilon = 0.3, delta = 0.4 if 0.01 < l2s <= 0.03
+# - epsilon = 0.5, delta = 0.3 if 0.03 < l2s <= 0.05
+# - epsilon = 0.5, delta = 0.5 if 0.05 < l2s <= 0.07
+# - for l2s > 0.07 we cannot give any privacy guarantees!
+```
 
-## Preperation for ROC-GLM
-## ========================================
+#### Calculate ROC-GLM
 
-### The ROC-GLM requires scores and true values. The function `predictModel` calculates the
-### scores based on a model. In our case the logistic regression form above.
-
-### Upload model to DataSHIELD server:
-pushModel(connections, mod)
-
-### Predict uploaded model on server data. Scores are stored in an object called `pred`:
-predictModel(connections, mod, "pred", "D", predict_fun = "predict(mod, newdata = D, type = 'response')")
-
-### The `pred` object is later used for the ROC-GLM.
-
-### Get object on server:
-DSI::datashield.symbols(connections)
-
-
-
-## Calculate and visualize ROC-GLM
-## ========================================
-
-### Now, calculate ROC-GLM:
-roc_glm = dsROCGLM(connections, "D$gender", "pred")
-roc_glm
-
-### And plot it:
+```{r}
+roc_glm = dsROCGLM(connections, truth_name = "y", pred_name = "pred",
+  dat_name = "iris", seed_object = "y")
 plot(roc_glm)
+```
+
+```{r, eval=FALSE}
+datashield.logout(connections)
+```
+
+## Deploy information:
+
+__Build by `r Sys.info()[["login"]]` (machine `r Sys.info()[["release"]]`) on `r as.character(Sys.time())`.__
+
+This readme is built automatically after each push to the repository. Hence, it also is a test if the functionality of the package works also on the DataSHIELD servers. We also test these functionality in `tests/testthat/test_on_active_server.R`. The system information of the local and remote servers are as followed:
 
 
+```{r, include=FALSE}
+ri_l  = sessionInfo()
+ri_ds = datashield.aggregate(connections, quote(getDataSHIELDInfo()))
+client_pkgs = c("DSI", "DSOpal", "dsBaseClient", "dsPredictBase", "dsROCGLM")
+remote_pkgs = c("dsBase", "resourcer", "dsPredictBase", "dsROCGLM")
+```
 
-## Logout from DataSHIELD server
-## ========================================
+- Local machine:
+    - `R` version: `r ri_l$R.version$version.string`
+    - Version of DataSHELD client packages:
 
-DSI::datashield.logout(conns = connections, save = FALSE)
+
+```{r, echo=FALSE}
+dfv = installed.packages()[client_pkgs, ]
+dfv = data.frame(Package = rownames(dfv), Version = unname(dfv[, "Version"]))
+knitr::kable(dfv)
+```
+
+- Remote DataSHIELD machines:
+    - `R` version of `r names(ri_ds)[1]`: `r ri_ds[[1]]$session$R.version$version.string`
+    - `R` version of `r names(ri_ds)[2]`: `r ri_ds[[2]]$session$R.version$version.string`
+    - Version of server packages:
+
+
+```{r, echo=FALSE}
+dfv = do.call(cbind, lapply(names(ri_ds), function(nm) {
+  out = ri_ds[[nm]]$pcks[remote_pkgs, "Version", drop = FALSE]
+  colnames(out) = paste0(nm, ": ", colnames(out))
+  as.data.frame(out)
+}))
+dfv = cbind(Package = rownames(dfv), dfv)
+rownames(dfv) = NULL
+knitr::kable(dfv)
+```
+
+```{r, include=FALSE}
+datashield.logout(connections)
 ```
 
