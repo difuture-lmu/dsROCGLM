@@ -115,7 +115,8 @@ mod = glm(y ~ Sepal.Length, data = iris, family = binomial())
 pushObject(connections, mod)
 
 # Calculate scores and save at the servers using `dsPredictBase`:
-predictModel(connections, mod, "pred", "iris", predict_fun = "predict(mod, newdata = D, type = 'response')")
+pfun =  "predict(mod, newdata = D, type = 'response')"
+predictModel(connections, mod, "pred", "iris", predict_fun = pfun)
 
 datashield.symbols(connections)
 ```
@@ -127,14 +128,14 @@ datashield.symbols(connections)
 # l2-sensitivity to set the privacy parameters of differential
 # privacy adequately:
 l2s = dsL2Sens(connections, "iris", "pred")
+l2s
 
-
-# Due to the results presented in xyz, we set the privacy parameters to
+# Due to the results presented in https://arxiv.org/abs/2203.10828, we set the privacy parameters to
 # - epsilon = 0.2, delta = 0.1 if i      l2s <= 0.01
 # - epsilon = 0.3, delta = 0.4 if 0.01 < l2s <= 0.03
 # - epsilon = 0.5, delta = 0.3 if 0.03 < l2s <= 0.05
 # - epsilon = 0.5, delta = 0.5 if 0.05 < l2s <= 0.07
-# - for l2s > 0.07 we cannot give any privacy guarantees!
+# - epsilon = 0.5, delta = 0.5 if 0.07 < l2s BUT results may be not good!
 ```
 
 #### Calculate ROC-GLM
