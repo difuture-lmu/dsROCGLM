@@ -83,15 +83,13 @@ builder$append(
   server   = "ds1",
   url      = surl,
   user     = username,
-  password = password,
-  table    = "CNSIM.CNSIM1"
+  password = password
 )
 builder$append(
   server   = "ds2",
   url      = surl,
   user     = username,
-  password = password,
-  table    = "CNSIM.CNSIM2"
+  password = password
 )
 
 connections = datashield.login(logins = builder$build(), assign = TRUE)
@@ -99,7 +97,7 @@ connections = datashield.login(logins = builder$build(), assign = TRUE)
 
 #### Assign iris at DataSHIELD
 
-```{r, include=FALSE}
+```{r}
 datashield.assign(connections, "iris", quote(iris))
 datashield.assign(connections, "y", quote(c(rep(1, 50), rep(0, 100))))
 ```

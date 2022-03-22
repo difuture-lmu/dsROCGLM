@@ -32,27 +32,21 @@ test_that("all methods can be used and produce reasonable output", {
 
   builder = newDSLoginBuilder()
 
-  surl     = "https://opal-demo.obiba.org/"
-  username = "administrator"
-  password = "password"
-
   builder$append(
     server   = "ds-test-server-dummy1",
     url      = surl,
     user     = username,
-    password = password,
-    table    = "CNSIM.CNSIM1"
+    password = password
   )
   builder$append(
     server   = "ds-test-server-dummy2",
     url      = surl,
     user     = username,
-    password = password,
-    table    = "CNSIM.CNSIM2"
+    password = password
   )
   connections <<- datashield.login(logins = builder$build(), assign = TRUE)
 
-  datashield.assign(connections, "valid", quote(c(rep(1, 50), rep(0, 100))))
+  datashield.assign(connections, "valid", quote(c(rep(1, 45), rep(0, 105))))
   pushObject(connections, mod)
   datashield.assign(connections, "dat", quote(iris))
   predictModel(connections, mod, "pred", "dat", predict_fun = "predict(mod, newdata = D, type = 'response')")
