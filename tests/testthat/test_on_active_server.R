@@ -53,16 +53,16 @@ test_that("all methods can be used and produce reasonable output", {
   predictModel(connections, mod, "pred", "dat", predict_fun = "predict(mod, newdata = D, type = 'response')")
 
   expect_equal(l2sens("iris", "p")$l2sens, dsL2Sens(connections, "dat", "pred"))
-  expect_message(expect_warning({
+  expect_message({
     roc_glm = dsROCGLM(connections, "valid", "pred", dat_name = "iris",
       seed_object = "pred")
-  }))
+  })
   expect_equal(class(roc_glm), "ROC.GLM")
 
-  expect_message(expect_warning({
+  expect_message({
     roc_glm2 = dsROCGLM(connections, "valid", "pred", dat_name = "iris",
       seed_object = "pred")
-  }))
+  })
   expect_equal(roc_glm, roc_glm2)
 
   expect_silent({gg = plot(roc_glm)})
