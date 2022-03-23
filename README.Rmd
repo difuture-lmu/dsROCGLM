@@ -152,7 +152,7 @@ datashield.logout(connections)
 
 ## Deploy information:
 
-__Build by `r Sys.info()[["login"]]` (machine `r Sys.info()[["release"]]`) on `r as.character(Sys.time())`.__
+__Build by `r Sys.info()[["login"]]` (`r Sys.info()[["sysname"]]`) on `r as.character(Sys.time())`.__
 
 This readme is built automatically after each push to the repository. Hence, it also is a test if the functionality of the package works also on the DataSHIELD servers. We also test these functionality in `tests/testthat/test_on_active_server.R`. The system information of the local and remote servers are as followed:
 
