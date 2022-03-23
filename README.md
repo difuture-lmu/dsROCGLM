@@ -53,7 +53,11 @@ A more sophisticated example is available
 
 ``` r
 library(DSI)
+#> Loading required package: progress
+#> Loading required package: R6
 library(DSOpal)
+#> Loading required package: opalr
+#> Loading required package: httr
 library(dsBaseClient)
 
 library(dsPredictBase)
@@ -83,12 +87,12 @@ builder$append(
 )
 
 connections = datashield.login(logins = builder$build(), assign = TRUE)
-#> 
+#>
 #> Logging into the collaborating servers
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Login ds1 [========================>---------------------------------------------------]  33% / 0s  Login ds2 [==================================================>-------------------------]  67% / 0s  Logged in all servers [================================================================] 100% / 1s
 ```
 
-#### Assign iris at DataSHIELD
+#### Assign iris and validation vector at DataSHIELD (just for testing)
 
 ``` r
 datashield.assign(connections, "iris", quote(iris))
@@ -115,8 +119,8 @@ predictModel(connections, mod, "pred", "iris", predict_fun = pfun)
 
 datashield.symbols(connections)
 #> $ds1
-#> [1] "iris" "mod"  "pred" "y"   
-#> 
+#> [1] "iris" "mod"  "pred" "y"
+#>
 #> $ds2
 #> [1] "iris" "mod"  "pred" "y"
 ```
@@ -152,55 +156,55 @@ roc_glm = dsROCGLM(connections, truth_name = "y", pred_name = "pred",
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (xXcols <- decodeBinary("580a000000030004010200030500000000055554462d38000000fe", ...  Finalizing assignment ds1 (xXcols <- decodeBinary("580a000000030004010200030500000000055554462d...  Checking ds2 (xXcols <- decodeBinary("580a000000030004010200030500000000055554462d38000000fe", ...  Finalizing assignment ds2 (xXcols <- decodeBinary("580a000000030004010200030500000000055554462d...  Assigned expr. (xXcols <- decodeBinary("580a000000030004010200030500000000055554462d38000000fe"...
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (l2sens("iris", "pred", 100, "xXcols", diff, TRUE)) [---------------------]   0% / 0s  Getting aggregate ds1 (l2sens("iris", "pred", 100, "xXcols", diff, TRUE)) [===>--------]  33% / 0s  Checking ds2 (l2sens("iris", "pred", 100, "xXcols", diff, TRUE)) [======>--------------]  33% / 0s  Getting aggregate ds2 (l2sens("iris", "pred", 100, "xXcols", diff, TRUE)) [=======>----]  67% / 0s  Aggregated (...) [=====================================================================] 100% / 0s
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (rmDS("xXcols")) [--------------------------------------------------------]   0% / 0s  Getting aggregate ds1 (rmDS("xXcols")) [===============>-------------------------------]  33% / 0s  Checking ds2 (rmDS("xXcols")) [==================>-------------------------------------]  33% / 0s  Getting aggregate ds2 (rmDS("xXcols")) [==============================>----------------]  67% / 0s  Aggregated (rmDS("xXcols")) [==========================================================] 100% / 0s
-#> 
-#> [2022-03-23 14:08:46] L2 sensitivity is: 0.1281
-#> 
+#>
+#> [2022-03-23 14:15:55] L2 sensitivity is: 0.1281
+#>
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (l2s <- decodeBinary("580a000000030004010200030500000000055554462d380000000e000000...  Finalizing assignment ds1 (l2s <- decodeBinary("580a000000030004010200030500000000055554462d380...  Checking ds2 (l2s <- decodeBinary("580a000000030004010200030500000000055554462d380000000e000000...  Finalizing assignment ds2 (l2s <- decodeBinary("580a000000030004010200030500000000055554462d380...  Assigned expr. (l2s <- decodeBinary("580a000000030004010200030500000000055554462d380000000e0000...
 #> Warning in dsROCGLM(connections, truth_name = "y", pred_name = "pred", dat_name
 #> = "iris", : l2-sensitivity may be too high for good results! Epsilon = 0.5 and
 #> delta = 0.5 is used which may lead to bad results.
-#> 
-#> [2022-03-23 14:08:46] Setting: epsilon = 0.5 and delta = 0.5
-#> 
-#> 
-#> [2022-03-23 14:08:46] Initializing ROC-GLM
-#> 
-#> [2022-03-23 14:08:46] Host: Received scores of negative response
-#> 
-#> [2022-03-23 14:08:46] Receiving negative scores
+#>
+#> [2022-03-23 14:15:56] Setting: epsilon = 0.5 and delta = 0.5
+#>
+#>
+#> [2022-03-23 14:15:56] Initializing ROC-GLM
+#>
+#> [2022-03-23 14:15:56] Host: Received scores of negative response
+#>
+#> [2022-03-23 14:15:56] Receiving negative scores
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (getNegativeScores("y", "pred", 0.5, 0.5, "y", TRUE)) [-------------------]   0% / 0s  Getting aggregate ds1 (getNegativeScores("y", "pred", 0.5, 0.5, "y", TRUE)) [==>-------]  33% / 0s  Checking ds2 (getNegativeScores("y", "pred", 0.5, 0.5, "y", TRUE)) [=====>-------------]  33% / 0s  Getting aggregate ds2 (getNegativeScores("y", "pred", 0.5, 0.5, "y", TRUE)) [======>---]  67% / 0s  Aggregated (...) [=====================================================================] 100% / 0s
-#> [2022-03-23 14:08:46] Host: Pushing pooled scores
+#> [2022-03-23 14:15:56] Host: Pushing pooled scores
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (pooled_scores <- decodeBinary("580a000000030004010200030500000000055554462d380000...  Finalizing assignment ds1 (pooled_scores <- decodeBinary("580a000000030004010200030500000000055...  Checking ds2 (pooled_scores <- decodeBinary("580a000000030004010200030500000000055554462d380000...  Finalizing assignment ds2 (pooled_scores <- decodeBinary("580a000000030004010200030500000000055...  Assigned expr. (pooled_scores <- decodeBinary("580a000000030004010200030500000000055554462d3800...
-#> [2022-03-23 14:08:47] Server: Calculating placement values and parts for ROC-GLM
+#> [2022-03-23 14:15:56] Server: Calculating placement values and parts for ROC-GLM
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (roc_data <- rocGLMFrame("y", "pred", "pooled_scores")) [-----------------]   0% / 0s  Finalizing assignment ds1 (roc_data <- rocGLMFrame("y", "pred", "pooled_scores")) [>---]  33% / 0s  Checking ds2 (roc_data <- rocGLMFrame("y", "pred", "pooled_scores")) [=====>-----------]  33% / 0s  Finalizing assignment ds2 (roc_data <- rocGLMFrame("y", "pred", "pooled_scores")) [==>-]  67% / 0s  Assigned expr. (roc_data <- rocGLMFrame("y", "pred", "pooled_scores")) [===============] 100% / 0s
-#> [2022-03-23 14:08:47] Server: Calculating probit regression to obtain ROC-GLM
+#> [2022-03-23 14:15:57] Server: Calculating probit regression to obtain ROC-GLM
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [--]   0% / 0s  Getting aggregate ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Checking ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [>-]  33% / 0s  Getting aggregate ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Aggregated (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [====] 100% / 0s
-#> [2022-03-23 14:08:48] Deviance of iter1=137.2431
+#> [2022-03-23 14:15:57] Deviance of iter1=137.2431
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [--]   0% / 0s  Getting aggregate ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Checking ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [>-]  33% / 0s  Getting aggregate ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Aggregated (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [====] 100% / 0s
-#> [2022-03-23 14:08:48] Deviance of iter2=121.5994
+#> [2022-03-23 14:15:58] Deviance of iter2=121.5994
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [--]   0% / 0s  Getting aggregate ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Checking ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [>-]  33% / 0s  Getting aggregate ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Aggregated (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [====] 100% / 0s
-#> [2022-03-23 14:08:48] Deviance of iter3=147.7237
+#> [2022-03-23 14:15:58] Deviance of iter3=147.7237
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [--]   0% / 0s  Getting aggregate ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Checking ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [>-]  33% / 0s  Getting aggregate ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Aggregated (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [====] 100% / 0s
-#> [2022-03-23 14:08:49] Deviance of iter4=140.4008
+#> [2022-03-23 14:15:58] Deviance of iter4=140.4008
+#>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [--]   0% / 0s  Getting aggregate ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Checking ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [>-]  33% / 0s  Getting aggregate ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Aggregated (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [====] 100% / 1s
+#> [2022-03-23 14:15:59] Deviance of iter5=129.2244
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [--]   0% / 0s  Getting aggregate ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Checking ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [>-]  33% / 0s  Getting aggregate ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Aggregated (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [====] 100% / 0s
-#> [2022-03-23 14:08:49] Deviance of iter5=129.2244
+#> [2022-03-23 14:16:00] Deviance of iter6=123.9979
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [--]   0% / 0s  Getting aggregate ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Checking ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [>-]  33% / 0s  Getting aggregate ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Aggregated (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [====] 100% / 0s
-#> [2022-03-23 14:08:49] Deviance of iter6=123.9979
+#> [2022-03-23 14:16:00] Deviance of iter7=123.1971
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [--]   0% / 0s  Getting aggregate ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Checking ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [>-]  33% / 0s  Getting aggregate ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Aggregated (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [====] 100% / 0s
-#> [2022-03-23 14:08:50] Deviance of iter7=123.1971
+#> [2022-03-23 14:16:00] Deviance of iter8=124.1615
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [--]   0% / 0s  Getting aggregate ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Checking ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [>-]  33% / 0s  Getting aggregate ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Aggregated (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [====] 100% / 0s
-#> [2022-03-23 14:08:50] Deviance of iter8=124.1615
+#> [2022-03-23 14:16:01] Deviance of iter9=124.5356
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [--]   0% / 0s  Getting aggregate ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Checking ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [>-]  33% / 0s  Getting aggregate ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Aggregated (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [====] 100% / 0s
-#> [2022-03-23 14:08:51] Deviance of iter9=124.5356
+#> [2022-03-23 14:16:01] Deviance of iter10=124.5503
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [--]   0% / 0s  Getting aggregate ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Checking ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [>-]  33% / 0s  Getting aggregate ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Aggregated (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [====] 100% / 0s
-#> [2022-03-23 14:08:51] Deviance of iter10=124.5503
+#> [2022-03-23 14:16:02] Deviance of iter11=124.5504
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [--]   0% / 0s  Getting aggregate ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Checking ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [>-]  33% / 0s  Getting aggregate ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Aggregated (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [====] 100% / 0s
-#> [2022-03-23 14:08:51] Deviance of iter11=124.5504
-#>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [--]   0% / 0s  Getting aggregate ds1 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Checking ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [>-]  33% / 0s  Getting aggregate ds2 (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) []...  Aggregated (calculateDistrGLMParts(formula = y ~ x, data = "roc_data", w = "w", ) [====] 100% / 0s
-#> [2022-03-23 14:08:52] Deviance of iter12=124.5504
-#> [2022-03-23 14:08:52] Host: Finished calculating ROC-GLM
-#> [2022-03-23 14:08:52] Host: Cleaning data on server
-#> [2022-03-23 14:08:52] Host: Calculating AUC and CI
+#> [2022-03-23 14:16:02] Deviance of iter12=124.5504
+#> [2022-03-23 14:16:02] Host: Finished calculating ROC-GLM
+#> [2022-03-23 14:16:02] Host: Cleaning data on server
+#> [2022-03-23 14:16:03] Host: Calculating AUC and CI
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (meanDS(y)) [-------------------------------------------------------------]   0% / 0s  Getting aggregate ds1 (meanDS(y)) [================>-----------------------------------]  33% / 0s  Checking ds2 (meanDS(y)) [===================>-----------------------------------------]  33% / 0s  Getting aggregate ds2 (meanDS(y)) [==================================>-----------------]  67% / 0s  Aggregated (meanDS(y)) [===============================================================] 100% / 0s
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (getNegativeScoresVar("y", "pred", return_sum = TRUE)) [------------------]   0% / 0s  Getting aggregate ds1 (getNegativeScoresVar("y", "pred", return_sum = TRUE)) [==>------]  33% / 0s  Checking ds2 (getNegativeScoresVar("y", "pred", return_sum = TRUE)) [=====>------------]  33% / 0s  Getting aggregate ds2 (getNegativeScoresVar("y", "pred", return_sum = TRUE)) [=====>---]  67% / 0s  Aggregated (...) [=====================================================================] 100% / 0s
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (getPositiveScoresVar("y", "pred", return_sum = TRUE)) [------------------]   0% / 0s  Getting aggregate ds1 (getPositiveScoresVar("y", "pred", return_sum = TRUE)) [==>------]  33% / 0s  Checking ds2 (getPositiveScoresVar("y", "pred", return_sum = TRUE)) [=====>------------]  33% / 0s  Getting aggregate ds2 (getPositiveScoresVar("y", "pred", return_sum = TRUE)) [=====>---]  67% / 0s  Aggregated (...) [=====================================================================] 100% / 0s
@@ -208,13 +212,13 @@ roc_glm = dsROCGLM(connections, truth_name = "y", pred_name = "pred",
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (getPositiveScoresVar("y", "pred", m = 1)) [------------------------------]   0% / 0s  Getting aggregate ds1 (getPositiveScoresVar("y", "pred", m = 1)) [======>--------------]  33% / 0s  Checking ds2 (getPositiveScoresVar("y", "pred", m = 1)) [=========>--------------------]  33% / 0s  Getting aggregate ds2 (getPositiveScoresVar("y", "pred", m = 1)) [=============>-------]  67% / 0s  Aggregated (...) [=====================================================================] 100% / 0s
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (getNegativeScores("y", "pred", 0.5, 0.5, "y", TRUE)) [-------------------]   0% / 0s  Getting aggregate ds1 (getNegativeScores("y", "pred", 0.5, 0.5, "y", TRUE)) [==>-------]  33% / 0s  Checking ds2 (getNegativeScores("y", "pred", 0.5, 0.5, "y", TRUE)) [=====>-------------]  33% / 0s  Getting aggregate ds2 (getNegativeScores("y", "pred", 0.5, 0.5, "y", TRUE)) [======>---]  67% / 0s  Aggregated (...) [=====================================================================] 100% / 0s
 #>    [-------------------------------------------------------------------------------------]   0% / 0s  Checking ds1 (getPositiveScores("y", "pred", 0.5, 0.5, "y", TRUE)) [-------------------]   0% / 0s  Getting aggregate ds1 (getPositiveScores("y", "pred", 0.5, 0.5, "y", TRUE)) [==>-------]  33% / 0s  Checking ds2 (getPositiveScores("y", "pred", 0.5, 0.5, "y", TRUE)) [=====>-------------]  33% / 0s  Getting aggregate ds2 (getPositiveScores("y", "pred", 0.5, 0.5, "y", TRUE)) [======>---]  67% / 0s  Aggregated (...) [=====================================================================] 100% / 0s
-#> [2022-03-23 14:08:54] Finished!
+#> [2022-03-23 14:16:05] Finished!
 roc_glm
-#> 
+#>
 #> ROC-GLM after Pepe:
-#> 
+#>
 #>  Binormal form: pnorm(2.51 + 1.55*qnorm(t))
-#> 
+#>
 #>  AUC and 0.95 CI: [0.86----0.91----0.95]
 
 plot(roc_glm)
@@ -224,7 +228,7 @@ plot(roc_glm)
 
 ## Deploy information:
 
-**Build by daniel (Linux) on 2022-03-23 14:08:55.**
+**Build by daniel (Linux) on 2022-03-23 14:16:06.**
 
 This readme is built automatically after each push to the repository.
 Hence, it also is a test if the functionality of the package works also
