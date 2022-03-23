@@ -61,6 +61,8 @@ Note that the package needs to be installed at both locations, the server and th
 
 ## Usage
 
+A more sophisticated example is available [here](github.com/difuture-lmu/datashield-roc-glm-demo).
+
 ```{r}
 library(DSI)
 library(DSOpal)
