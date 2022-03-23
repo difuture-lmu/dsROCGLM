@@ -3,9 +3,10 @@ context("Check if functionality works on the DataSHIELD test sever")
 test_that("all methods can be used and produce reasonable output", {
   irisb = iris
   irisb$y = ifelse(iris$Species == "setosa", 1, 0)
+  irisb$y[sample(seq_len(nrow(irisb)), 30)] = 1
   irisb$Species = NULL
 
-  mod <<- glm(y ~ Sepal.Length, data = irisb, family = binomial())
+  mod <<- glm(y ~ Sepal.Length + Petal.Length, data = irisb, family = binomial())
   p <<- predict(mod, type = "response")
 
   surl     = "https://opal-demo.obiba.org/"
@@ -51,15 +52,15 @@ test_that("all methods can be used and produce reasonable output", {
   pushObject(connections, mod)
   predictModel(connections, mod, "pred", "dat", predict_fun = "predict(mod, newdata = D, type = 'response')")
 
-  expect_equal(l2sens("iris", "p", nbreaks = 10)$l2sens, dsL2Sens(connections, "dat", "pred", nbreaks = 10))
+  expect_equal(l2sens("iris", "p")$l2sens, dsL2Sens(connections, "dat", "pred"))
   expect_message(expect_warning({
-    roc_glm = dsROCGLM(connections, "valid", "pred", nbreaks = 10, dat_name = "iris",
+    roc_glm = dsROCGLM(connections, "valid", "pred", dat_name = "iris",
       seed_object = "pred")
   }))
   expect_equal(class(roc_glm), "ROC.GLM")
 
   expect_message(expect_warning({
-    roc_glm2 = dsROCGLM(connections, "valid", "pred", nbreaks = 10, dat_name = "iris",
+    roc_glm2 = dsROCGLM(connections, "valid", "pred", dat_name = "iris",
       seed_object = "pred")
   }))
   expect_equal(roc_glm, roc_glm2)

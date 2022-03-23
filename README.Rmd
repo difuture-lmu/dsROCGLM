@@ -97,7 +97,7 @@ builder$append(
 connections = datashield.login(logins = builder$build(), assign = TRUE)
 ```
 
-#### Assign iris at DataSHIELD
+#### Assign iris and validation vector at DataSHIELD (just for testing)
 
 ```{r}
 datashield.assign(connections, "iris", quote(iris))
@@ -123,7 +123,7 @@ datashield.symbols(connections)
 
 #### Calculate l2-sensitivity
 
-```{r, eval=FALSE}
+```{r}
 # In order to securely calculate the ROC-GLM, we have to assess the
 # l2-sensitivity to set the privacy parameters of differential
 # privacy adequately:
@@ -143,11 +143,9 @@ l2s
 ```{r}
 roc_glm = dsROCGLM(connections, truth_name = "y", pred_name = "pred",
   dat_name = "iris", seed_object = "y")
-plot(roc_glm)
-```
+roc_glm
 
-```{r, eval=FALSE}
-datashield.logout(connections)
+plot(roc_glm)
 ```
 
 ## Deploy information:

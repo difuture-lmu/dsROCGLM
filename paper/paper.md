@@ -64,7 +64,7 @@ In this package we close the gap between distributed model building and conducti
 analysis also on the distributed data. Therefore, our package seamlessly integrates into
 the DataSHIELD framework.
 
-__Technical Details:__ To ensure the functioning of our package on DataSHIELD, it is
+__Technical details:__ To ensure the functioning of our package on DataSHIELD, it is
 constantly unit tested on an active DataSHIELD [test instance](opal-demo.obiba.org). The
 reference, username, and password are available at the
 [OPAL documentation](opaldoc.obiba.org/en/latest/resources.html) in the "Types" section.
