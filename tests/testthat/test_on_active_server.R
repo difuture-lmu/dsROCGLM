@@ -52,7 +52,7 @@ test_that("all methods can be used and produce reasonable output", {
   pushObject(connections, mod)
   predictModel(connections, mod, "pred", "dat", predict_fun = "predict(mod, newdata = D, type = 'response')")
 
-  expect_equal(l2sens("iris", "p")$l2sens, dsL2Sens(connections, "dat", "pred"))
+  expect_equal(l2sens("iris", "p", nbreaks = 30L)$l2sens, dsL2Sens(connections, "dat", "pred", nbreaks = 30L))
   expect_message({
     roc_glm = dsROCGLM(connections, "valid", "pred", dat_name = "iris",
       seed_object = "pred")
