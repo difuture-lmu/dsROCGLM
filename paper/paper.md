@@ -1,112 +1,77 @@
 ---
 title: 'Gala: A Python package for galactic dynamics'
 tags:
-  - Python
-  - astronomy
-  - dynamics
-  - galactic dynamics
-  - milky way
+  - R
+  - DataSHIELD
+  - distributed Computing
+  - medical tests
+  - ROC-GLM
 authors:
-  - name: Adrian M. Price-Whelan^[Co-first author] # note this makes a footnote saying 'Co-first author'
-    orcid: 0000-0000-0000-0000
-    affiliation: "1, 2" # (Multiple affiliations must be quoted)
-  - name: Author Without ORCID^[Co-first author] # note this makes a footnote saying 'Co-first author'
+  - name: Daniel Schalk
+    orcid: 0000-0003-0950-1947
+    affiliation: "1, 3"
+  - name: Author Without ORCID
     affiliation: 2
-  - name: Author with no affiliation^[Corresponding author]
-    affiliation: 3
 affiliations:
- - name: Lyman Spitzer, Jr. Fellow, Princeton University, USA
+ - name: Department of Statistics, LMU Munich, Munich, Germany
    index: 1
- - name: Institution Name, Country
+ - name: Institute for Medical Information Processing, Biometry and Epidemiology, LMU Munich, Munich, Germany
    index: 2
- - name: Independent Researcher, Country
+ - name: DIFUTURE (DataIntegration for Future Medicine, www.difuture.de), LMU Munich, Munich, Germany
    index: 3
 date: 13 August 2017
 bibliography: paper.bib
-
-# Optional fields if submitting to a AAS journal too, see this blog post:
-# https://blog.joss.theoj.org/2018/12/a-new-collaboration-with-aas-publishing
-aas-doi: 10.3847/xxxxx <- update this with the DOI from AAS once you know it.
-aas-journal: Astrophysical Journal <- The name of the AAS journal.
 ---
-
-# Summary
-
-The forces on stars, galaxies, and dark matter under external gravitational
-fields lead to the dynamical evolution of structures in the universe. The orbits
-of these bodies are therefore key to understanding the formation, history, and
-future state of galaxies. The field of "galactic dynamics," which aims to model
-the gravitating components of galaxies to study their structure and evolution,
-is now well-established, commonly taught, and frequently used in astronomy.
-Aside from toy problems and demonstrations, the majority of problems require
-efficient numerical tools, many of which require the same base code (e.g., for
-performing numerical orbit integration).
 
 # Statement of need
 
-`Gala` is an Astropy-affiliated Python package for galactic dynamics. Python
-enables wrapping low-level languages (e.g., C) for speed without losing
-flexibility or ease-of-use in the user-interface. The API for `Gala` was
-designed to provide a class-based and user-friendly interface to fast (C or
-Cython-optimized) implementations of common operations such as gravitational
-potential and force evaluation, orbit integration, dynamical transformations,
-and chaos indicators for nonlinear dynamics. `Gala` also relies heavily on and
-interfaces well with the implementations of physical units and astronomical
-coordinate systems in the `Astropy` package [@astropy] (`astropy.units` and
-`astropy.coordinates`).
+Confidential data, such as patient data in medical research, plays a major role for
+a variety of tasks. One of the main tasks of statistics or machine learning
+is to gain insights by building statistical or prognostic models. But, using
+confidential data comes with administrative burdens and mostly requires a consent
+about using the data. Furthermore, the data can be distributed over multiple sites
+(e.g. hospitals) which further complicates access to them. Modern approaches in
+distributed computing allow to work on distributed confidential data by providing
+frameworks that allow to directly work on the data without sharing information.
 
-`Gala` was designed to be used by both astronomical researchers and by
-students in courses on gravitational dynamics or astronomy. It has already been
-used in a number of scientific publications [@Pearson:2017] and has also been
-used in graduate courses on Galactic dynamics to, e.g., provide interactive
-visualizations of textbook material [@Binney:2008]. The combination of speed,
-design, and support for Astropy functionality in `Gala` will enable exciting
-scientific explorations of forthcoming data releases from the *Gaia* mission
-[@gaia] by students and experts alike.
+One of these frameworks is DataSHIELD [@gaye2014datashield] which allows to analyse
+data in a non-disclosive private setting. The framework already provides, among others,
+techniques for descriptive statistics, basic summary statistics, or basic statistical
+modelling. Within a multiple sklerosis use-case to enhance patient medication in the
+DIFUTURE consortia [@prasser2018difuture] we aim to develop a prognostic model and
+validate it based on patient data distributed over five hospitals using DataSHIELD.
+The missing part on DataSHIELD for this very general model developing-evaluation is the
+evaluation which is planned to use ROC analysis.
 
-# Mathematics
+In this package we close the gap between distributed model building and conducting ROC
+analysis also on the distributed data. Therefore, our package seamlessly integrates into
+the DataSHIELD framework.
 
-Single dollars ($) are required for inline mathematics e.g. $f(x) = e^{\pi/x}$
+# Summary
 
-Double dollars make self-standing equations:
+Our package implements the methodology explained by @schalk2022rocglm. It extends the
+ROC-GLM [@pepe2000interpretation] to distributed data by using techniques of differential
+privacy [@dwork2006calibrating] and the idea of just sharing highly aggregated values. Using
+the package allows to evaluate a prognostic model based on an binary outcome. Therefore,
+the main functionality makes it able to compute 1) the ROC curve using the ROC-GLM from
+which 2) the AUC is derived. Furthermore, 3) confidence intervals based on
+@delong1988comparing are estimated to conduct hypotheses testing of the estimated AUC.
+Visualizing the ROC curve and all parts is also included in the package. For assessing the
+model calibration in a distributed fashion, another package for DataSHIELD called
+[dsCalibration](github.com/difuture-lmu/dsCalibration) can be used. To upload models to
+the DataSHIELD servers and calculate predictions can be done using
+[dsPredictBase](github.com/difuture-lmu/dsPredictBase).
 
-$$\Theta(x) = \left\{\begin{array}{l}
-0\textrm{ if } x < 0\cr
-1\textrm{ else}
-\end{array}\right.$$
-
-You can also use plain \LaTeX for equations
-\begin{equation}\label{eq:fourier}
-\hat f(\omega) = \int_{-\infty}^{\infty} f(x) e^{i\omega x} dx
-\end{equation}
-and refer to \autoref{eq:fourier} from text.
-
-# Citations
-
-Citations to entries in paper.bib should be in
-[rMarkdown](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
-format.
-
-If you want to cite a software repository URL (e.g. something on GitHub without a preferred
-citation) then you can do it with the example BibTeX entry below for @fidgit.
-
-For a quick reference, the following citation commands can be used:
-- `@author:2001`  ->  "Author et al. (2001)"
-- `[@author:2001]` -> "(Author et al., 2001)"
-- `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
-
-# Figures
-
-Figures can be included like this:
-![Caption for example figure.\label{fig:example}](figure.png)
-and referenced from text using \autoref{fig:example}.
-
-Figure sizes can be customized by adding an optional second parameter:
-![Caption for example figure.](figure.png){ width=20% }
+To ensure the functioning of our package on DataSHIELD, it is constantly unit tested on an
+active DataSHIELD [test instance](opal-demo.obiba.org). The reference, username,
+and password are available at the
+[OPAL documentation](opaldoc.obiba.org/en/latest/resources.html) in the "Types" section.
 
 # Acknowledgements
 
-We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
-Oh, and support from Kathryn Johnston during the genesis of this project.
+This work was supported by the German Federal Ministry of Education and Research (BMBF)
+under Grant No. 01IS18036A and Federal Ministry for Research and Technology (BMFT) under
+Grant No. 01ZZ1804C (DIFUTURE, MII). The authors of this work take full responsibilities
+for its content.
 
 # References
