@@ -41,9 +41,9 @@ One of these frameworks for privacy protected analysis is DataSHIELD [@gaye2014d
 
 In this package we close the gap between distributed model building and conducting ROC analysis also on the distributed data. Therefore, our package seamlessly integrates into the DataSHIELD framework.
 
-Technical details: To ensure the functioning of our package on DataSHIELD, it is constantly unit tested on an active DataSHIELD [test instance](opal-demo.obiba.org). The reference, username, and password are available at the [OPAL documentation](opaldoc.obiba.org/en/latest/resources.html) in the "Types" section.
+__Technical details:__ To ensure the functioning of our package on DataSHIELD, it is constantly unit tested on an active DataSHIELD [test instance](opal-demo.obiba.org). The reference, username, and password are available at the [OPAL documentation](opaldoc.obiba.org/en/latest/resources.html) in the "Types" section.
 
-Related software: We also implemented the Brier score and calibration curves to assess the model calibration within the DataSHIELD framework. These functions are available in the [`dsCalibration`](https://github.com/difuture-lmu/dsCalibration) package. To upload models to the DataSHIELD servers and calculate predictions can be done using our [`dsPredictBase`](https://github.com/difuture-lmu/dsPredictBase) package.
+__Related software:__ We also implemented the Brier score and calibration curves to assess the model calibration within the DataSHIELD framework. These functions are available in the [`dsCalibration`](https://github.com/difuture-lmu/dsCalibration) package. To upload models to the DataSHIELD servers and calculate predictions can be done using our [`dsPredictBase`](https://github.com/difuture-lmu/dsPredictBase) package.
 # Acknowledgements
 
 This work was supported by the German Federal Ministry of Education and Research (BMBF)
