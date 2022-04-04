@@ -23,7 +23,7 @@ that DataSHIELD uses an option `datashield.privacyLevel` to indicate the
 minimal amount of numbers required to be allowed to share an aggregated
 value of these numbers. Instead of setting the option, we directly
 retrieve the privacy level from the
-[`DESCRIPTION`](https://github.com/difuture-lmu/dsROCGLM/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/difuture-lmu/dsROCGLM/blob/master/DESCRIPTION)
 file each time a function calls for it. This options is set to 5 by
 default.
 
@@ -144,36 +144,36 @@ l2s
 roc_glm = dsROCGLM(connections, truth_name = "y", pred_name = "pred",
   dat_name = "iris", seed_object = "y")
 #> 
-#> [2022-04-04 10:08:10] L2 sensitivity is: 0.1281
+#> [2022-04-04 12:47:46] L2 sensitivity is: 0.1281
 #> Warning in dsROCGLM(connections, truth_name = "y", pred_name = "pred", dat_name
 #> = "iris", : l2-sensitivity may be too high for good results! Epsilon = 0.5 and
 #> delta = 0.5 is used which may lead to bad results.
 #> 
-#> [2022-04-04 10:08:11] Setting: epsilon = 0.5 and delta = 0.5
+#> [2022-04-04 12:47:47] Setting: epsilon = 0.5 and delta = 0.5
 #> 
-#> [2022-04-04 10:08:11] Initializing ROC-GLM
+#> [2022-04-04 12:47:47] Initializing ROC-GLM
 #> 
-#> [2022-04-04 10:08:11] Host: Received scores of negative response
-#> [2022-04-04 10:08:11] Receiving negative scores
-#> [2022-04-04 10:08:12] Host: Pushing pooled scores
-#> [2022-04-04 10:08:13] Server: Calculating placement values and parts for ROC-GLM
-#> [2022-04-04 10:08:14] Server: Calculating probit regression to obtain ROC-GLM
-#> [2022-04-04 10:08:14] Deviance of iter1=137.2431
-#> [2022-04-04 10:08:15] Deviance of iter2=121.5994
-#> [2022-04-04 10:08:16] Deviance of iter3=147.7237
-#> [2022-04-04 10:08:17] Deviance of iter4=140.4008
-#> [2022-04-04 10:08:18] Deviance of iter5=129.2244
-#> [2022-04-04 10:08:18] Deviance of iter6=123.9979
-#> [2022-04-04 10:08:19] Deviance of iter7=123.1971
-#> [2022-04-04 10:08:20] Deviance of iter8=124.1615
-#> [2022-04-04 10:08:21] Deviance of iter9=124.5356
-#> [2022-04-04 10:08:22] Deviance of iter10=124.5503
-#> [2022-04-04 10:08:22] Deviance of iter11=124.5504
-#> [2022-04-04 10:08:23] Deviance of iter12=124.5504
-#> [2022-04-04 10:08:23] Host: Finished calculating ROC-GLM
-#> [2022-04-04 10:08:23] Host: Cleaning data on server
-#> [2022-04-04 10:08:24] Host: Calculating AUC and CI
-#> [2022-04-04 10:08:29] Finished!
+#> [2022-04-04 12:47:47] Host: Received scores of negative response
+#> [2022-04-04 12:47:47] Receiving negative scores
+#> [2022-04-04 12:47:49] Host: Pushing pooled scores
+#> [2022-04-04 12:47:50] Server: Calculating placement values and parts for ROC-GLM
+#> [2022-04-04 12:47:52] Server: Calculating probit regression to obtain ROC-GLM
+#> [2022-04-04 12:47:53] Deviance of iter1=137.2431
+#> [2022-04-04 12:47:54] Deviance of iter2=121.5994
+#> [2022-04-04 12:47:56] Deviance of iter3=147.7237
+#> [2022-04-04 12:47:57] Deviance of iter4=140.4008
+#> [2022-04-04 12:47:58] Deviance of iter5=129.2244
+#> [2022-04-04 12:48:00] Deviance of iter6=123.9979
+#> [2022-04-04 12:48:01] Deviance of iter7=123.1971
+#> [2022-04-04 12:48:02] Deviance of iter8=124.1615
+#> [2022-04-04 12:48:04] Deviance of iter9=124.5356
+#> [2022-04-04 12:48:05] Deviance of iter10=124.5503
+#> [2022-04-04 12:48:06] Deviance of iter11=124.5504
+#> [2022-04-04 12:48:08] Deviance of iter12=124.5504
+#> [2022-04-04 12:48:08] Host: Finished calculating ROC-GLM
+#> [2022-04-04 12:48:08] Host: Cleaning data on server
+#> [2022-04-04 12:48:09] Host: Calculating AUC and CI
+#> [2022-04-04 12:48:18] Finished!
 roc_glm
 #> 
 #> ROC-GLM after Pepe:
@@ -189,7 +189,7 @@ plot(roc_glm)
 
 ## Deploy information:
 
-**Build by root (Darwin) on 2022-04-04 10:08:32.**
+**Build by root (Darwin) on 2022-04-04 12:48:23.**
 
 This readme is built automatically after each push to the repository.
 Hence, it also is a test if the functionality of the package works also
