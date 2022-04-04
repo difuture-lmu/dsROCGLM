@@ -1,6 +1,14 @@
 Package: dsROCGLM
 Type: Package
-Title: ROC-GLM Implementation for DataSHIELD to conduct and visualize ROC analysis on decentralized data. 
+Title: ROC-GLM Implementation for DataSHIELD
+Authors@R:
+    c(person(given = "Daniel",
+        family = "Schalk",
+        role = c("aut", "cre"),
+        email = "daniel.schalk@stat.uni-muenchen.de"))
+Version: 1.0.0
+License: LGPL-3
+Description: ROC-GLM Implementation for DataSHIELD to conduct and visualize ROC analysis on decentralized data. 
     The basis is the DataSHIELD (https://www.datashield.org) infrastructure for distributed computing. This 
     package provides the calculation of the ROC-GLM (https://www.jstor.org/stable/2676973?seq=1) as well as
     AUC confidence intervals (https://www.jstor.org/stable/2531595?seq=1). In order to calculate the ROC-GLM 
@@ -10,14 +18,6 @@ Title: ROC-GLM Implementation for DataSHIELD to conduct and visualize ROC analys
     aggregated value of these numbers. Instead of setting the option, we directly retrieve the privacy level from the 
     DESCRIPTION (https://github.com/difuture-lmu/dsROCGLM/blob/master/DESCRIPTION) file each time a function calls 
     for it. This options is set to 5 by default.
-Authors@R:
-    c(person(given = "Daniel",
-        family = "Schalk",
-        role = c("aut", "cre"),
-        email = "daniel.schalk@stat.uni-muenchen.de"))
-Version: 1.0.0
-License: LGPL-3
-Description: ROC-GLM implementation for DataSHIELD.
 Depends:
     R (>= 3.1.0)
 Imports:
