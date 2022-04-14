@@ -55,7 +55,7 @@ remotes::install_github("difuture-lmu/dsROCGLM")
 
 #### Register methods
 
-It is necessary to register the assign and aggregate methods in the OPAL administration. These methods are registered automatically when publishing the package on OPAL (see [`DESCRIPTION`](https://github.com/difuture/dsROCGLM/blob/main/DESCRIPTION)).
+It is necessary to register the assign and aggregate methods in the OPAL administration. These methods are registered automatically when publishing the package on OPAL (see [`DESCRIPTION`](https://github.com/difuture-lmu/dsROCGLM/blob/main/DESCRIPTION)).
 
 Note that the package needs to be installed at both locations, the server and the analysts machine.
 
