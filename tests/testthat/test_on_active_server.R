@@ -15,9 +15,9 @@ test_that("all methods can be used and produce reasonable output", {
 
   opal = opalr::opal.login(username = username, password = password, url = surl)
 
-  pkgs = c("dsPredictBase", "dsROCGLM")
+  pkgs = "dsROCGLM"
   for (pkg in pkgs) {
-    check1 = opalr::dsadmin.install_github_package(opal = opal, pkg = pkg, username = "difuture-lmu", ref = "main")
+    check1 = opalr::dsadmin.install_github_package(opal = opal, pkg = pkg, username = "difuture-lmu", ref = "pkg-merge")
     if (! check1)
       stop("[", Sys.time(), "] Was not able to install ", pkg, "!")
 
@@ -29,7 +29,6 @@ test_that("all methods can be used and produce reasonable output", {
   library(DSI)
   library(DSOpal)
   library(dsBaseClient)
-  library(dsPredictBase)
 
   builder = newDSLoginBuilder()
 

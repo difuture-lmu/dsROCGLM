@@ -101,7 +101,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
   l2s = dsL2Sens(connections = connections, dat_name = dat_name, pred_name = pred_name, ...)
   if (trace)
     message("\n[", Sys.time(), "] L2 sensitivity is: ", round(l2s, 4), "\n")
-  dsPredictBase::pushObject(connections, l2s)
+  pushObject(connections, l2s)
 
   # Select privacy parameters based on the l2 sensitivity:
   l2breaks = c(0.01, 0.03, 0.05, 0.07, Inf)
@@ -138,7 +138,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
 
   if (trace) message("[", Sys.time(), "] Host: Pushing pooled scores")
 
-  dsPredictBase::pushObject(connections, pooled_scores)
+  pushObject(connections, pooled_scores)
 
   if (trace) message("[", Sys.time(), "] Server: Calculating placement values and parts for ROC-GLM")
 
