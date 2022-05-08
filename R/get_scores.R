@@ -89,7 +89,7 @@ getPositiveScoresVar = function(truth_name, prob_name, m = NULL, return_sum = FA
   ## Calculate brier score just if there are at least five or more values to ensure privacy:
   nfilter_privacy = .getPrivacyLevel()
   if (length(truth) < nfilter_privacy)
-    stop("More than ", nfilter_privacy, " observations are required to ensure privacy!")
+    stop("More than ", nfilter_privacy, " observations are required to ensure privacy")
 
   pv = prob[truth == 1]
   if (return_sum) return(sum(pv))

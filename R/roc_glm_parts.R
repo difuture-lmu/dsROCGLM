@@ -133,8 +133,8 @@ calculateDistrGLMParts = function(formula, data,  w = NULL, params_char) {
     }))
   }
 
-  if (nrow(X) <= length(beta))
-    stop("Number of parameters must be smaller then the number of observations.")
+  if (nrow(X) < length(beta))
+    stop("Number of parameters must be greater then the number of observations.")
 
   w_mat = diag(sqrt(w))
   lambda = calculateLambda(y, X, beta)
