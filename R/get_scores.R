@@ -15,11 +15,14 @@ seedBoundedToObject = function(object, rm_attributes = TRUE) {
   if (! (is.numeric(so) || is.data.frame(so)))
     stop("Object must be a \"numeric vector\" or \"data.frame\" and not ", dQuote(class(so)))
 
-  if (rm_attributes) attributes(so) = NULL
+  if (rm_attributes)
+    attributes(so) = NULL
 
   a = digest::sha1(mean(unlist(so), na.rm = TRUE))
   seed_add = as.integer(gsub("[^\\d]+", "", substr(a, 1, 9), perl = TRUE))
+
   if (is.na(seed_add)) seed_add = 0
+
   return(seed_add)
 }
 
@@ -35,9 +38,6 @@ seedBoundedToObject = function(object, rm_attributes = TRUE) {
 #' @return Data frame containing the truth and prediction vector.
 #' @author Daniel S.
 checkTruthProb = function(truth_name, prob_name, pos = NULL) {
-  #if (! truth_name %in% ls()) stop(quote(truth_name), " is no element of the environment!")
-  #if (! prob_name %in% ls()) stop(quote(prob_name), " is no element of the environment!")
-
   truth = eval(parse(text = truth_name))
   prob  = eval(parse(text = prob_name))
 
@@ -48,19 +48,27 @@ checkTruthProb = function(truth_name, prob_name, pos = NULL) {
   checkmate::assertNumeric(prob, any.missing = FALSE, len = ntruth, null.ok = FALSE, finite = TRUE)
 
   if (is.null(pos)) {
-    if (is.character(truth) | is.factor(truth))
+    if (is.character(truth) | is.factor(truth)) {
       warning("\"", truth_name, "\" is not enocded as 0-1 integer, conversion is done automatically.",
         "This may lead to a label flip! Set argument \"pos\" to ensure correct encoding.")
+    }
 
-    if (is.character(truth)) truth = as.integer(as.factor(truth))
-    if (is.factor(truth))    truth = as.integer(truth)
+    if (is.character(truth))
+      truth = as.integer(as.factor(truth))
 
-    if (max(truth) == 2) truth = truth - 1
+    if (is.factor(truth))
+      truth = as.integer(truth)
+
+    if (max(truth) == 2)
+      truth = truth - 1
   } else {
-    if (is.character(truth) | is.factor(truth)) truth = ifelse(truth == pos, 1, 0)
-    if (is.numeric(truth))
+    if (is.character(truth) | is.factor(truth))
+      truth = ifelse(truth == pos, 1, 0)
+
+    if (is.numeric(truth)) {
       warning(quote("pos"), " is set but \"", truth_name, "\" is numeric. Are you sure",
         " you know what the response really is?")
+    }
   }
   return(invisible(data.frame(truth = truth, prob = prob)))
 }

@@ -20,15 +20,23 @@ calibrationCurve = function(truth_name, prob_name, nbins = 10L, remove_critical_
   ntruth = length(truth)
   checkmate::assertNumeric(prob, len = ntruth, null.ok = FALSE, any.missing = FALSE)
 
-  if (is.character(truth)) truth = as.integer(as.factor(truth))
-  if (is.factor(truth))    truth = as.integer(truth)
-  if (nbins > ntruth / 2)
+  if (is.character(truth))
+    truth = as.integer(as.factor(truth))
+
+  if (is.factor(truth))
+    truth = as.integer(truth)
+
+  if (nbins > ntruth / 2) {
     stop("Number of bins `nbins` should be smaller then half the size of `truth`",
       round(ntruth / 2), ".")
+  }
   truth = truth - min(truth)
 
-  if (any(truth > 1)) stop("Truth values has to be 0 and 1!")
-  if ((min(prob) < 0) && (max(prob) > 1)) stop("Score (probabilities are not between 0 and 1!)")
+  if (any(truth > 1))
+    stop("Truth values has to be 0 and 1!")
+
+  if ((min(prob) < 0) && (max(prob) > 1))
+    stop("Score (probabilities are not between 0 and 1!)")
 
   breaks   = seq(0, 1, length.out = nbins + 1L)
   bins     = cut(prob, breaks)
@@ -41,7 +49,8 @@ calibrationCurve = function(truth_name, prob_name, nbins = 10L, remove_critical_
     idx_critical = which((tb < nfilter_privacy) & (tb > 0))
   } else {
     if (any(tb[tb > 0] < nfilter_privacy))
-      stop("More than ", nfilter_privacy, " observations per bin are required to ensure privacy! Critical number of observations in bin are ",
+      stop("More than ", nfilter_privacy, " observations per bin are required ",
+        "to ensure privacy! Critical number of observations in bin are ",
         paste(tb[(tb > 0) & (tb < nfilter_privacy)], collapse = ", "), ".")
   }
 
@@ -114,7 +123,10 @@ dsCalibrationCurve = function(connections, truth_name, pred_name, nbins = 10L, r
     upper = individuals[[1]]$upper, truth = truth, prob = prob,
     missing_ratio = missing_ratio)
 
-  return(list(individuals = individuals, aggregated = aggregated))
+  out = list(individuals = individuals, aggregated = aggregated)
+  class(out) = "calibration.curve"
+
+  return(out)
 }
 
 #'
@@ -158,4 +170,16 @@ plotCalibrationCurve = function(cc, individuals = TRUE, ...) {
     ggplot2::ylab("True frequency")
 
   return(gg)
+}
+
+#'
+#' @title Plot calibration curve
+#' @description This function plots the calibration curve returned by `dsCalibrationCurve()`.
+#' @param x (`list()`) Object returned by `dsCalibrationCurve()`
+#' @param ... Additional arguments passed to `plotCalibrationCurve()`.
+#' @return ggplot of calibration curve(s)
+#' @author Daniel S.
+#' @export
+plot.calibration.curve = function(x, ...) {
+  plotCalibrationCurve(cc = x, ...)
 }

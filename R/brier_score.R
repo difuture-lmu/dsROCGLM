@@ -23,13 +23,19 @@ brierScore = function(truth_name, prob_name) {
   if (ntruth < nfilter_privacy)
     stop("More than ", nfilter_privacy, " observations are required to ensure privacy!")
 
-  if (is.character(truth)) truth = as.integer(as.factor(truth))
-  if (is.factor(truth))    truth = as.integer(truth)
+  if (is.character(truth))
+    truth = as.integer(as.factor(truth))
+
+  if (is.factor(truth))
+    truth = as.integer(truth)
 
   truth = truth - min(truth)
 
-  if (any(truth > 1)) stop("Truth values has to be 0 and 1!")
-  if ((min(prob) < 0) && (max(prob) > 1)) stop("Score (probabilities are not between 0 and 1!)")
+  if (any(truth > 1))
+    stop("Truth values has to be 0 and 1!")
+
+  if ((min(prob) < 0) && (max(prob) > 1))
+    stop("Score (probabilities are not between 0 and 1!)")
 
   bs = mean((truth - prob)^2)
   return(list(bs = bs, n = ntruth))
@@ -53,7 +59,8 @@ dsBrierScore = function(connections, truth_name, pred_name) {
   sym = DSI::datashield.symbols(connections)
   snames = names(sym)
   for (s in snames) {
-    if (! pred_name %in% sym[[s]]) stop("There is no data object '", pred_name, "' on server '", s, "'.")
+    if (! pred_name %in% sym[[s]])
+      stop("There is no data object '", pred_name, "' on server '", s, "'.")
   }
 
   call = paste0("brierScore(\"", truth_name, "\", \"", pred_name, "\")")

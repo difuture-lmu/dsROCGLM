@@ -17,12 +17,12 @@ decodeBinary = function(bin, package = NULL) {
 
   # Check if model is installed and install if not:
   if (! is.null(package) && require(package, quietly = TRUE, character.only = TRUE)) {
-    stop("Package '", package, "' is not installed. Please install it or contact the administrator to do this for you.")
+    stop("Package '", package, "' is not installed. Please install",
+      " it or contact the administrator to do this for you.")
   }
 
   binary_str_deparse = substring(bin, seq(1, nchar(bin), 2), seq(2, nchar(bin), 2))
 
-  #binary_str_deparse = strsplit(bin, split = sep)[[1]]
   raw = as.raw(as.hexmode(binary_str_deparse))
   obj = unserialize(raw)
 

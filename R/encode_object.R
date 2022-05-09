@@ -27,7 +27,8 @@ encodeObject = function(obj, obj_name = NULL, check_serialization = TRUE) {
   if (check_serialization) {
     # get object back from serialization
     obj_b = decodeBinary(obj_binary_str_collapsed)
-    if (! all.equal(obj, obj_b)) stop("Model cannot serialized and deserialized into equal object!")
+    if (! all.equal(obj, obj_b))
+      stop("Model cannot serialized and deserialized into equal object!")
   }
 
   osize = utils::object.size(obj_binary_str_collapsed) / 1024^2
