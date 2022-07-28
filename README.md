@@ -1,13 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![Actions
-Status](https://github.com/difuture-lmu/dsROCGLM/workflows/R-CMD-check/badge.svg)](https://github.com/difuture-lmu/dsROCGLM/actions)
-[![License: LGPL
-v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
-[![codecov](https://codecov.io/gh/difuture-lmu/dsROCGLM/branch/main/graph/badge.svg?token=E8AZRM6XJX)](https://codecov.io/gh/difuture-lmu/dsROCGLM)
-
 # ROC-GLM for DataSHIELD
+
+
+__THE PACKAGE HAS MOVED TO THE [dsBinVal](https://github.com/difuture-lmu/dsBinVal) REPOSITORY!__
+
 
 The package provides functionality to conduct and visualize ROC analysis
 on decentralized data. The basis is the
@@ -87,7 +85,7 @@ builder$append(
 )
 
 connections = datashield.login(logins = builder$build(), assign = TRUE)
-#> 
+#>
 #> Logging into the collaborating servers
 ```
 
@@ -114,8 +112,8 @@ predictModel(connections, mod, "pred", "iris", predict_fun = pfun)
 
 datashield.symbols(connections)
 #> $ds1
-#> [1] "iris" "mod"  "pred" "y"   
-#> 
+#> [1] "iris" "mod"  "pred" "y"
+#>
 #> $ds2
 #> [1] "iris" "mod"  "pred" "y"
 ```
@@ -143,16 +141,16 @@ l2s
 ``` r
 roc_glm = dsROCGLM(connections, truth_name = "y", pred_name = "pred",
   dat_name = "iris", seed_object = "y")
-#> 
+#>
 #> [2022-04-04 12:47:46] L2 sensitivity is: 0.1281
 #> Warning in dsROCGLM(connections, truth_name = "y", pred_name = "pred", dat_name
 #> = "iris", : l2-sensitivity may be too high for good results! Epsilon = 0.5 and
 #> delta = 0.5 is used which may lead to bad results.
-#> 
+#>
 #> [2022-04-04 12:47:47] Setting: epsilon = 0.5 and delta = 0.5
-#> 
+#>
 #> [2022-04-04 12:47:47] Initializing ROC-GLM
-#> 
+#>
 #> [2022-04-04 12:47:47] Host: Received scores of negative response
 #> [2022-04-04 12:47:47] Receiving negative scores
 #> [2022-04-04 12:47:49] Host: Pushing pooled scores
@@ -175,11 +173,11 @@ roc_glm = dsROCGLM(connections, truth_name = "y", pred_name = "pred",
 #> [2022-04-04 12:48:09] Host: Calculating AUC and CI
 #> [2022-04-04 12:48:18] Finished!
 roc_glm
-#> 
+#>
 #> ROC-GLM after Pepe:
-#> 
+#>
 #>  Binormal form: pnorm(2.51 + 1.55*qnorm(t))
-#> 
+#>
 #>  AUC and 0.95 CI: [0.86----0.91----0.95]
 
 plot(roc_glm)

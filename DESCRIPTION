@@ -1,6 +1,6 @@
 Package: dsROCGLM
 Type: Package
-Title: ROC-GLM Implementation for DataSHIELD
+Title: ROC and calibration analysis for DataSHIELD
 Authors@R:
     c(person(given = "Daniel",
         family = "Schalk",
@@ -8,39 +8,46 @@ Authors@R:
         email = "daniel.schalk@stat.uni-muenchen.de"))
 Version: 1.0.0
 License: LGPL-3
-Description: ROC-GLM Implementation for DataSHIELD to conduct and visualize ROC analysis on decentralized data. 
-    The basis is the DataSHIELD (https://www.datashield.org) infrastructure for distributed computing. This 
+Description: Methods to conduct distributed ROC and calibration analyses. The basis is the DataSHIELD
+    (https://www.datashield.org) infrastructure for distributed computing. This
     package provides the calculation of the ROC-GLM (https://www.jstor.org/stable/2676973?seq=1) as well as
-    AUC confidence intervals (https://www.jstor.org/stable/2531595?seq=1). In order to calculate the ROC-GLM 
-    it is necessry to push models and predict them at the servers. This is done automatically by the base package
-    dsPredictBase (https://github.com/difuture-lmu/dsPredictBase). Note that DataSHIELD uses an option 
-    `datashield.privacyLevel` to indicate the minimal amount of numbers required to be allowed to share an 
-    aggregated value of these numbers. Instead of setting the option, we directly retrieve the privacy level from the 
-    DESCRIPTION (https://github.com/difuture-lmu/dsROCGLM/blob/master/DESCRIPTION) file each time a function calls 
-    for it. This options is set to 5 by default.
+    AUC confidence intervals (https://www.jstor.org/stable/2531595?seq=1). To assess the calibration, methods
+    to calculate the Brier score and calibration curves are part of the package. Last part of the package are
+    methods to push models and predict models at the DataSHIELD server which is necessary for the analysis.
+    DataSHIELD uses an option `datashield.privacyLevel` to indicate the minimal amount of numbers required to
+    be allowed to share an aggregated value of these numbers. Instead of setting the option, we directly retrieve
+    the privacy level from the DESCRIPTION (https://github.com/difuture-lmu/dsROCGLM/blob/master/DESCRIPTION)
+    file each time a function calls for it. This options is set to 5 by default.
 Depends:
     R (>= 3.1.0)
 Imports:
     DSI,
     DSOpal,
-    dsPredictBase,
     checkmate,
     stringr,
-    digest
+    digest,
+    dsBaseClient
 Suggests:
     ggplot2,
     testthat,
     opalr
 Remotes:
-    difuture-lmu/dsPredictBase
+    datashield/dsBaseClient
 AggregateMethods:
     calculateDistrGLMParts,
     getNegativeScoresVar,
     getPositiveScoresVar,
     getNegativeScores,
     getPositiveScores,
-    l2sens
+    l2sens,
+    getDataSHIELDInfo,
+    brierScore,
+    calibrationCurve,
+    getFiles
 AssignMethods:
-    rocGLMFrame
+    rocGLMFrame,
+    decodeBinary,
+    assignPredictModel,
+    removeMissings
 Options: datashield.privacyLevel=5
 RoxygenNote: 7.1.1
