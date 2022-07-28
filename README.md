@@ -4,7 +4,7 @@
 # ROC-GLM for DataSHIELD
 
 
-__THE PACKAGE HAS MOVED TO THE [dsBinVal](https://github.com/difuture-lmu/dsBinVal) REPOSITORY!__
+### __THE PACKAGE HAS MOVED TO THE [dsBinVal](https://github.com/difuture-lmu/dsBinVal) REPOSITORY!__
 
 
 The package provides functionality to conduct and visualize ROC analysis
