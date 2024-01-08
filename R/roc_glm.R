@@ -119,7 +119,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
 
   possible_priv_vals = generateParameterTableDP()
   # Note: The next line makes use of automatic type casting between character and numeric as the line above generates chracters to resolve the problem with imprecise floating point numbers
-  pp_params = subset(possible_priv_vals, sens == l2breaks[l2s_select] & del == delta)
+  pp_params = subset(possible_priv_vals, sens == as.character(l2breaks[l2s_select]) & del == as.character(delta))
   
   # two cases: there is a valid value for epsilon or not. If yes, no problem, else, choose the best option with a warning
   if (!any(pp_params$valid)) {
@@ -128,7 +128,7 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
             sprintf("Chosen parameters are Epsilon = 0.9 and Delta = %f for the most accurate result (do not trust it)", delta)
             )
   } else {
-    epsilon = min(subset(possible_priv_vals, sens == l2breaks[l2s_select] & del == delta & valid)$eps)
+    epsilon = min(as.numeric(subset(possible_priv_vals, sens == as.character(l2breaks[l2s_select]) & del == as.character(delta) & valid)$eps))
   }
 
   if (trace)

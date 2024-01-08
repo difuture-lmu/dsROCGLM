@@ -37,7 +37,7 @@ generateParameterTableDP = function(){
   possible_priv_vals[possible_priv_vals$sens == sens[4] & possible_priv_vals$eps == eps[5] & possible_priv_vals$del == del[5], ]$valid <-TRUE
 
   # make numbers to characters to get rid of the problem with unprecise strings (better solution?)
-  possible_priv_vals[, names(possible_priv_vals)] <- lapply(possible_priv_vals, as.character)
+  possible_priv_vals[, names(possible_priv_vals)[-4]] <- lapply(possible_priv_vals[, -4], as.character)
 
   return(possible_priv_vals)
 }
