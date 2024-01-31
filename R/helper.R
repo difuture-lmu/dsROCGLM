@@ -9,7 +9,6 @@
   return(pl)
 }
 
-
 #'
 #' @title Generate all combinations of DP parameters fromt he paper
 #'
@@ -18,8 +17,8 @@
 #' @author Raphael R. 
 #' @export
 generateParameterTableDP = function(){
-  sens = seq(0.01, 0.09, 0.02)
-  eps = seq(0.1, 1, 0.2)
+  sens = c(0.01, 0.1, 0.2, 0.3, 0.4) 
+  eps = c(0.1, 0.5, 1, 5, 10)
   del = c(0.00001, 0.0001, 0.001, 0.01, 0.1)
   possible_priv_vals = expand.grid(
     sens = sens,
@@ -41,3 +40,94 @@ generateParameterTableDP = function(){
 
   return(possible_priv_vals)
 }
+
+
+
+#'
+#' Calculates the error function used for the analytic Gaussian mechanism
+#'
+#' @param x (`numeric()`) A (vector of) real number(s)
+#' @return (`numeric()`) The evaluated error function
+#' @author Raphael Rehms
+erf = function(x){
+  return(2 * pnorm(x * sqrt(2)) - 1)
+}
+
+
+#'
+#' Calculated sigma for analytic Gaussian mechanism
+#'
+#' @description Caluclates the minimal valid sigma for given privacy parameters for Gaussian mechanism
+#'   (see https://arxiv.org/abs/1805.06530).
+#' @param epsilon (`numeric()`) Epsilon > 0
+#' @param delta (`numeric()`) Delta that is between (0,1)
+#' @param sens (`numeric()`) Sensitivity of the algorithm
+#' @param tol (`numeric()`) Tolerance for binary search
+#' @return (`numeric()`) Sigma that can be used to generate calibrated Gaussian noise
+#' @author Raphael Rehms
+#' @export
+analyticGaussianMechanism = function(epsilon, delta, sens, tol = 1e-12) {
+  phi = function(t) {
+    0.5 * (1.0 + erf(t / sqrt(2.0)))
+  }
+  
+  caseA = function(epsilon, s) {
+    phi(sqrt(epsilon * s)) - exp(epsilon) * phi(-sqrt(epsilon * (s + 2.0)))
+  }
+  
+  caseB = function(epsilon, s) {
+    phi(-sqrt(epsilon * s)) - exp(epsilon) * phi(-sqrt(epsilon * (s + 2.0)))
+  }
+  
+  doubling_trick = function(predicate_stop, s_inf, s_sup) {
+    while (!predicate_stop(s_sup)) {
+      s_inf = s_sup
+      s_sup = 2.0 * s_inf
+    }
+    return(c(s_inf, s_sup))
+  }
+  
+  binary_search = function(predicate_stop, predicate_left, s_inf, s_sup) {
+    s_mid = s_inf + (s_sup - s_inf) / 2.0
+    while (!predicate_stop(s_mid)) {
+      if (predicate_left(s_mid)) {
+        s_sup = s_mid
+      } else {
+        s_inf = s_mid
+      }
+      s_mid = s_inf + (s_sup - s_inf) / 2.0
+    }
+    return(s_mid)
+  }
+  
+  delta_thr = caseA(epsilon, 0.0)
+  
+  if (delta == delta_thr) {
+    alpha = 1.0
+  } else {
+    if (delta > delta_thr) {
+      predicate_stop_DT = function(s) caseA(epsilon, s) >= delta
+      function_s_to_delta = function(s) caseA(epsilon, s)
+      predicate_left_BS = function(s) function_s_to_delta(s) > delta
+      function_s_to_alpha = function(s) sqrt(1.0 + s / 2.0) - sqrt(s / 2.0)
+    } else {
+      predicate_stop_DT = function(s) caseB(epsilon, s) <= delta
+      function_s_to_delta = function(s) caseB(epsilon, s)
+      predicate_left_BS = function(s) function_s_to_delta(s) < delta
+      function_s_to_alpha = function(s) sqrt(1.0 + s / 2.0) + sqrt(s / 2.0)
+    }
+    
+    predicate_stop_BS = function(s) abs(function_s_to_delta(s) - delta) <= tol
+    
+    s_ = doubling_trick(predicate_stop_DT, 0.0, 1.0)
+    s_inf = s_[1]; s_sup = s_[2]
+    
+    s_final = binary_search(predicate_stop_BS, predicate_left_BS, s_inf, s_sup)
+    alpha = function_s_to_alpha(s_final)
+  }
+  
+  sigma = alpha * sens / sqrt(2.0 * epsilon)
+  
+  return(sigma)
+}
+

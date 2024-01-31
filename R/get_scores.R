@@ -124,13 +124,13 @@ getPositiveScoresVar = function(truth_name, prob_name, m = NULL, return_sum = FA
 #' @param sort (`logical(1L)`) Indicator whether the return values should be
 #'   sorted or not.
 #' @return Positive scores
-#' @author Daniel S.
+#' @author Daniel S., Raphael R.
 #' @export
-getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
+getPositiveScores = function(truth_name, prob_name, epsilon = 0.2, delta = 1e-5,
   seed_object = NULL, sort = FALSE) {
 
   df_pred = checkTruthProb(truth_name, prob_name)
-  checkmate::assertNumeric(epsilon, len = 1L, lower = 0, upper = 1)
+  checkmate::assertNumeric(epsilon, len = 1L, lower = 0)
   checkmate::assertNumeric(delta, len = 1L, lower = 0, upper = 1)
 
   checkmate::assertCharacter(seed_object, null.ok = TRUE, len = 1L)
@@ -213,13 +213,13 @@ getNegativeScoresVar = function(truth_name, prob_name, m = NULL, return_sum = FA
 #' @param sort (`logical(1L)`) Indicator whether the return values should be
 #'   sorted or not.
 #' @return Negative scores
-#' @author Daniel S.
+#' @author Daniel S., Raphael R.
 #' @export
-getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
+getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 1e-5,
   seed_object = NULL, sort = FALSE) {
 
   df_pred = checkTruthProb(truth_name, prob_name)
-  checkmate::assertNumeric(epsilon, len = 1L, lower = 0, upper = 1)
+  checkmate::assertNumeric(epsilon, len = 1L, lower = 0)
   checkmate::assertNumeric(delta, len = 1L, lower = 0, upper = 1)
 
   checkmate::assertCharacter(seed_object, null.ok = TRUE, len = 1L)
@@ -262,12 +262,23 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 0.2,
 #' @param l2s (`numeric(1L)`) l2-sensitivity.
 #' @param epsilon (`numeric(1L)`) First privacy parameter for (e,d)-differential privacy.
 #' @param delta (`numeric(1L)`) second privacy parameter for (e,d)-differential privacy.
+#' @param useAnalyticGM (`logical(1L)`) inicating whether noise for analytic Gaussian mechanism should be calculated. See details.
 #' @return Numerical value for the standard deviation for the normal distribution.
-#' @author Daniel S.
-GMVar = function(l2s, epsilon, delta) {
+#' @details If useAnalyticGM is TRUE, the standard deviation is calculated using the analytic Gaussian mechanism.
+#'          The algorithm behind is a binary search which may cost a bit time, but the added noise is less.
+#'          It also accepts epsilon > 1.
+#'          If useAnalyticGM is FALSE, the standard deviation is calculated using the standard formula (faster, but a higher sigma).
+#' @author Daniel S., Raphael R.
+GMVar = function(l2s, epsilon, delta, useAnalyticGM=True, ...) {
   checkmate::assertNumeric(l2s, len = 1L)
-  checkmate::assertNumeric(epsilon, len = 1L)
-  checkmate::assertNumeric(delta, len = 1L)
+  checkmate::assertNumeric(delta, len = 1L, lower=0, upper = 1)
+  
+  if (!useAnalyticGM){
+    checkmate::assertNumeric(epsilon, len = 1L, lower = 0, upper = 1)
+    return(sqrt(2 * log(1.25 / delta)) * l2s / epsilon)
+  } else {
+    checkmate::assertNumeric(epsilon, len = 1L, lower = 0)
+    return(analyticGaussianMechanism(epsilon, delta,l2s, ...))
+  }
 
-  return(sqrt(2 * log(1.25 / delta)) * l2s / epsilon)
 }
