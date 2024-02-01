@@ -8,7 +8,7 @@ getNegativeScores(
   truth_name,
   prob_name,
   epsilon = 0.2,
-  delta = 0.2,
+  delta = 1e-05,
   seed_object = NULL,
   sort = FALSE
 )
@@ -37,5 +37,5 @@ This function just returns negative scores and is used
   as aggregator to send these positive scores.
 }
 \author{
-Daniel S.
+Daniel S., Raphael R.
 }
