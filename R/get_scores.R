@@ -269,7 +269,7 @@ getNegativeScores = function(truth_name, prob_name, epsilon = 0.2, delta = 1e-5,
 #'          It also accepts epsilon > 1.
 #'          If useAnalyticGM is FALSE, the standard deviation is calculated using the standard formula (faster, but a higher sigma).
 #' @author Daniel S., Raphael R.
-GMVar = function(l2s, epsilon, delta, useAnalyticGM=True, ...) {
+GMVar = function(l2s, epsilon, delta, useAnalyticGM=TRUE, ...) {
   checkmate::assertNumeric(l2s, len = 1L)
   checkmate::assertNumeric(delta, len = 1L, lower=0, upper = 1)
   
