@@ -27,15 +27,33 @@ generateParameterTableDP = function(){
   )
   # The choice of a valid setting is from the paper
   possible_priv_vals$valid = FALSE
-  possible_priv_vals[possible_priv_vals$sens == sens[1] & possible_priv_vals$eps > eps[1], ]$valid <-TRUE
-  possible_priv_vals[possible_priv_vals$sens == sens[2] & possible_priv_vals$eps == eps[5], ]$valid <-TRUE
-  possible_priv_vals[possible_priv_vals$sens == sens[2] & possible_priv_vals$eps == eps[4] & possible_priv_vals$del > del[2], ]$valid <-TRUE
-  possible_priv_vals[possible_priv_vals$sens == sens[2] & possible_priv_vals$eps == eps[3] & possible_priv_vals$del == del[5], ]$valid <-TRUE
-  possible_priv_vals[possible_priv_vals$sens == sens[3] & possible_priv_vals$eps == eps[5] & possible_priv_vals$del > del[3], ]$valid <-TRUE
-  possible_priv_vals[possible_priv_vals$sens == sens[3] & possible_priv_vals$eps == eps[4] & possible_priv_vals$del == del[5], ]$valid <-TRUE
-  possible_priv_vals[possible_priv_vals$sens == sens[4] & possible_priv_vals$eps == eps[5] & possible_priv_vals$del == del[5], ]$valid <-TRUE
-
-  # make numbers to characters to get rid of the problem with unprecise strings (better solution?)
+  possible_priv_vals[possible_priv_vals$sens == sens[1] & possible_priv_vals$eps > eps[1], ]$valid <-TRUE#
+  possible_priv_vals[possible_priv_vals$sens == sens[1] & possible_priv_vals$eps == eps[1] & possible_priv_vals$del > del[3], ]$valid <-TRUE#
+  
+  possible_priv_vals[possible_priv_vals$sens == sens[2] & possible_priv_vals$eps > eps[3], ]$valid <-TRUE#
+  possible_priv_vals[possible_priv_vals$sens == sens[2] & possible_priv_vals$eps == eps[3] & possible_priv_vals$del == del[5], ]$valid <-TRUE#
+  possible_priv_vals[possible_priv_vals$sens == sens[2] & possible_priv_vals$eps == eps[2] & possible_priv_vals$del == del[5], ]$valid <-TRUE# 
+  
+  possible_priv_vals[possible_priv_vals$sens == sens[3] & possible_priv_vals$eps == eps[5], ]$valid <-TRUE#
+  possible_priv_vals[possible_priv_vals$sens == sens[3] & possible_priv_vals$eps == eps[4] & possible_priv_vals$del > del[1], ]$valid <-TRUE#
+  
+  possible_priv_vals[possible_priv_vals$sens == sens[4] & possible_priv_vals$eps == eps[5], ]$valid <-TRUE#
+  possible_priv_vals[possible_priv_vals$sens == sens[4] & possible_priv_vals$eps == eps[4] & possible_priv_vals$del > del[3], ]$valid <-TRUE#
+  
+  possible_priv_vals[possible_priv_vals$sens == sens[5] & possible_priv_vals$eps == eps[5] & possible_priv_vals$del > del[2], ]$valid <-TRUE
+  
+  
+  # only helper to check visually whether the definitions assignments from above are correct.
+  # library(ggplot2)
+  # library(data.table)
+  # dt = data.table(possible_priv_vals)
+  # dt %>% .[, lapply(.SD, as.factor)] %>% 
+  #   .[, del := factor(del, rev(c(0.00001, 0.0001, 0.001, 0.01, 0.1)))] %>% 
+  # ggplot+
+  #   geom_point(aes(eps, del, color = valid), size = 5)+
+  #   facet_wrap(~sens, ncol = 5)
+  
+  # make numbers to characters to get rid of the problem with inprecise strings (better solution?)
   possible_priv_vals[, names(possible_priv_vals)[-4]] <- lapply(possible_priv_vals[, -4], as.character)
 
   return(possible_priv_vals)
