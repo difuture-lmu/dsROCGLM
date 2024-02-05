@@ -17,7 +17,7 @@
 #' @author Raphael R. 
 #' @export
 generateParameterTableDP = function(){
-  sens = c(0.01, 0.1, 0.2, 0.3, 0.4) 
+  sens = c(0.01, 0.1, 0.2, 0.3, 0.4)
   eps = c(0.1, 0.5, 1, 5, 10)
   del = c(0.00001, 0.0001, 0.001, 0.01, 0.1)
   possible_priv_vals = expand.grid(

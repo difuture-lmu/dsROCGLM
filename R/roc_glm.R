@@ -114,19 +114,17 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
   delta = delta_vals[delta_select]
 
   # 2) Select epsilon using l2 sensitivity and delta
-  l2breaks = c(0.01, 0.03, 0.05, 0.07, Inf)
+  # l2breaks = c(0.01, 0.03, 0.05, 0.07, Inf)
+  l2breaks = c(0.01, 0.1, 0.2, 0.3, 0.4)
   l2s_select = which(l2s <= l2breaks)[1]
 
   possible_priv_vals = generateParameterTableDP()
-  # Note: The next line makes use of automatic type casting between character and numeric as the line above generates chracters to resolve the problem with imprecise floating point numbers
+  # Note: The next line makes use of automatic type casting between character and numeric as the line above generates characters to resolve the problem with imprecise floating point numbers
   pp_params = subset(possible_priv_vals, sens == as.character(l2breaks[l2s_select]) & del == as.character(delta))
   
   # two cases: there is a valid value for epsilon or not. If yes, no problem, else, choose the best option with a warning
   if (!any(pp_params$valid)) {
-    epsilon = 0.9
-    warning(sprintf("l2-sensitivity may be too high for good results! The setting does not allow a sufficient set of privacy parameters."), 
-            sprintf("Chosen parameters are Epsilon = 0.9 and Delta = %f for the most accurate result (do not trust it)", delta)
-            )
+    stop("Sensitivity has to be less than 0.4. Higher values cannot be used yet. You may contact the package maintainer.")
   } else {
     epsilon = min(as.numeric(subset(possible_priv_vals, sens == as.character(l2breaks[l2s_select]) & del == as.character(delta) & valid)$eps))
   }
