@@ -103,17 +103,31 @@ dsROCGLM = function(connections, truth_name, pred_name, trace = TRUE, clean_serv
     message("\n[", Sys.time(), "] L2 sensitivity is: ", round(l2s, 4), "\n")
   pushObject(connections, l2s)
 
-  # Select privacy parameters based on the l2 sensitivity:
-  l2breaks = c(0.01, 0.03, 0.05, 0.07, Inf)
-  priv_pars_choice = list(c(0.2, 0.1), c(0.3, 0.4), c(0.5, 0.3), c(0.5, 0.5), c(0.5, 0.5))
-  pp_select = which(l2s <= l2breaks)[1]
+  ## Select privacy parameters based on 1) the number of rows in the dataset and 2) the l2 sensitivity:
 
-  if (pp_select == 5)
-    warning("l2-sensitivity may be too high for good results! ",
-      "Epsilon = 0.5 and delta = 0.5 is used which may lead to bad results.")
+  # 1) select delta from number of rows
+  # TODO: select not on the minimal value, but an individual delta for each dataset separately. 
+  # TODO: The code here assumes roughly the same magnitude of datapoints at each site
+  delta_vals = c(0.00001, 0.0001, 0.001, 0.01, 0.1)
+  min_nrows = min(head(sapply(ds.dim("D"), head, n = 1L), -1))
+  delta_select = tail(which((1/min_nrows)  > delta_vals), 1L)
+  delta = delta_vals[delta_select]
 
-  epsilon = priv_pars_choice[[pp_select]][1]
-  delta = priv_pars_choice[[pp_select]][2]
+  # 2) Select epsilon using l2 sensitivity and delta
+  # l2breaks = c(0.01, 0.03, 0.05, 0.07, Inf)
+  l2breaks = c(0.01, 0.1, 0.2, 0.3, 0.4)
+  l2s_select = which(l2s <= l2breaks)[1]
+
+  possible_priv_vals = generateParameterTableDP()
+  # Note: The next line makes use of automatic type casting between character and numeric as the line above generates characters to resolve the problem with imprecise floating point numbers
+  pp_params = subset(possible_priv_vals, sens == as.character(l2breaks[l2s_select]) & del == as.character(delta))
+  
+  # two cases: there is a valid value for epsilon or not. If yes, no problem, else, choose the best option with a warning
+  if (!any(pp_params$valid)) {
+    stop("Sensitivity has to be less than 0.4. Higher values cannot be used yet. You may contact the package maintainer.")
+  } else {
+    epsilon = min(as.numeric(subset(possible_priv_vals, sens == as.character(l2breaks[l2s_select]) & del == as.character(delta) & valid)$eps))
+  }
 
   if (trace)
     message("\n[", Sys.time(), "] Setting: epsilon = ", epsilon, " and delta = ", delta, "\n")

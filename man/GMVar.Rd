@@ -4,7 +4,7 @@
 \alias{GMVar}
 \title{Calculate standard deviation for Gaussian Mechanism}
 \usage{
-GMVar(l2s, epsilon, delta)
+GMVar(l2s, epsilon, delta, useAnalyticGM = True, ...)
 }
 \arguments{
 \item{l2s}{(`numeric(1L)`) l2-sensitivity.}
@@ -12,6 +12,8 @@ GMVar(l2s, epsilon, delta)
 \item{epsilon}{(`numeric(1L)`) First privacy parameter for (e,d)-differential privacy.}
 
 \item{delta}{(`numeric(1L)`) second privacy parameter for (e,d)-differential privacy.}
+
+\item{useAnalyticGM}{(`logical(1L)`) inicating whether noise for analytic Gaussian mechanism should be calculated. See details.}
 }
 \value{
 Numerical value for the standard deviation for the normal distribution.
@@ -19,6 +21,12 @@ Numerical value for the standard deviation for the normal distribution.
 \description{
 Calculate standard deviation for Gaussian Mechanism
 }
+\details{
+If useAnalyticGM is TRUE, the standard deviation is calculated using the analytic Gaussian mechanism.
+         The algorithm behind is a binary search which may cost a bit time, but the added noise is less.
+         It also accepts epsilon > 1.
+         If useAnalyticGM is FALSE, the standard deviation is calculated using the standard formula (faster, but a higher sigma).
+}
 \author{
-Daniel S.
+Daniel S., Raphael R.
 }
